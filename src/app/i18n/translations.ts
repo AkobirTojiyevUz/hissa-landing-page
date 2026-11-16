@@ -181,6 +181,7 @@ export interface TranslationDictionary {
     userLocationLabel: string;
     branchListTitle: string;
     mapControlsHint: string;
+    yandexMapBadge: string;
   };
   mobileApp: {
     eyebrow: string;
@@ -477,6 +478,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       userLocationLabel: "Toshkent, Chilonzor tumani",
       branchListTitle: "Filiallar ro'yxati",
       mapControlsHint: "Xaritani siljiting va kattalashtiring",
+      yandexMapBadge: "Yandex Xarita",
     },
     mobileApp: {
       eyebrow: "Barchasi bir ilovada",
@@ -809,6 +811,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       userLocationLabel: "Ташкент, Чиланзарский район",
       branchListTitle: "Список филиалов",
       mapControlsHint: "Перемещайте и масштабируйте карту",
+      yandexMapBadge: "Яндекс Карты",
     },
     mobileApp: {
       eyebrow: "Все в одном месте",
@@ -1141,6 +1144,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       userLocationLabel: "Tashkent, Chilanzar district",
       branchListTitle: "Branch Directory",
       mapControlsHint: "Pan and zoom the map freely",
+      yandexMapBadge: "Yandex Maps",
     },
     mobileApp: {
       eyebrow: "All-in-One Experience",

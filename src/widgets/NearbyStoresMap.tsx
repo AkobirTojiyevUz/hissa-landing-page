@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
-import { useTheme } from '../app/theme/ThemeContext';
 import { Badge } from '../shared/ui/Badge';
 import { HissaMark } from '../shared/ui/HissaMark';
 import {
@@ -23,23 +22,27 @@ import {
   Route,
   MapPin,
 } from 'lucide-react';
-import L from 'leaflet';
+
+declare global {
+  interface Window {
+    ymaps: any;
+  }
+}
 
 export const NearbyStoresMap: React.FC = () => {
-  const { t } = useI18n();
-  const { theme } = useTheme();
+  const { t, language } = useI18n();
 
   const [activeTab, setActiveTab] = useState<'nearby' | 'all'>('nearby');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedStoreId, setSelectedStoreId] = useState<string>('texnomart-chilonzor');
+  const [isMapReady, setIsMapReady] = useState<boolean>(false);
 
-  // Map references
+  // Map DOM and Instance References
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapInstanceRef = useRef<L.Map | null>(null);
-  const markersLayerRef = useRef<L.LayerGroup | null>(null);
-  const routePolylineRef = useRef<L.Polyline | null>(null);
-  const tileLayerRef = useRef<L.TileLayer | null>(null);
+  const ymapsInstanceRef = useRef<any>(null);
+  const routePolylineRef = useRef<any>(null);
+  const geoObjectsGroupRef = useRef<any>(null);
 
   const userCoords = DEFAULT_USER_COORDINATES;
 
@@ -82,163 +85,179 @@ export const NearbyStoresMap: React.FC = () => {
     );
   }, [storesWithDistance, selectedStoreId]);
 
-  // Initialize Leaflet Map
+  // Load Yandex Maps Script dynamically
   useEffect(() => {
-    if (!mapContainerRef.current || mapInstanceRef.current) return;
+    const ymapsLang = language === 'uz' ? 'uz_UZ' : language === 'en' ? 'en_US' : 'ru_RU';
+    const scriptId = 'yandex-maps-api-script';
 
-    // Create map centered on user
-    const map = L.map(mapContainerRef.current, {
-      center: [userCoords.lat, userCoords.lng],
-      zoom: 14,
-      zoomControl: false,
-      attributionControl: false,
-    });
+    const initYandexMap = () => {
+      if (!window.ymaps) return;
+      window.ymaps.ready(() => {
+        if (!mapContainerRef.current) return;
 
-    // Add zoom control at bottom right
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
+        // Clean previous instance if any
+        if (ymapsInstanceRef.current) {
+          ymapsInstanceRef.current.destroy();
+          ymapsInstanceRef.current = null;
+        }
 
-    // OpenStreetMap clean standard tiles (No watermarks, no API key required)
-    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      subdomains: ['a', 'b', 'c'],
-    }).addTo(map);
+        const map = new window.ymaps.Map(
+          mapContainerRef.current,
+          {
+            center: [userCoords.lat, userCoords.lng],
+            zoom: 13,
+            controls: ['zoomControl', 'fullscreenControl'],
+            behaviors: ['default', 'scrollZoom'],
+          },
+          {
+            searchControlProvider: 'yandex#search',
+            suppressMapOpenBlock: false,
+          }
+        );
 
-    tileLayerRef.current = tiles;
+        ymapsInstanceRef.current = map;
+        setIsMapReady(true);
+      });
+    };
 
-    // Add User Location Marker (Pulsing Radar Pin)
-    const userIcon = L.divIcon({
-      className: 'custom-user-marker',
-      html: `
-        <div style="position: relative; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-          <div style="position: absolute; width: 32px; height: 32px; border-radius: 50%; background: rgba(16, 185, 129, 0.35); animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
-          <div style="width: 14px; height: 14px; border-radius: 50%; background: #10B981; border: 3px solid #FFFFFF; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 10;"></div>
-        </div>
-      `,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
-    });
+    if (window.ymaps) {
+      initYandexMap();
+      return;
+    }
 
-    L.marker([userCoords.lat, userCoords.lng], { icon: userIcon, zIndexOffset: 1000 })
-      .bindPopup(
-        `<div style="font-family: inherit; font-size: 11px; font-weight: 700; color: #10B981; padding: 2px 4px;">
-           📍 ${t.map.yourLocation} (${userCoords.label})
-         </div>`
-      )
-      .addTo(map);
-
-    // Markers layer group
-    const markersLayer = L.layerGroup().addTo(map);
-    markersLayerRef.current = markersLayer;
-
-    mapInstanceRef.current = map;
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'text/javascript';
+      script.src = `https://api-maps.yandex.ru/2.1/?lang=${ymapsLang}`;
+      script.async = true;
+      script.onload = () => {
+        initYandexMap();
+      };
+      document.head.appendChild(script);
+    } else {
+      script.addEventListener('load', initYandexMap);
+    }
 
     return () => {
-      map.remove();
-      mapInstanceRef.current = null;
+      if (ymapsInstanceRef.current) {
+        ymapsInstanceRef.current.destroy();
+        ymapsInstanceRef.current = null;
+      }
     };
-  }, []);
+  }, [language]);
 
-
-
-  // Update Store Pins and Route Polyline
+  // Update Yandex Placemarks & Route when selected store or stores change
   useEffect(() => {
-    const map = mapInstanceRef.current;
-    const markersLayer = markersLayerRef.current;
-    if (!map || !markersLayer) return;
+    const map = ymapsInstanceRef.current;
+    if (!map || !window.ymaps || !isMapReady) return;
 
-    markersLayer.clearLayers();
+    // Clear previous geoObjects
+    map.geoObjects.removeAll();
 
-    // Add each store pin
+    const geoCollection = new window.ymaps.GeoObjectCollection();
+
+    // 1. User Location Placemark (Green pulsating icon)
+    const userPlacemark = new window.ymaps.Placemark(
+      [userCoords.lat, userCoords.lng],
+      {
+        hintContent: `${t.map.yourLocation} (${userCoords.label})`,
+        balloonContentHeader: `<div style="font-weight: 800; font-size: 13px; color: #10B981;">📍 ${t.map.yourLocation}</div>`,
+        balloonContentBody: `<div style="font-size: 12px; color: #475467; margin-top: 4px;">${userCoords.label}</div>`,
+        iconCaption: t.map.yourLocation,
+      },
+      {
+        preset: 'islands#darkGreenCircleDotIconWithCaption',
+        iconColor: '#10B981',
+      }
+    );
+    geoCollection.add(userPlacemark);
+
+    // 2. Add Placemark for each store
     storesWithDistance.forEach((store) => {
       const isSelected = store.id === selectedStore.id;
 
-      const storeIcon = L.divIcon({
-        className: 'custom-store-marker',
-        html: `
-          <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s ease;">
-            <div style="
-              width: ${isSelected ? '36px' : '28px'};
-              height: ${isSelected ? '36px' : '28px'};
-              border-radius: 12px;
-              background: ${isSelected ? '#FF655B' : theme === 'dark' ? '#1D2329' : '#FFFFFF'};
-              color: ${isSelected ? '#FFFFFF' : '#FF655B'};
-              border: 2px solid ${isSelected ? '#FFFFFF' : '#FF655B'};
-              box-shadow: 0 8px 18px ${isSelected ? 'rgba(255, 101, 91, 0.45)' : 'rgba(0,0,0,0.18)'};
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-weight: 800;
-              font-size: ${isSelected ? '14px' : '11px'};
-            ">
-              ${store.name.charAt(0)}
+      const storePlacemark = new window.ymaps.Placemark(
+        [store.lat, store.lng],
+        {
+          hintContent: `${store.name} · ${formatDistance(store.distanceMeters)}`,
+          balloonContentHeader: `
+            <div style="font-family: inherit; font-size: 14px; font-weight: 800; color: #0C111D;">
+              ${store.name}
             </div>
-            <div style="
-              margin-top: 3px;
-              white-space: nowrap;
-              padding: 2px 7px;
-              border-radius: 9999px;
-              background: ${isSelected ? '#FF655B' : theme === 'dark' ? '#13181E' : '#FFFFFF'};
-              color: ${isSelected ? '#FFFFFF' : theme === 'dark' ? '#FFFFFF' : '#0C111D'};
-              border: 1px solid ${isSelected ? 'transparent' : theme === 'dark' ? '#323A44' : '#E4E7EC'};
-              font-size: 9px;
-              font-weight: 700;
-              box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-            ">
-              ${store.name.split(' ')[0]} · ${formatDistance(store.distanceMeters)}
+          `,
+          balloonContentBody: `
+            <div style="font-family: inherit; font-size: 12px; line-height: 1.5; color: #475467; padding-top: 4px;">
+              <div><b>${t.map.userLocationLabel}:</b> ${store.address}</div>
+              <div style="color: #10B981; font-weight: 700; margin-top: 4px;">✓ ${store.terms} · TezQR</div>
+              <div style="color: #FF655B; font-weight: 700; margin-top: 2px;">
+                ${formatDistance(store.distanceMeters)} (${store.walkMinutes} ${t.common.walkMinutes})
+              </div>
+              <div style="color: #98A2B3; font-size: 11px; margin-top: 2px;">⏱ ${store.workingHours}</div>
             </div>
-          </div>
-        `,
-        iconSize: [70, 50],
-        iconAnchor: [35, isSelected ? 36 : 28],
-      });
+          `,
+          balloonContentFooter: `
+            <div style="margin-top: 8px; display: flex; gap: 8px;">
+              <a href="${getYandexMapsUrl(store.lat, store.lng)}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 6px 12px; background: #FF655B; color: #ffffff; text-decoration: none; border-radius: 10px; font-size: 11px; font-weight: 700;">
+                ${t.map.openInYandex} ↗
+              </a>
+            </div>
+          `,
+          iconCaption: `${store.name.split(' ')[0]} (${formatDistance(store.distanceMeters)})`,
+        },
+        {
+          preset: isSelected ? 'islands#redCircleDotIconWithCaption' : 'islands#nightDotIconWithCaption',
+          iconColor: isSelected ? '#FF655B' : '#475467',
+        }
+      );
 
-      const marker = L.marker([store.lat, store.lng], { icon: storeIcon });
-
-      marker.on('click', () => {
+      storePlacemark.events.add('click', () => {
         setSelectedStoreId(store.id);
       });
 
-      marker.bindPopup(`
-        <div style="font-family: inherit; font-size: 12px; padding: 4px; line-height: 1.4;">
-          <b style="font-size: 13px; color: #0C111D;">${store.name}</b>
-          <div style="color: #64748B; margin-top: 2px;">${store.address}</div>
-          <div style="color: #10B981; font-weight: 700; margin-top: 4px;">✓ ${store.terms} · TezQR</div>
-          <div style="color: #FF655B; font-weight: 700; margin-top: 2px;">
-            ${formatDistance(store.distanceMeters)} (${store.walkMinutes} ${t.common.walkMinutes})
-          </div>
-        </div>
-      `);
-
-      markersLayer.addLayer(marker);
+      geoCollection.add(storePlacemark);
     });
 
-    // Draw Route Polyline from User to Selected Store
-    if (routePolylineRef.current) {
-      map.removeLayer(routePolylineRef.current);
-    }
-
-    const routeLine = L.polyline(
+    // 3. Draw Dashed Polyline Route from User to Selected Store
+    const routePolyline = new window.ymaps.Polyline(
       [
         [userCoords.lat, userCoords.lng],
         [selectedStore.lat, selectedStore.lng],
       ],
       {
-        color: '#FF655B',
-        weight: 3.5,
-        opacity: 0.85,
-        dashArray: '8, 8',
+        hintContent: `${selectedStore.name}: ${formatDistance(selectedStore.distanceMeters)}`,
+      },
+      {
+        strokeColor: '#FF655B',
+        strokeWidth: 4,
+        strokeOpacity: 0.85,
+        strokeStyle: 'dash',
       }
-    ).addTo(map);
-
-    routePolylineRef.current = routeLine;
-
-    // Pan map smoothly to encompass user and selected store
-    const bounds = L.latLngBounds(
-      [userCoords.lat, userCoords.lng],
-      [selectedStore.lat, selectedStore.lng]
     );
-    map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 15, duration: 0.8 });
-  }, [storesWithDistance, selectedStore, theme, t]);
+    geoCollection.add(routePolyline);
+
+    map.geoObjects.add(geoCollection);
+    geoObjectsGroupRef.current = geoCollection;
+    routePolylineRef.current = routePolyline;
+
+    // Smoothly fit bounds around user and selected store
+    const minLat = Math.min(userCoords.lat, selectedStore.lat);
+    const maxLat = Math.max(userCoords.lat, selectedStore.lat);
+    const minLng = Math.min(userCoords.lng, selectedStore.lng);
+    const maxLng = Math.max(userCoords.lng, selectedStore.lng);
+
+    const latPadding = Math.max((maxLat - minLat) * 0.3, 0.006);
+    const lngPadding = Math.max((maxLng - minLng) * 0.3, 0.008);
+
+    map.setBounds(
+      [
+        [minLat - latPadding, minLng - lngPadding],
+        [maxLat + latPadding, maxLng + lngPadding],
+      ],
+      { checkZoomRange: true, duration: 600 }
+    );
+  }, [storesWithDistance, selectedStore, isMapReady, t]);
 
   const categories = [
     { id: 'all', label: t.map.filterAll },
@@ -249,8 +268,8 @@ export const NearbyStoresMap: React.FC = () => {
   ];
 
   const handleRecenter = () => {
-    if (!mapInstanceRef.current) return;
-    mapInstanceRef.current.flyTo([userCoords.lat, userCoords.lng], 14, { duration: 0.8 });
+    if (!ymapsInstanceRef.current) return;
+    ymapsInstanceRef.current.setCenter([userCoords.lat, userCoords.lng], 14, { duration: 600 });
   };
 
   return (
@@ -450,12 +469,15 @@ export const NearbyStoresMap: React.FC = () => {
               )}
             </div>
 
-            {/* Right Map Canvas (Leaflet Real Map Container) */}
+            {/* Right Map Canvas (Official Yandex Maps API Container) */}
             <div className="lg:col-span-7 relative min-h-[460px] lg:min-h-[640px] bg-gray-100 dark:bg-[#0A0F14]">
-              {/* Actual Leaflet DOM element */}
-              <div ref={mapContainerRef} className="w-full h-full min-h-[460px] lg:min-h-[640px] z-10" />
+              {/* Actual Yandex Map DOM element */}
+              <div
+                ref={mapContainerRef}
+                className="yandex-map-container w-full h-full min-h-[460px] lg:min-h-[640px] z-10"
+              />
 
-              {/* Floating Active Route Indicator */}
+              {/* Top Floating Badge & Active Route Indicator */}
               {selectedStore && (
                 <div className="absolute top-4 left-4 z-20 bg-white/95 dark:bg-[#13181E]/95 backdrop-blur-md px-3.5 py-2.5 rounded-2xl shadow-xl border border-gray-200/80 dark:border-gray-800 flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-[#FF655B]/15 text-[#FF655B] flex items-center justify-center shrink-0">
@@ -471,6 +493,12 @@ export const NearbyStoresMap: React.FC = () => {
                   </div>
                 </div>
               )}
+
+              {/* Yandex Maps Badge on Top-Right */}
+              <div className="absolute top-4 right-4 z-20 hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-[#13181E]/90 backdrop-blur-md border border-gray-200/80 dark:border-gray-800 text-[11px] font-bold text-gray-700 dark:text-gray-300 shadow-md">
+                <span className="w-2 h-2 rounded-full bg-[#FF655B]" />
+                <span>{t.map.yandexMapBadge}</span>
+              </div>
 
               {/* Re-center Floating Compass Button */}
               <button
