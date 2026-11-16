@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
 import { Badge } from '../shared/ui/Badge';
 import { Button } from '../shared/ui/Button';
+import { StoreBrandLogo } from '../shared/ui/StoreBrandLogo';
 import {
   Store,
   Search,
@@ -9,14 +10,6 @@ import {
   Tag,
   Check,
   MapPin,
-  Smartphone,
-  Tv,
-  ShoppingBasket,
-  Sparkles,
-  Sofa,
-  Shirt,
-  Laptop,
-  Footprints,
 } from 'lucide-react';
 
 interface StoreItem {
@@ -31,7 +24,6 @@ interface StoreItem {
   logoBg: string;
   brandHex: string;
   channel: 'both' | 'instore' | 'online';
-  icon: React.ReactNode;
 }
 
 export const CategoriesShowcase: React.FC = () => {
@@ -59,7 +51,6 @@ export const CategoriesShowcase: React.FC = () => {
       logoBg: 'bg-[#FFB800] text-black',
       brandHex: '#FFB800',
       channel: 'both',
-      icon: <Smartphone className="w-5 h-5" />,
     },
     {
       id: 'mediapark',
@@ -73,7 +64,6 @@ export const CategoriesShowcase: React.FC = () => {
       logoBg: 'bg-[#E31E24] text-white',
       brandHex: '#E31E24',
       channel: 'both',
-      icon: <Tv className="w-5 h-5" />,
     },
     {
       id: 'korzinka',
@@ -87,7 +77,6 @@ export const CategoriesShowcase: React.FC = () => {
       logoBg: 'bg-[#E30613] text-white',
       brandHex: '#E30613',
       channel: 'both',
-      icon: <ShoppingBasket className="w-5 h-5" />,
     },
     {
       id: 'bellstore',
@@ -101,7 +90,6 @@ export const CategoriesShowcase: React.FC = () => {
       logoBg: 'bg-[#E91E63] text-white',
       brandHex: '#E91E63',
       channel: 'both',
-      icon: <Sparkles className="w-5 h-5" />,
     },
     {
       id: 'ishonch',
@@ -115,7 +103,6 @@ export const CategoriesShowcase: React.FC = () => {
       logoBg: 'bg-[#005BAC] text-white',
       brandHex: '#005BAC',
       channel: 'both',
-      icon: <Sofa className="w-5 h-5" />,
     },
     {
       id: 'terrapro',
@@ -129,7 +116,6 @@ export const CategoriesShowcase: React.FC = () => {
       logoBg: 'bg-[#00805A] text-white',
       brandHex: '#00805A',
       channel: 'both',
-      icon: <Shirt className="w-5 h-5" />,
     },
     {
       id: 'arena',
@@ -140,10 +126,9 @@ export const CategoriesShowcase: React.FC = () => {
       maxMonths: 6,
       popularProduct: t.stores.popularProducts.arena,
       rating: '4.8',
-      logoBg: 'bg-[#7C3AED] text-white',
-      brandHex: '#7C3AED',
+      logoBg: 'bg-[#0A192F] text-white',
+      brandHex: '#0A192F',
       channel: 'both',
-      icon: <Laptop className="w-5 h-5" />,
     },
     {
       id: 'flo',
@@ -154,10 +139,9 @@ export const CategoriesShowcase: React.FC = () => {
       maxMonths: 3,
       popularProduct: t.stores.popularProducts.flo,
       rating: '4.7',
-      logoBg: 'bg-[#FF6F00] text-white',
-      brandHex: '#FF6F00',
+      logoBg: 'bg-[#FF6000] text-white',
+      brandHex: '#FF6000',
       channel: 'both',
-      icon: <Footprints className="w-5 h-5" />,
     },
     {
       id: 'makro',
@@ -168,10 +152,9 @@ export const CategoriesShowcase: React.FC = () => {
       maxMonths: 3,
       popularProduct: t.stores.popularProducts.makro,
       rating: '4.7',
-      logoBg: 'bg-[#009639] text-white',
-      brandHex: '#009639',
+      logoBg: 'bg-white text-gray-900',
+      brandHex: '#DC2E2A',
       channel: 'both',
-      icon: <ShoppingBasket className="w-5 h-5" />,
     },
   ], [t]);
 
@@ -183,21 +166,26 @@ export const CategoriesShowcase: React.FC = () => {
     { id: 'beauty', label: t.stores.beauty },
   ];
 
-  const filteredStores = stores.filter((s) => {
-    const matchesCategory = activeCategory === 'all' || s.category === activeCategory;
-    const matchesSearch =
-      s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.popularProduct.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredStores = useMemo(() => {
+    return stores.filter((store) => {
+      const matchesCategory =
+        activeCategory === 'all' || store.category === activeCategory;
+      const matchesSearch =
+        store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        store.popularProduct.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        store.categoryLabel.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [stores, activeCategory, searchQuery]);
 
   return (
-    <section id="stores" className="py-20 md:py-28 bg-gray-50/60 dark:bg-[#0B1015] relative">
+    <section id="stores" className="py-20 md:py-28 bg-[#F8F9FA] dark:bg-[#070A0E] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
           <Badge variant="brand" className="mb-2">
-            <Store className="w-3.5 h-3.5 mr-1 text-[#FF655B]" />
+            <Store className="w-3.5 h-3.5 mr-1" />
             {t.stores.eyebrow}
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
@@ -208,18 +196,18 @@ export const CategoriesShowcase: React.FC = () => {
           </p>
         </div>
 
-        {/* Filter Tabs & Search Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
-          {/* Categories Tab Pill List */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
+        {/* Filter and Search Bar */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-gray-200 dark:border-gray-800">
+          {/* Category Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-150 cursor-pointer ${
                   activeCategory === cat.id
                     ? 'bg-[#FF655B] text-white shadow-md shadow-[#FF655B]/20'
-                    : 'bg-white dark:bg-[#181F26] text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-800'
+                    : 'bg-white dark:bg-[#181F26] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-800'
                 }`}
               >
                 {cat.label}
@@ -240,7 +228,7 @@ export const CategoriesShowcase: React.FC = () => {
           </div>
         </div>
 
-        {/* Store Cards Grid */}
+        {/* Store Cards Grid with Official Brand Logos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredStores.map((store) => (
             <div
@@ -248,14 +236,15 @@ export const CategoriesShowcase: React.FC = () => {
               className="group bg-white dark:bg-[#13181E] rounded-3xl p-6 border border-gray-200/80 dark:border-gray-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
             >
               <div>
-                {/* Brand Header with Exact Brand Icon & Colors */}
-                <div className="flex items-start justify-between mb-4">
+                {/* Brand Header with Exact Official Brand Emblem & Metadata */}
+                <div className="flex items-start justify-between mb-3.5">
                   <div className="flex items-center gap-3">
-                    <div
-                      className={`w-12 h-12 rounded-2xl ${store.logoBg} font-black text-xl flex items-center justify-center shadow-md shrink-0`}
-                    >
-                      {store.icon}
-                    </div>
+                    <StoreBrandLogo
+                      storeId={store.id}
+                      name={store.name}
+                      variant="icon"
+                      className="group-hover:scale-105 transition-transform"
+                    />
                     <div>
                       <div className="flex items-center gap-2">
                         <h3 className="font-extrabold text-gray-900 dark:text-white text-base group-hover:text-[#FF655B] transition-colors">
@@ -278,7 +267,17 @@ export const CategoriesShowcase: React.FC = () => {
                   </Badge>
                 </div>
 
-                <div className="space-y-2 py-2">
+                {/* Official Brand Identity Logo Badge directly from partner website */}
+                <div className="mb-3.5">
+                  <StoreBrandLogo
+                    storeId={store.id}
+                    name={store.name}
+                    variant="full"
+                    className="max-w-fit"
+                  />
+                </div>
+
+                <div className="space-y-2 py-2 border-t border-gray-100 dark:border-gray-800/80">
                   <div className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1.5">
                     <Tag className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                     <span>{store.popularProduct}</span>
@@ -292,33 +291,30 @@ export const CategoriesShowcase: React.FC = () => {
                 </div>
               </div>
 
-              {/* Action Buttons: Filiallarni ko'rish + Do'konga o'tish */}
-              <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between gap-2">
-                <button
+              {/* Action Buttons: Filiallarni ko'rish on Map + Shop Online */}
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-800 mt-4 flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() => scrollToMap(store.id)}
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-gray-100 dark:bg-[#181F26] hover:bg-[#FF655B]/10 hover:text-[#FF655B] text-gray-700 dark:text-gray-300 text-xs font-bold transition-all cursor-pointer"
+                  leftIcon={<MapPin className="w-3.5 h-3.5 text-[#FF655B]" />}
+                  className="w-1/2 justify-center text-xs border-gray-200 dark:border-gray-700 hover:border-[#FF655B]"
                 >
-                  <MapPin className="w-3.5 h-3.5 text-[#FF655B]" />
-                  <span>{t.stores.viewBranchesBtn}</span>
-                </button>
-
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-amber-500">
-                    ★ {store.rating}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
-                    className="text-xs font-semibold text-[#FF655B] hover:text-[#ED4A3F] p-0"
-                  >
-                    {t.stores.shopBtn}
-                  </Button>
-                </div>
+                  {t.stores.viewBranchesBtn}
+                </Button>
+                <Button
+                  variant="glass"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                  className="w-1/2 justify-center text-xs"
+                >
+                  {t.stores.shopBtn}
+                </Button>
               </div>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

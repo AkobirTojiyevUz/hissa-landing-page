@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
 import { Badge } from '../shared/ui/Badge';
 import { HissaMark } from '../shared/ui/HissaMark';
+import { StoreBrandLogo } from '../shared/ui/StoreBrandLogo';
 import {
   MOCK_STORE_BRANCHES,
   DEFAULT_USER_COORDINATES,
@@ -388,27 +389,35 @@ export const NearbyStoresMap: React.FC = () => {
                           : 'border-gray-200 dark:border-gray-800/80 bg-gray-50/50 dark:bg-[#181F26]/60 hover:border-gray-300 dark:hover:border-gray-700'
                       }`}
                     >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-xs font-black text-gray-900 dark:text-white">
-                            {store.name}
-                          </h4>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                            {store.terms}
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
-                          {store.address}
-                        </p>
-                        <div className="flex items-center gap-3 text-[10px] text-gray-400 pt-1">
-                          <span className="flex items-center gap-1 font-bold text-[#FF655B]">
-                            <Navigation className="w-3 h-3" />
-                            {formatDistance(store.distanceMeters)} ({store.walkMinutes} {t.common.walkMinutes})
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3 text-gray-400" />
-                            {store.workingHours}
-                          </span>
+                      <div className="flex items-start gap-2.5">
+                        <StoreBrandLogo
+                          storeId={store.brandId}
+                          name={store.name}
+                          variant="icon"
+                          className="w-10 h-10 rounded-xl shrink-0 mt-0.5"
+                        />
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-xs font-black text-gray-900 dark:text-white">
+                              {store.name}
+                            </h4>
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                              {store.terms}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+                            {store.address}
+                          </p>
+                          <div className="flex items-center gap-3 text-[10px] text-gray-400 pt-1">
+                            <span className="flex items-center gap-1 font-bold text-[#FF655B]">
+                              <Navigation className="w-3 h-3" />
+                              {formatDistance(store.distanceMeters)} ({store.walkMinutes} {t.common.walkMinutes})
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Clock className="w-3 h-3 text-gray-400" />
+                              {store.workingHours}
+                            </span>
+                          </div>
                         </div>
                       </div>
 
@@ -426,12 +435,20 @@ export const NearbyStoresMap: React.FC = () => {
               {selectedStore && (
                 <div className="pt-3 border-t border-gray-100 dark:border-gray-800 space-y-3">
                   <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-[10px] font-bold text-[#FF655B] uppercase tracking-wider">
-                        {t.map.selectedStoreBadge}
-                      </div>
-                      <div className="text-xs font-extrabold text-gray-900 dark:text-white">
-                        {selectedStore.name}
+                    <div className="flex items-center gap-2.5">
+                      <StoreBrandLogo
+                        storeId={selectedStore.brandId}
+                        name={selectedStore.name}
+                        variant="icon"
+                        className="w-10 h-10 rounded-xl"
+                      />
+                      <div>
+                        <div className="text-[10px] font-bold text-[#FF655B] uppercase tracking-wider">
+                          {t.map.selectedStoreBadge}
+                        </div>
+                        <div className="text-xs font-extrabold text-gray-900 dark:text-white">
+                          {selectedStore.name}
+                        </div>
                       </div>
                     </div>
                     <Badge variant="success" size="sm">
