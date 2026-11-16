@@ -105,7 +105,7 @@ export const MobileAppShowcase: React.FC = () => {
                           </div>
                           <HissaMark size={20} animated={true} />
                         </div>
-                        <div className="text-[10px] text-gray-400">Mavjud xarid limiti</div>
+                        <div className="text-[10px] text-gray-400">{t.mobileApp.cardSubtitle}</div>
                         <div className="text-xl font-black text-white tracking-tight">
                           12 500 000 UZS
                         </div>
@@ -118,22 +118,22 @@ export const MobileAppShowcase: React.FC = () => {
                       {/* Limit Progress */}
                       <div className="bg-gray-900/90 p-3 rounded-2xl border border-gray-800 space-y-2">
                         <div className="flex justify-between text-[11px] font-semibold">
-                          <span className="text-gray-400">Umumiy limit</span>
+                          <span className="text-gray-400">{t.mobileApp.totalLimitLabel}</span>
                           <span className="text-white">15 000 000 UZS</span>
                         </div>
                         <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
                           <div className="w-4/5 h-full bg-[#FF655B] rounded-full" />
                         </div>
                         <div className="flex justify-between text-[10px] text-gray-400">
-                          <span>Sarflangan: 2 500 000 UZS</span>
-                          <span className="text-emerald-400 font-bold">Faol</span>
+                          <span>{t.mobileApp.spentLabel}: 2 500 000 UZS</span>
+                          <span className="text-emerald-400 font-bold">{t.common.active}</span>
                         </div>
                       </div>
 
                       {/* Recent transactions mini list */}
                       <div className="bg-gray-900/90 p-3 rounded-2xl border border-gray-800 space-y-2">
                         <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                          So'nggi to'lovlar
+                          {t.mobileApp.recentPaymentsTitle}
                         </div>
                         <div className="flex items-center justify-between text-xs">
                           <span className="font-medium text-gray-200">Texnomart</span>
@@ -152,14 +152,14 @@ export const MobileAppShowcase: React.FC = () => {
                     <div className="space-y-4 animate-in fade-in duration-200">
                       <div className="relative aspect-square w-full rounded-2xl bg-gray-900 border-2 border-dashed border-[#FF655B]/60 p-4 flex flex-col items-center justify-center">
                         <QrCode className="w-24 h-24 text-[#FF655B] opacity-90 animate-pulse" />
-                        <span className="text-xs font-bold text-white mt-3">Kassadagi QR kodni ko'rsating</span>
-                        <span className="text-[10px] text-gray-400">TezQR integratsiyasi</span>
+                        <span className="text-xs font-bold text-white mt-3">{t.mobileApp.scanQrCashier}</span>
+                        <span className="text-[10px] text-gray-400">{t.mobileApp.tezQrIntegration}</span>
                       </div>
 
                       <div className="bg-gray-900 p-3 rounded-2xl border border-gray-800 space-y-1 text-center">
                         <div className="text-xs font-extrabold text-white">Texnomart Chilonzor</div>
-                        <div className="text-[11px] text-gray-400">Xarid: 1 800 000 UZS · 0-0-3</div>
-                        <div className="text-xs font-bold text-emerald-400 pt-1">Bugun: 0 UZS · Keyin: 600 000 UZS/oy</div>
+                        <div className="text-[11px] text-gray-400">iPhone 15 Pro · 0-0-3</div>
+                        <div className="text-xs font-bold text-emerald-400 pt-1">{t.mobileApp.payTodayZero}</div>
                       </div>
                     </div>
                   )}
@@ -167,7 +167,7 @@ export const MobileAppShowcase: React.FC = () => {
                   {/* Tab 3: Schedule Screen */}
                   {activeTab === 'schedule' && (
                     <div className="space-y-3 animate-in fade-in duration-200">
-                      <div className="text-xs font-bold text-white mb-2">Yaqinlashayotgan to'lovlar</div>
+                      <div className="text-xs font-bold text-white mb-2">{t.mobileApp.upcomingPaymentsTitle}</div>
                       
                       <div className="bg-gray-900 p-3 rounded-2xl border border-gray-800 flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
@@ -175,8 +175,8 @@ export const MobileAppShowcase: React.FC = () => {
                             ✓
                           </div>
                           <div>
-                            <div className="text-xs font-bold text-white">1-to'lov to'landi</div>
-                            <div className="text-[10px] text-gray-400">12 Oktabr</div>
+                            <div className="text-xs font-bold text-white">{t.mobileApp.payment1Paid}</div>
+                            <div className="text-[10px] text-gray-400">12 Okt</div>
                           </div>
                         </div>
                         <span className="text-xs font-bold text-gray-300">450 000 UZS</span>
@@ -188,8 +188,8 @@ export const MobileAppShowcase: React.FC = () => {
                             2
                           </div>
                           <div>
-                            <div className="text-xs font-bold text-white">2-to'lov (Navbatdagi)</div>
-                            <div className="text-[10px] text-[#FF847A]">12 Noyabr · 3 kundan so'ng</div>
+                            <div className="text-xs font-bold text-white">{t.mobileApp.payment2Next}</div>
+                            <div className="text-[10px] text-[#FF847A]">12 Noy · 3 {t.mobileApp.daysLeft}</div>
                           </div>
                         </div>
                         <span className="text-xs font-bold text-[#FF655B]">450 000 UZS</span>
@@ -201,8 +201,8 @@ export const MobileAppShowcase: React.FC = () => {
                             3
                           </div>
                           <div>
-                            <div className="text-xs font-bold text-white">3-to'lov (Yakuniy)</div>
-                            <div className="text-[10px] text-gray-400">12 Dekabr</div>
+                            <div className="text-xs font-bold text-white">{t.mobileApp.payment3Final}</div>
+                            <div className="text-[10px] text-gray-400">12 Dek</div>
                           </div>
                         </div>
                         <span className="text-xs font-bold text-gray-400">450 000 UZS</span>
@@ -215,7 +215,7 @@ export const MobileAppShowcase: React.FC = () => {
                 <div className="pt-4 border-t border-gray-800/80">
                   <button className="w-full py-2.5 bg-[#FF655B] text-white rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 shadow-md">
                     <QrCode className="w-4 h-4" />
-                    TezQR bilan to'lash
+                    {t.hero.payWithQr}
                   </button>
                 </div>
 

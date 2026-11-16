@@ -8,6 +8,7 @@ Uzcard Hissa BNPL (Buy Now Pay Later) xizmati uchun rasmiy landing page veb-sayt
 - TypeScript
 - Vite
 - Tailwind CSS v4
+- Leaflet
 - Lucide React
 - Canvas Confetti
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
 import { Badge } from '../shared/ui/Badge';
 import { Button } from '../shared/ui/Button';
@@ -21,15 +21,15 @@ export const CategoriesShowcase: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const stores: StoreItem[] = [
+  const stores: StoreItem[] = useMemo(() => [
     {
       id: 'texnomart',
       name: 'Texnomart',
       category: 'electronics',
-      categoryLabel: 'Elektronika',
+      categoryLabel: t.stores.categoryLabels.electronics,
       terms: '0-0-3 / 0-0-6 / 0-0-12',
       maxMonths: 12,
-      popularProduct: 'Smartfonlar va maishiy texnika',
+      popularProduct: t.stores.popularProducts.texnomart,
       rating: '4.9',
       logoBg: 'bg-amber-500',
     },
@@ -37,10 +37,10 @@ export const CategoriesShowcase: React.FC = () => {
       id: 'mediapark',
       name: 'Mediapark',
       category: 'electronics',
-      categoryLabel: 'Elektronika',
+      categoryLabel: t.stores.categoryLabels.electronics,
       terms: '0-0-3 / 0-0-6',
       maxMonths: 6,
-      popularProduct: 'Televizorlar, muzlatgichlar',
+      popularProduct: t.stores.popularProducts.mediapark,
       rating: '4.8',
       logoBg: 'bg-red-500',
     },
@@ -48,10 +48,10 @@ export const CategoriesShowcase: React.FC = () => {
       id: 'korzinka',
       name: 'Korzinka',
       category: 'home',
-      categoryLabel: 'Supermarket',
+      categoryLabel: t.stores.categoryLabels.supermarket,
       terms: '0-0-3',
       maxMonths: 3,
-      popularProduct: 'Oziq-ovqat va uy-ro\'zg\'or',
+      popularProduct: t.stores.popularProducts.korzinka,
       rating: '4.9',
       logoBg: 'bg-red-600',
     },
@@ -59,10 +59,10 @@ export const CategoriesShowcase: React.FC = () => {
       id: 'bellstore',
       name: 'Bellstore',
       category: 'beauty',
-      categoryLabel: 'Go\'zallik',
+      categoryLabel: t.stores.categoryLabels.beauty,
       terms: '0-0-3',
       maxMonths: 3,
-      popularProduct: 'Parfyumeriya va terini parvarishlash',
+      popularProduct: t.stores.popularProducts.bellstore,
       rating: '4.9',
       logoBg: 'bg-pink-500',
     },
@@ -70,10 +70,10 @@ export const CategoriesShowcase: React.FC = () => {
       id: 'ishonch',
       name: 'Ishonch',
       category: 'home',
-      categoryLabel: 'Uy & Mebel',
+      categoryLabel: t.stores.categoryLabels.home,
       terms: '0-0-3 / 0-0-12',
       maxMonths: 12,
-      popularProduct: 'Mebel va gilamlar',
+      popularProduct: t.stores.popularProducts.ishonch,
       rating: '4.7',
       logoBg: 'bg-blue-600',
     },
@@ -81,10 +81,10 @@ export const CategoriesShowcase: React.FC = () => {
       id: 'terrapro',
       name: 'Terra Pro',
       category: 'fashion',
-      categoryLabel: 'Kiyim-kechak',
+      categoryLabel: t.stores.categoryLabels.fashion,
       terms: '0-0-3',
       maxMonths: 3,
-      popularProduct: 'Zamonaviy erkaklar kiyimi',
+      popularProduct: t.stores.popularProducts.terrapro,
       rating: '4.8',
       logoBg: 'bg-emerald-600',
     },
@@ -92,10 +92,10 @@ export const CategoriesShowcase: React.FC = () => {
       id: 'arena',
       name: 'Arena Markaz',
       category: 'electronics',
-      categoryLabel: 'Gadjetlar',
+      categoryLabel: t.stores.categoryLabels.electronics,
       terms: '0-0-3 / 0-0-6',
       maxMonths: 6,
-      popularProduct: 'Noutbuklar va o\'yin uskunalari',
+      popularProduct: t.stores.popularProducts.arena,
       rating: '4.8',
       logoBg: 'bg-purple-600',
     },
@@ -103,10 +103,10 @@ export const CategoriesShowcase: React.FC = () => {
       id: 'flo',
       name: 'FLO Shoes',
       category: 'fashion',
-      categoryLabel: 'Poyabzal',
+      categoryLabel: t.stores.categoryLabels.fashion,
       terms: '0-0-3',
       maxMonths: 3,
-      popularProduct: 'Krossovkalar va mavsumiy poyabzal',
+      popularProduct: t.stores.popularProducts.flo,
       rating: '4.7',
       logoBg: 'bg-orange-500',
     },
@@ -114,14 +114,14 @@ export const CategoriesShowcase: React.FC = () => {
       id: 'makro',
       name: 'Makro Supermarket',
       category: 'home',
-      categoryLabel: 'Supermarket',
+      categoryLabel: t.stores.categoryLabels.supermarket,
       terms: '0-0-3',
       maxMonths: 3,
-      popularProduct: 'Katta xaridlar va maishiy tovarlar',
+      popularProduct: t.stores.popularProducts.makro,
       rating: '4.7',
       logoBg: 'bg-green-600',
     },
-  ];
+  ], [t]);
 
   const categories = [
     { id: 'all', label: t.stores.all },
@@ -142,7 +142,6 @@ export const CategoriesShowcase: React.FC = () => {
   return (
     <section id="stores" className="py-20 md:py-28 bg-gray-50/60 dark:bg-[#0B1015] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
           <Badge variant="brand" className="mb-2">
@@ -159,7 +158,6 @@ export const CategoriesShowcase: React.FC = () => {
 
         {/* Filter Tabs & Search Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
-          
           {/* Categories Tab Pill List */}
           <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
             {categories.map((cat) => (
@@ -182,13 +180,12 @@ export const CategoriesShowcase: React.FC = () => {
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Do'kon qidirish..."
+              placeholder={t.stores.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-white dark:bg-[#181F26] border border-gray-200 dark:border-gray-800 rounded-full text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
             />
           </div>
-
         </div>
 
         {/* Store Cards Grid */}
@@ -227,7 +224,9 @@ export const CategoriesShowcase: React.FC = () => {
                   </div>
                   <div className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                     <Check className="w-3.5 h-3.5" />
-                    <span>{store.maxMonths} {t.stores.upToMonth}</span>
+                    <span>
+                      {store.maxMonths} {t.stores.upToMonth}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -248,7 +247,6 @@ export const CategoriesShowcase: React.FC = () => {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

@@ -11,25 +11,25 @@ export const TrustAndSecurity: React.FC = () => {
       title: t.security.card1Title,
       desc: t.security.card1Desc,
       icon: <Building2 className="w-6 h-6 text-[#FF655B]" />,
-      badge: 'Milliy Ekotizim',
+      badge: t.security.card1Badge,
     },
     {
       title: t.security.card2Title,
       desc: t.security.card2Desc,
       icon: <ShieldCheck className="w-6 h-6 text-emerald-500" />,
-      badge: 'PCI DSS v4.0.1',
+      badge: t.security.card2Badge,
     },
     {
       title: t.security.card3Title,
       desc: t.security.card3Desc,
       icon: <Award className="w-6 h-6 text-blue-500" />,
-      badge: 'MB Reglamenti',
+      badge: t.security.card3Badge,
     },
     {
       title: t.security.card4Title,
       desc: t.security.card4Desc,
       icon: <Lock className="w-6 h-6 text-amber-500" />,
-      badge: 'Bank Kafilligi',
+      badge: t.security.card4Badge,
     },
   ];
 
@@ -79,7 +79,7 @@ export const TrustAndSecurity: React.FC = () => {
 
               <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center gap-1.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>100% Sertifikatlangan</span>
+                <span>{t.security.certifiedBadge}</span>
               </div>
             </div>
           ))}
@@ -88,7 +88,7 @@ export const TrustAndSecurity: React.FC = () => {
         {/* Co-Funding Bank Partners Strip */}
         <div className="bg-gray-50 dark:bg-[#13181E] rounded-3xl p-6 sm:p-8 border border-gray-200/70 dark:border-gray-800 text-center space-y-4">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
-            Likvidlik va hisob-kitob bo'yicha yetakchi bank hamkorlarimiz
+            {t.security.coFundingTitle}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
             {banks.map((bank, index) => (

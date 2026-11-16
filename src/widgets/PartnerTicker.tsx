@@ -5,18 +5,18 @@ export const PartnerTicker: React.FC = () => {
   const { t } = useI18n();
 
   const partners = [
-    { name: 'Texnomart', category: 'Elektronika' },
-    { name: 'Mediapark', category: 'Maishiy texnika' },
-    { name: 'Korzinka', category: 'Supermarket' },
-    { name: 'Bellstore', category: 'Parfyumeriya' },
-    { name: 'Ishonch', category: 'Mebel & Texnika' },
-    { name: 'Makro', category: 'Supermarket' },
-    { name: 'Arena Markaz', category: 'Gadjetlar' },
-    { name: 'Idea', category: 'Elektronika' },
-    { name: 'Terra Pro', category: 'Kiyim' },
-    { name: 'Selfmade', category: 'Moda' },
-    { name: 'FLO', category: 'Poyabzal' },
-    { name: 'Vicco', category: 'Bolalar poyabzali' },
+    { name: 'Texnomart', category: t.stores.categoryLabels.electronics },
+    { name: 'Mediapark', category: t.stores.categoryLabels.electronics },
+    { name: 'Korzinka', category: t.stores.categoryLabels.supermarket },
+    { name: 'Bellstore', category: t.stores.categoryLabels.beauty },
+    { name: 'Ishonch', category: t.stores.categoryLabels.home },
+    { name: 'Makro', category: t.stores.categoryLabels.supermarket },
+    { name: 'Arena Markaz', category: t.stores.categoryLabels.electronics },
+    { name: 'Idea', category: t.stores.categoryLabels.electronics },
+    { name: 'Terra Pro', category: t.stores.categoryLabels.fashion },
+    { name: 'Selfmade', category: t.stores.categoryLabels.fashion },
+    { name: 'FLO', category: t.stores.categoryLabels.fashion },
+    { name: 'Vicco', category: t.stores.categoryLabels.fashion },
   ];
 
   // Duplicate for seamless loop

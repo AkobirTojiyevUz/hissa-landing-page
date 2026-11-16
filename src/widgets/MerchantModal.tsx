@@ -63,7 +63,7 @@ export const MerchantModal: React.FC<MerchantModalProps> = ({ isOpen, onClose })
             {t.modal.successMessage}
           </h3>
           <p className="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
-            Mutaxassisimiz kiritilgan telefon raqami orqali bog'lanadi va 15 daqiqa ichida do'koningizni ulab beradi.
+            {t.modal.successDesc}
           </p>
           <div className="pt-4">
             <Button variant="primary" size="md" onClick={handleReset} className="w-full">

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 @variant dark (&:where(.dark, .dark *));
 
@@ -169,4 +170,19 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(150, 150, 150, 0.5);
+}
+
+/* Leaflet Dark Mode Tiles & Clean Styling */
+.leaflet-container {
+  font-family: var(--font-family-primary);
+  background-color: transparent !important;
+}
+
+html[data-theme='dark'] .leaflet-tile-pane {
+  filter: brightness(0.65) invert(1) contrast(1.15) hue-rotate(195deg) saturate(0.35);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 16px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
 }

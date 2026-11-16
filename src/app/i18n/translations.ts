@@ -1,6 +1,22 @@
 export type Language = 'uz' | 'ru' | 'en';
 
+export interface FAQItem {
+  q: string;
+  a: string;
+}
+
 export interface TranslationDictionary {
+  common: {
+    active: string;
+    guaranteedCondition: string;
+    verified: string;
+    noHiddenFees: string;
+    walkMinutes: string;
+    meters: string;
+    km: string;
+    openYandexMaps: string;
+    openGoogleMaps: string;
+  };
   nav: {
     howItWorks: string;
     calculator: string;
@@ -37,6 +53,10 @@ export interface TranslationDictionary {
     purchaseStore: string;
     purchaseAmount: string;
     installmentProgress: string;
+    verifiedPill: string;
+    zeroInterestPill: string;
+    noHiddenPill: string;
+    activeStatus: string;
   };
   ticker: {
     label: string;
@@ -57,6 +77,7 @@ export interface TranslationDictionary {
     card4Title: string;
     card4Desc: string;
     card4Badge: string;
+    guaranteedCondition: string;
   };
   howItWorks: {
     eyebrow: string;
@@ -65,12 +86,15 @@ export interface TranslationDictionary {
     step1Num: string;
     step1Title: string;
     step1Desc: string;
+    step1Highlight: string;
     step2Num: string;
     step2Title: string;
     step2Desc: string;
+    step2Highlight: string;
     step3Num: string;
     step3Title: string;
     step3Desc: string;
+    step3Highlight: string;
     bannerTitle: string;
     bannerDesc: string;
     bannerBtn: string;
@@ -93,16 +117,17 @@ export interface TranslationDictionary {
     cardOverpay: string;
     zeroSum: string;
     scheduleTitle: string;
-    scheduleMonth1: string;
-    scheduleMonth2: string;
-    scheduleMonth3: string;
     applyCta: string;
+    successToast: string;
     disclaimer: string;
+    monthPrefix: string;
+    daysAfter: string;
   };
   stores: {
     eyebrow: string;
     title: string;
     subtitle: string;
+    searchPlaceholder: string;
     all: string;
     electronics: string;
     fashion: string;
@@ -111,6 +136,25 @@ export interface TranslationDictionary {
     auto: string;
     shopBtn: string;
     upToMonth: string;
+    categoryLabels: {
+      electronics: string;
+      fashion: string;
+      home: string;
+      beauty: string;
+      auto: string;
+      supermarket: string;
+    };
+    popularProducts: {
+      texnomart: string;
+      mediapark: string;
+      korzinka: string;
+      bellstore: string;
+      ishonch: string;
+      terrapro: string;
+      arena: string;
+      flo: string;
+      makro: string;
+    };
   };
   map: {
     eyebrow: string;
@@ -128,10 +172,15 @@ export interface TranslationDictionary {
     storesFound: string;
     selectedStoreBadge: string;
     routeDrawn: string;
+    openInYandex: string;
+    openInGoogle: string;
     categoryElectronics: string;
     categoryFashion: string;
     categorySupermarket: string;
     categoryBeauty: string;
+    userLocationLabel: string;
+    branchListTitle: string;
+    mapControlsHint: string;
   };
   mobileApp: {
     eyebrow: string;
@@ -148,6 +197,18 @@ export interface TranslationDictionary {
     benefit3Desc: string;
     scanQrToDownload: string;
     availableOn: string;
+    cardSubtitle: string;
+    totalLimitLabel: string;
+    spentLabel: string;
+    recentPaymentsTitle: string;
+    scanQrCashier: string;
+    tezQrIntegration: string;
+    payTodayZero: string;
+    upcomingPaymentsTitle: string;
+    payment1Paid: string;
+    payment2Next: string;
+    payment3Final: string;
+    daysLeft: string;
   };
   merchant: {
     eyebrow: string;
@@ -185,6 +246,12 @@ export interface TranslationDictionary {
     card3Desc: string;
     card4Title: string;
     card4Desc: string;
+    card1Badge: string;
+    card2Badge: string;
+    card3Badge: string;
+    card4Badge: string;
+    certifiedBadge: string;
+    coFundingTitle: string;
   };
   faq: {
     eyebrow: string;
@@ -192,6 +259,8 @@ export interface TranslationDictionary {
     subtitle: string;
     shopperTab: string;
     merchantTab: string;
+    shoppers: FAQItem[];
+    merchants: FAQItem[];
   };
   modal: {
     title: string;
@@ -213,6 +282,7 @@ export interface TranslationDictionary {
     turnover3: string;
     submit: string;
     successMessage: string;
+    successDesc: string;
     close: string;
   };
   footer: {
@@ -232,6 +302,17 @@ export interface TranslationDictionary {
 
 export const translations: Record<Language, TranslationDictionary> = {
   uz: {
+    common: {
+      active: "Faol",
+      guaranteedCondition: "Kafolatlangan shart",
+      verified: "Tasdiqlangan",
+      noHiddenFees: "Yashirin to'lovlarsiz",
+      walkMinutes: "daqiqa piyoda",
+      meters: "m",
+      km: "km",
+      openYandexMaps: "Yandex Xaritada ochish",
+      openGoogleMaps: "Google Xaritada ochish",
+    },
     nav: {
       howItWorks: "Qanday ishlaydi?",
       calculator: "Kalkulyator",
@@ -268,6 +349,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       purchaseStore: "Texnomart · iPhone 15 Pro",
       purchaseAmount: "14 400 000 UZS",
       installmentProgress: "1/3 to'landi (4 800 000 UZS)",
+      verifiedPill: "0-0-3 Tasdiqlangan",
+      zeroInterestPill: "0% Foiz · 0 UZS",
+      noHiddenPill: "Yashirin to'lovlarsiz",
+      activeStatus: "Faol",
     },
     ticker: {
       label: "O'zbekistonning 5 000 dan ortiq yetakchi brendlari biz bilan hamkorlik qiladi",
@@ -288,20 +373,24 @@ export const translations: Record<Language, TranslationDictionary> = {
       card4Title: "Aqlli va avtomatik nazorat",
       card4Desc: "Mobil ilova to'lov sanalarini oldindan eslatadi va kartangizdan avtomatik yechib oladi. Jarimalar haqida unuting.",
       card4Badge: "Aqlli Ilova",
+      guaranteedCondition: "Kafolatlangan shart",
     },
     howItWorks: {
       eyebrow: "Qulaylik formulasi",
       title: "Hissa bilan xarid qilish qanday ishlaydi?",
-      subtitle: "Boryo'g'i 3 ta oddiy qadam va orzuingizdagi xarid sizning qo'lingizda.",
+      subtitle: "Bor-yo'g'i 3 ta oddiy qadam va orzuingizdagi xarid sizning qo'lingizda.",
       step1Num: "01",
       step1Title: "Ilovani yuklang va limit oling",
       step1Desc: "Hissa ilovasini yuklab oling, telefon raqam va OneID / JShShIR orqali 2 daqiqada 25 000 000 so'mgacha xarid limitiga ega bo'ling.",
+      step1Highlight: "Passport yoki OneID orqali",
       step2Num: "02",
       step2Title: "Do'konga kiring va tovar tanlang",
       step2Desc: "5 000 dan ortiq hamkor do'konlarimizdan biriga boring yoki onlayn buyurtma bering. Kassada Hissa to'lovini tanlang.",
+      step2Highlight: "Texnika, kiyim, mebel",
       step3Num: "03",
       step3Title: "TezQR bilan bo'lib to'lang",
       step3Desc: "QR kodni skanerlang. Bugun 0 so'm to'laysiz, tovar esa darhol sizniki. Qolgan qismi 3 oy davomida teng ulushda yechiladi.",
+      step3Highlight: "0% ortiqcha to'lov",
       bannerTitle: "Bugunoq xarid qilishga tayyormisiz?",
       bannerDesc: "Ilovani bepul yuklab oling va birinchi xaridingiz uchun tasdiqlangan limitni darhol oling.",
       bannerBtn: "Hissa ilovasini yuklash",
@@ -324,16 +413,17 @@ export const translations: Record<Language, TranslationDictionary> = {
       cardOverpay: "Ortiqcha to'lov",
       zeroSum: "0 UZS",
       scheduleTitle: "To'lovlar jadvali (taqvim)",
-      scheduleMonth1: "1-to'lov (30 kundan so'ng)",
-      scheduleMonth2: "2-to'lov (60 kundan so'ng)",
-      scheduleMonth3: "3-to'lov (90 kundan so'ng)",
       applyCta: "Ushbu summa uchun limit olish",
+      successToast: "✓ Limit hisoblandi! Ilovaga yo'naltirilmoqda...",
       disclaimer: "0-0-3 muddatida qo'shimcha foiz olinmaydi. 6 va 12 oylik tariflarda hamkor do'kon aksiyalari va bank shartlari amal qiladi.",
+      monthPrefix: "-oy",
+      daysAfter: "kundan so'ng",
     },
     stores: {
       eyebrow: "Keng tanlov",
       title: "O'zbekistonning eng yaxshi do'konlari",
       subtitle: "Elektronika, kiyim-kechak, mebel va go'zallik vositalarini Hissa bilan xarid qiling.",
+      searchPlaceholder: "Do'kon yoki brend qidirish...",
       all: "Barchasi",
       electronics: "Elektronika & Texnika",
       fashion: "Kiyim & Poyabzal",
@@ -342,11 +432,30 @@ export const translations: Record<Language, TranslationDictionary> = {
       auto: "Avto & Xizmatlar",
       shopBtn: "Do'konda xarid qilish",
       upToMonth: "oygacha bo'lib to'lash",
+      categoryLabels: {
+        electronics: "Elektronika",
+        fashion: "Kiyim & Poyabzal",
+        home: "Uy & Mebel",
+        beauty: "Go'zallik",
+        auto: "Avto & Xizmatlar",
+        supermarket: "Supermarket",
+      },
+      popularProducts: {
+        texnomart: "Smartfonlar va maishiy texnika",
+        mediapark: "Televizorlar, muzlatgichlar",
+        korzinka: "Oziq-ovqat va uy-ro'zg'or",
+        bellstore: "Parfyumeriya va kosmetika",
+        ishonch: "Mebel va elektrotexnika",
+        terrapro: "Zamonaviy erkaklar kiyimi",
+        arena: "Noutbuklar va o'yin uskunalari",
+        flo: "Krossovkalar va mavsumiy poyabzal",
+        makro: "Katta xaridlar va maishiy tovarlar",
+      },
     },
     map: {
       eyebrow: "Geolokatsiya va xarita",
       title: "Sizga eng yaqin Hissa hamkor do'konlari",
-      subtitle: "Xaritada ko'ring — 5 000 dan ortiq do'konlar yoningizda. Istalgan do'konga boring va TezQR bilan foizsiz bo'lib to'lang.",
+      subtitle: "Xaritada real vaqtda ko'ring — 5 000 dan ortiq do'konlar yoningizda. Istalgan filialga boring va TezQR bilan foizsiz bo'lib to'lang.",
       yourLocation: "Sizning joylashuvingiz",
       nearbyTab: "Eng yaqin do'konlar",
       allStoresTab: "Barcha filiallar",
@@ -358,15 +467,20 @@ export const translations: Record<Language, TranslationDictionary> = {
       filterAll: "Barchasi",
       storesFound: "ta hamkor nuqta topildi",
       selectedStoreBadge: "Tanlangan do'kon",
-      routeDrawn: "Optimal marshrut chizildi (piyoda 4 daqiqa)",
+      routeDrawn: "Optimal marshrut chizildi",
+      openInYandex: "Yandex Xaritada ochish",
+      openInGoogle: "Google Xaritada ochish",
       categoryElectronics: "Elektronika",
       categoryFashion: "Kiyim & Moda",
       categorySupermarket: "Supermarket",
       categoryBeauty: "Go'zallik",
+      userLocationLabel: "Toshkent, Chilonzor tumani",
+      branchListTitle: "Filiallar ro'yxati",
+      mapControlsHint: "Xaritani siljiting va kattalashtiring",
     },
     mobileApp: {
       eyebrow: "Barchasi bir ilovada",
-      title: "Hissa mobil ilovasi — sizning shaxsiy moliyaviy yordamchingiz",
+      title: "Hissa mobil ilovasi — sizning shaxsiy moliyaviy hamkoringiz",
       subtitle: "Limitlarni boshqaring, TezQR bilan bir tegishda to'lang va to'lovlar jadvalini qulay nazorat qiling.",
       tabCard: "Karta & Limit",
       tabQr: "TezQR To'lov",
@@ -379,6 +493,18 @@ export const translations: Record<Language, TranslationDictionary> = {
       benefit3Desc: "Faqat Hissa foydalanuvchilari uchun hamkor do'konlardan maxsus chegirmalar va keshbeklar.",
       scanQrToDownload: "Ilovani yuklash uchun QR-kodni kamerangiz bilan skanerlang",
       availableOn: "Mavjud platformalar:",
+      cardSubtitle: "Mavjud xarid limiti",
+      totalLimitLabel: "Umumiy limit",
+      spentLabel: "Sarflangan",
+      recentPaymentsTitle: "So'nggi to'lovlar",
+      scanQrCashier: "Kassadagi QR kodni ko'rsating",
+      tezQrIntegration: "TezQR to'lov tizimi",
+      payTodayZero: "Bugun: 0 UZS · Keyin bo'lib to'lang",
+      upcomingPaymentsTitle: "Yaqinlashayotgan to'lovlar",
+      payment1Paid: "1-to'lov to'landi",
+      payment2Next: "2-to'lov (Navbatdagi)",
+      payment3Final: "3-to'lov (Yakuniy)",
+      daysLeft: "kundan so'ng",
     },
     merchant: {
       eyebrow: "Biznes hamkorlik",
@@ -416,6 +542,12 @@ export const translations: Record<Language, TranslationDictionary> = {
       card3Desc: "O'zbekiston Respublikasi Markaziy Banki qonunchiligi va moliyaviy qoidalariga to'liq muvofiq.",
       card4Title: "Banklararo Kafillik Tizimi",
       card4Desc: "Yetakchi davlat va tijorat banklari bilan to'g'ridan-to'g'ri integratsiyalashgan barqaror ko-fanding.",
+      card1Badge: "Milliy Ekotizim",
+      card2Badge: "PCI DSS v4.0.1",
+      card3Badge: "MB Reglamenti",
+      card4Badge: "Bank Kafilligi",
+      certifiedBadge: "100% Sertifikatlangan",
+      coFundingTitle: "Likvidlik va hisob-kitob bo'yicha yetakchi bank hamkorlarimiz",
     },
     faq: {
       eyebrow: "Savollaringiz bormi?",
@@ -423,6 +555,46 @@ export const translations: Record<Language, TranslationDictionary> = {
       subtitle: "Hissa xizmati, to'lovlar va hamkorlik bo'yicha barcha javoblar.",
       shopperTab: "Xaridorlar uchun",
       merchantTab: "Biznes uchun",
+      shoppers: [
+        {
+          q: "Hissa xizmatidan foydalanish uchun qanday hujjatlar kerak?",
+          a: "Faqatgina o'zingizning Uzcard kartangiz, telefon raqamingiz va JShShIR (OneID) kifoya. Yangi karta ochish, daromad haqida ma'lumotnoma to'plash yoki kafil topish talab etilmaydi.",
+        },
+        {
+          q: "Haqiqatan ham 0% foizmi? Qayerdan foyda ko'riladi?",
+          a: "Ha! 0-0-3 tarifida xaridor uchun mutlaqo 0% ortiqcha to'lov. Xarid summasi teng 3 qismga bo'linadi. BNPL komissiyasini (MDR) savdosini oshirishni istagan hamkor do'kon to'lab beradi.",
+        },
+        {
+          q: "Oylik to'lovlar qanday amalga oshiriladi?",
+          a: "To'lovlar avtomatlashtirilgan. Har oy belgilangan sanada Hissa ilovasiga ulangan Uzcard kartangizdan kerakli summa yechib olinadi. Ilova sizni 3 kun oldin eslatib qo'yadi.",
+        },
+        {
+          q: "Limit miqdori qancha va uni qanday oshirish mumkin?",
+          a: "Boshlang'ich tasdiqlangan limit 25 000 000 so'mgacha bo'lishi mumkin. O'z vaqtida to'lovlarni amalga oshirishingiz bilan tizim sizning limitingizni avtomatik oshirib boradi.",
+        },
+        {
+          q: "To'lovni muddatidan oldin yopish mumkinmi?",
+          a: "Ha, albatta. Istalgan vaqtda Hissa mobil ilovasi orqali barcha qolgan qismlarni bir zumda hech qanday jarima yoki qo'shimcha to'lovlarsiz to'lashingiz mumkin.",
+        },
+      ],
+      merchants: [
+        {
+          q: "Do'konni Hissa tizimiga ulash qancha vaqt oladi?",
+          a: "OneID va E-IMZO integratsiyasi tufayli ariza topshirish va shartnoma imzolash 5-15 daqiqa davom etadi. 1-2 ish kunida to'lovlarni qabul qilishni boshlaysiz.",
+        },
+        {
+          q: "Sotilgan mahsulot pullari qachon do'kon hisobiga tushadi?",
+          a: "T+2 reglamentiga muvofiq, xaridor buyumni olganidan so'ng 2 ish kuni ichida to'liq summa (komissiya chegirilgan holda) hisob-raqamingizga o'tkazib beriladi.",
+        },
+        {
+          q: "Agar mijoz to'lovni kechiktirsa yoki to'lamasa nima bo'ladi?",
+          a: "Barcha kredit risklarini Uzcard va hamkor banklar o'z zimmasiga oladi. Do'kon o'z mablag'ini 100% kafolat bilan oladi va mijoz bilan munosabatlarga aralashmaydi.",
+        },
+        {
+          q: "Do'konga alohida qimmat uskuna sotib olish kerakmi?",
+          a: "Yo'q, mavjud Uzcard POS-terminallaringiz yoki smartfon ekranidagi TezQR kodi orqali to'lovlar bir zumda qabul qilinadi.",
+        },
+      ],
     },
     modal: {
       title: "Hissa hamkoriga aylaning",
@@ -444,6 +616,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       turnover3: "300 mln so'mdan yuqori",
       submit: "Arizani yuborish",
       successMessage: "Arizangiz muvaffaqiyatli qabul qilindi! Tez orada mutaxassisimiz siz bilan bog'lanadi.",
+      successDesc: "Mutaxassisimiz kiritilgan telefon raqami orqali bog'lanadi va 15 daqiqa ichida do'koningizni ulab beradi.",
       close: "Yopish",
     },
     footer: {
@@ -461,6 +634,17 @@ export const translations: Record<Language, TranslationDictionary> = {
     },
   },
   ru: {
+    common: {
+      active: "Активен",
+      guaranteedCondition: "Гарантированные условия",
+      verified: "Подтверждено",
+      noHiddenFees: "Без скрытых комиссий",
+      walkMinutes: "мин. пешком",
+      meters: "м",
+      km: "км",
+      openYandexMaps: "Открыть в Яндекс Картах",
+      openGoogleMaps: "Открыть в Google Maps",
+    },
     nav: {
       howItWorks: "Как это работает?",
       calculator: "Калькулятор",
@@ -497,6 +681,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       purchaseStore: "Texnomart · iPhone 15 Pro",
       purchaseAmount: "14 400 000 UZS",
       installmentProgress: "1/3 оплачено (4 800 000 UZS)",
+      verifiedPill: "0-0-3 Подтверждено",
+      zeroInterestPill: "0% Переплаты · 0 UZS",
+      noHiddenPill: "Без скрытых платежей",
+      activeStatus: "Активен",
     },
     ticker: {
       label: "Более 5 000 ведущих брендов Узбекистана уже подключены к Hissa",
@@ -517,6 +705,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       card4Title: "Умное мобильное управление",
       card4Desc: "Приложение заранее предупредит о платеже и спишет сумму автоматически в день оплаты без штрафов.",
       card4Badge: "Smart App",
+      guaranteedCondition: "Гарантированные условия",
     },
     howItWorks: {
       eyebrow: "Простой процесс",
@@ -525,12 +714,15 @@ export const translations: Record<Language, TranslationDictionary> = {
       step1Num: "01",
       step1Title: "Скачайте приложение и получите лимит",
       step1Desc: "Установите приложение Hissa, пройдите быструю идентификацию через OneID / ПИНФЛ и получите лимит до 25 000 000 сум за 2 минуты.",
+      step1Highlight: "По паспорту или OneID",
       step2Num: "02",
       step2Title: "Выберите товар в партнерском магазине",
       step2Desc: "Приходите в любой из 5 000+ магазинов или выбирайте товары онлайн на сайтах партнеров. На кассе выберите оплату Hissa.",
+      step2Highlight: "Техника, одежда, мебель",
       step3Num: "03",
       step3Title: "Оплатите через TezQR и заберите покупку",
       step3Desc: "Отсканируйте QR-код. Сегодня платите 0 сум, товар сразу ваш. Оставшаяся сумма разделится на 3 равных платежа.",
+      step3Highlight: "0% переплаты",
       bannerTitle: "Готовы сделать первую покупку?",
       bannerDesc: "Скачайте приложение прямо сейчас и узнайте ваш персональный лимит за пару минут.",
       bannerBtn: "Скачать приложение Hissa",
@@ -553,16 +745,17 @@ export const translations: Record<Language, TranslationDictionary> = {
       cardOverpay: "Переплата",
       zeroSum: "0 UZS",
       scheduleTitle: "График платежей (календарь)",
-      scheduleMonth1: "1-й платеж (через 30 дней)",
-      scheduleMonth2: "2-й платеж (через 60 дней)",
-      scheduleMonth3: "3-й платеж (через 90 дней)",
       applyCta: "Получить лимит на эту сумму",
+      successToast: "✓ Лимит рассчитан! Перенаправляем в приложение...",
       disclaimer: "На тарифе 0-0-3 переплата 0%. Для сроков 6 и 12 месяцев действуют акции партнеров и условия банков-участников.",
+      monthPrefix: "-й месяц",
+      daysAfter: "дней спустя",
     },
     stores: {
       eyebrow: "Широкий выбор",
       title: "Лучшие магазины Узбекистана",
       subtitle: "Покупайте технику, одежду, товары для дома и парфюмерию в рассрочку с Hissa.",
+      searchPlaceholder: "Поиск магазина или бренда...",
       all: "Все категории",
       electronics: "Электроника и техника",
       fashion: "Одежда и обувь",
@@ -571,11 +764,30 @@ export const translations: Record<Language, TranslationDictionary> = {
       auto: "Авто и услуги",
       shopBtn: "Купить в магазине",
       upToMonth: "мес. рассрочки",
+      categoryLabels: {
+        electronics: "Электроника",
+        fashion: "Одежда и обувь",
+        home: "Дом и мебель",
+        beauty: "Красота",
+        auto: "Авто и услуги",
+        supermarket: "Супермаркет",
+      },
+      popularProducts: {
+        texnomart: "Смартфоны и бытовая техника",
+        mediapark: "Телевизоры, холодильники",
+        korzinka: "Продукты и товары для дома",
+        bellstore: "Парфюмерия и косметика",
+        ishonch: "Мебель и электротехника",
+        terrapro: "Стильная мужская одежда",
+        arena: "Ноутбуки и игровые гаджеты",
+        flo: "Кроссовки и сезонная обувь",
+        makro: "Крупные покупки и продукты",
+      },
     },
     map: {
       eyebrow: "Геолокация и карта",
       title: "Ближайшие партнерские магазины Hissa",
-      subtitle: "Смотрите на карте — более 5 000 магазинов рядом с вами. Приходите и покупайте в рассрочку по TezQR без переплат.",
+      subtitle: "Смотрите на карте в реальном времени — более 5 000 магазинов рядом с вами. Приходите и покупайте в рассрочку по TezQR без переплат.",
       yourLocation: "Ваше местоположение",
       nearbyTab: "Ближайшие магазины",
       allStoresTab: "Все филиалы",
@@ -587,15 +799,20 @@ export const translations: Record<Language, TranslationDictionary> = {
       filterAll: "Все",
       storesFound: "партнерских точек найдено",
       selectedStoreBadge: "Выбранный магазин",
-      routeDrawn: "Оптимальный маршрут построен (4 мин пешком)",
+      routeDrawn: "Оптимальный маршрут построен",
+      openInYandex: "Открыть в Яндекс Картах",
+      openInGoogle: "Открыть в Google Maps",
       categoryElectronics: "Электроника",
       categoryFashion: "Одежда и мода",
       categorySupermarket: "Супермаркет",
       categoryBeauty: "Красота",
+      userLocationLabel: "Ташкент, Чиланзарский район",
+      branchListTitle: "Список филиалов",
+      mapControlsHint: "Перемещайте и масштабируйте карту",
     },
     mobileApp: {
       eyebrow: "Все в одном месте",
-      title: "Мобильное приложение Hissa — ваш умный финансовый ассистент",
+      title: "Мобильное приложение Hissa — ваш надежный финансовый партнер",
       subtitle: "Управляйте лимитами, платите через TezQR в один клик и контролируйте график платежей.",
       tabCard: "Карта и лимит",
       tabQr: "Оплата TezQR",
@@ -608,6 +825,18 @@ export const translations: Record<Language, TranslationDictionary> = {
       benefit3Desc: "Доступ к специальным закрытым скидкам и акциям только для пользователей Hissa.",
       scanQrToDownload: "Наведите камеру смартфона на QR-код для быстрой загрузки",
       availableOn: "Доступно на платформах:",
+      cardSubtitle: "Доступный лимит покупок",
+      totalLimitLabel: "Общий лимит",
+      spentLabel: "Потрачено",
+      recentPaymentsTitle: "Последние платежи",
+      scanQrCashier: "Отсканируйте QR-код на кассе",
+      tezQrIntegration: "Платежная система TezQR",
+      payTodayZero: "Сегодня: 0 UZS · Далее частями",
+      upcomingPaymentsTitle: "Ближайшие платежи",
+      payment1Paid: "1-й платеж оплачен",
+      payment2Next: "2-й платеж (Следующий)",
+      payment3Final: "3-й платеж (Итоговый)",
+      daysLeft: "дней осталось",
     },
     merchant: {
       eyebrow: "Партнерство для бизнеса",
@@ -645,6 +874,12 @@ export const translations: Record<Language, TranslationDictionary> = {
       card3Desc: "Деятельность полностью регулируется нормативными актами Центрального Банка Республики Узбекистан.",
       card4Title: "Межбанковский ко-фандинг",
       card4Desc: "Партнерство с ведущими государственными и коммерческими банками для гарантированной ликвидности.",
+      card1Badge: "Нац. Экосистема",
+      card2Badge: "PCI DSS v4.0.1",
+      card3Badge: "Регламент ЦБ",
+      card4Badge: "Банковская гарантия",
+      certifiedBadge: "100% Сертифицировано",
+      coFundingTitle: "Ведущие банки-партнеры по ликвидности и расчетам",
     },
     faq: {
       eyebrow: "Остались вопросы?",
@@ -652,6 +887,46 @@ export const translations: Record<Language, TranslationDictionary> = {
       subtitle: "Ответы на главные вопросы покупателей и партнеров о сервисе Hissa.",
       shopperTab: "Покупателям",
       merchantTab: "Партнерам",
+      shoppers: [
+        {
+          q: "Какие документы нужны для использования сервиса Hissa?",
+          a: "Достаточно вашей карты Uzcard, номера телефона и ПИНФЛ (OneID). Не нужно открывать новые карты, собирать справки о доходах или искать поручителей.",
+        },
+        {
+          q: "Действительно ли переплата 0%? В чем выгода сервиса?",
+          a: "Да! По тарифу 0-0-3 переплата составляет ровно 0%. Стоимость делится на 3 равные части. Комиссию сервиса (MDR) оплачивает партнерский магазин для увеличения своих продаж.",
+        },
+        {
+          q: "Как списываются ежемесячные платежи?",
+          a: "Списание происходит автоматически. В установленную дату сумма списывается с привязанной карты Uzcard. Приложение пришлет напоминание за 3 дня.",
+        },
+        {
+          q: "Какой лимит предоставляется и как его увеличить?",
+          a: "Начальный лимит может достигать до 25 000 000 сум. При своевременном погашении система автоматически увеличивает ваш персональный лимит.",
+        },
+        {
+          q: "Можно ли погасить рассрочку досрочно?",
+          a: "Да, в любой момент через мобильное приложение Hissa можно закрыть остаток долга без штрафов, комиссий и дополнительных переплат.",
+        },
+      ],
+      merchants: [
+        {
+          q: "Сколько времени занимает подключение магазина к Hissa?",
+          a: "Благодаря интеграции с OneID и ЭЦП подача заявки и подписание договора занимают 5-15 минут. Прием платежей начинается через 1-2 рабочих дня.",
+        },
+        {
+          q: "Когда средства за проданный товар поступают на расчетный счет?",
+          a: "По регламенту T+2 в течение 2 рабочих дней после покупки полная сумма (за вычетом комиссии) перечисляется на ваш расчетный счет.",
+        },
+        {
+          q: "Что происходит, если покупатель задерживает или не платит рассрочку?",
+          a: "Все кредитные риски берут на себя Uzcard и банки-партнеры. Магазин гарантированно получает 100% средств за товар без споров с клиентом.",
+        },
+        {
+          q: "Нужно ли покупать специальное дорогое оборудование?",
+          a: "Нет, оплата принимается через имеющиеся POS-терминалы Uzcard либо через TezQR-код со смартфона продавца.",
+        },
+      ],
     },
     modal: {
       title: "Станьте партнером Hissa",
@@ -673,6 +948,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       turnover3: "Более 300 млн сум",
       submit: "Отправить заявку",
       successMessage: "Заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.",
+      successDesc: "Наш специалист свяжется с вами по указанному номеру телефона и поможет подключить магазин в течение 15 минут.",
       close: "Закрыть",
     },
     footer: {
@@ -690,6 +966,17 @@ export const translations: Record<Language, TranslationDictionary> = {
     },
   },
   en: {
+    common: {
+      active: "Active",
+      guaranteedCondition: "Guaranteed Terms",
+      verified: "Verified",
+      noHiddenFees: "No Hidden Fees",
+      walkMinutes: "min walk",
+      meters: "m",
+      km: "km",
+      openYandexMaps: "Open in Yandex Maps",
+      openGoogleMaps: "Open in Google Maps",
+    },
     nav: {
       howItWorks: "How it works",
       calculator: "Calculator",
@@ -726,6 +1013,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       purchaseStore: "Texnomart · iPhone 15 Pro",
       purchaseAmount: "14,400,000 UZS",
       installmentProgress: "1/3 paid (4,800,000 UZS)",
+      verifiedPill: "0-0-3 Approved",
+      zeroInterestPill: "0% Interest · 0 UZS",
+      noHiddenPill: "No Hidden Fees",
+      activeStatus: "Active",
     },
     ticker: {
       label: "Trusted by over 5,000 leading brands across Uzbekistan",
@@ -746,6 +1037,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       card4Title: "Smart Automated Control",
       card4Desc: "The mobile app sends proactive payment reminders and processes auto-debits on due dates without late fees.",
       card4Badge: "Smart App",
+      guaranteedCondition: "Guaranteed Terms",
     },
     howItWorks: {
       eyebrow: "Simple 3-Step Journey",
@@ -754,12 +1046,15 @@ export const translations: Record<Language, TranslationDictionary> = {
       step1Num: "01",
       step1Title: "Download the app & unlock your limit",
       step1Desc: "Install Hissa, verify with your phone number and OneID / PINFL in 2 minutes, and receive up to 25,000,000 UZS in credit limit.",
+      step1Highlight: "Via Passport or OneID",
       step2Num: "02",
       step2Title: "Shop at any partner store",
       step2Desc: "Visit any of our 5,000+ retail stores or shop online at partner marketplaces. Select Hissa at checkout.",
+      step2Highlight: "Electronics, fashion, furniture",
       step3Num: "03",
       step3Title: "Scan TezQR & take it home today",
       step3Desc: "Scan the TezQR code. Pay 0 UZS today — the purchase is yours immediately. The rest is split across 3 monthly installments.",
+      step3Highlight: "0% overpayment",
       bannerTitle: "Ready to elevate your shopping?",
       bannerDesc: "Download Hissa app for free and check your approved shopping limit in under 2 minutes.",
       bannerBtn: "Download Hissa App",
@@ -782,16 +1077,17 @@ export const translations: Record<Language, TranslationDictionary> = {
       cardOverpay: "Overpayment",
       zeroSum: "0 UZS",
       scheduleTitle: "Payment Schedule (Timeline)",
-      scheduleMonth1: "1st Payment (in 30 days)",
-      scheduleMonth2: "2nd Payment (in 60 days)",
-      scheduleMonth3: "3rd Payment (in 90 days)",
       applyCta: "Get limit for this amount",
+      successToast: "✓ Limit calculated! Redirecting to app...",
       disclaimer: "0% overpayment applies to the 0-0-3 plan. 6 and 12-month plans are subject to merchant promotions and participating bank terms.",
+      monthPrefix: "Month",
+      daysAfter: "days later",
     },
     stores: {
       eyebrow: "Extensive Network",
       title: "Top stores across Uzbekistan",
       subtitle: "Shop electronics, apparel, furniture, and beauty products in easy installments with Hissa.",
+      searchPlaceholder: "Search store or brand...",
       all: "All Categories",
       electronics: "Electronics & Tech",
       fashion: "Fashion & Footwear",
@@ -800,11 +1096,30 @@ export const translations: Record<Language, TranslationDictionary> = {
       auto: "Auto & Services",
       shopBtn: "Shop in Store",
       upToMonth: "months installments",
+      categoryLabels: {
+        electronics: "Electronics",
+        fashion: "Fashion & Footwear",
+        home: "Home & Furniture",
+        beauty: "Beauty",
+        auto: "Auto & Services",
+        supermarket: "Supermarket",
+      },
+      popularProducts: {
+        texnomart: "Smartphones and home appliances",
+        mediapark: "TVs, refrigerators, ovens",
+        korzinka: "Groceries and household essentials",
+        bellstore: "Perfumes and luxury cosmetics",
+        ishonch: "Furniture and consumer electronics",
+        terrapro: "Modern men's fashion",
+        arena: "Laptops and gaming gear",
+        flo: "Sneakers and seasonal shoes",
+        makro: "Bulk purchases and home goods",
+      },
     },
     map: {
       eyebrow: "Geolocation & Map",
       title: "Find Hissa Partner Stores Near You",
-      subtitle: "Explore interactive map — over 5,000 stores near your current location. Walk in and split payments via TezQR at 0% overpayment.",
+      subtitle: "Explore live interactive map — over 5,000 stores near your current location. Walk in and split payments via TezQR at 0% overpayment.",
       yourLocation: "Your Location",
       nearbyTab: "Nearby Stores",
       allStoresTab: "All Branches",
@@ -816,11 +1131,16 @@ export const translations: Record<Language, TranslationDictionary> = {
       filterAll: "All",
       storesFound: "partner locations found",
       selectedStoreBadge: "Selected Store",
-      routeDrawn: "Optimal route plotted (4 min walk)",
+      routeDrawn: "Optimal route plotted",
+      openInYandex: "Open in Yandex Maps",
+      openInGoogle: "Open in Google Maps",
       categoryElectronics: "Electronics",
       categoryFashion: "Fashion & Apparel",
       categorySupermarket: "Supermarket",
       categoryBeauty: "Beauty & Fragrance",
+      userLocationLabel: "Tashkent, Chilanzar district",
+      branchListTitle: "Branch Directory",
+      mapControlsHint: "Pan and zoom the map freely",
     },
     mobileApp: {
       eyebrow: "All-in-One Experience",
@@ -837,6 +1157,18 @@ export const translations: Record<Language, TranslationDictionary> = {
       benefit3Desc: "Gain exclusive access to private promotional discounts and partner rewards available only to Hissa users.",
       scanQrToDownload: "Point your phone camera at the QR code to download",
       availableOn: "Available platforms:",
+      cardSubtitle: "Available Shopping Limit",
+      totalLimitLabel: "Total Limit",
+      spentLabel: "Spent",
+      recentPaymentsTitle: "Recent Payments",
+      scanQrCashier: "Show QR code at the cash register",
+      tezQrIntegration: "TezQR Payment System",
+      payTodayZero: "Today: 0 UZS · Split later",
+      upcomingPaymentsTitle: "Upcoming Payments",
+      payment1Paid: "1st installment paid",
+      payment2Next: "2nd installment (Next)",
+      payment3Final: "3rd installment (Final)",
+      daysLeft: "days left",
     },
     merchant: {
       eyebrow: "Business Partnership",
@@ -874,6 +1206,12 @@ export const translations: Record<Language, TranslationDictionary> = {
       card3Desc: "Strictly operating in full compliance with the regulatory legal framework of the Central Bank of Uzbekistan.",
       card4Title: "Interbank Co-Funding",
       card4Desc: "Directly co-funded with major state and commercial banks ensuring 100% liquidity and transaction reliability.",
+      card1Badge: "National Ecosystem",
+      card2Badge: "PCI DSS v4.0.1",
+      card3Badge: "Central Bank Regulated",
+      card4Badge: "Bank Guarantee",
+      certifiedBadge: "100% Certified",
+      coFundingTitle: "Leading banking partners for liquidity and interbank settlements",
     },
     faq: {
       eyebrow: "Got Questions?",
@@ -881,6 +1219,46 @@ export const translations: Record<Language, TranslationDictionary> = {
       subtitle: "Everything you need to know about shopping and partnering with Hissa.",
       shopperTab: "For Shoppers",
       merchantTab: "For Merchants",
+      shoppers: [
+        {
+          q: "What documents are required to use Hissa?",
+          a: "All you need is your existing Uzcard bank card, mobile phone number, and PINFL (OneID). No new cards to open, no income statements, and no guarantors required.",
+        },
+        {
+          q: "Is it really 0% interest? How does Hissa earn?",
+          a: "Yes! Under the 0-0-3 plan, you pay exactly 0% in overpayments or extra fees. The purchase price is split into 3 equal monthly parts. The partner store pays a small merchant fee (MDR) to boost its sales.",
+        },
+        {
+          q: "How are monthly installment payments collected?",
+          a: "Payments are processed automatically on the scheduled due date from your linked Uzcard card. You receive timely notification alerts 3 days in advance.",
+        },
+        {
+          q: "What is the initial spending limit and how can it increase?",
+          a: "The starting approved limit can be up to 25,000,000 UZS. By making payments on time, your limit grows automatically.",
+        },
+        {
+          q: "Can I repay my installments early?",
+          a: "Yes, absolutely. You can pay off remaining installments at any time via the Hissa mobile app with zero penalties or additional charges.",
+        },
+      ],
+      merchants: [
+        {
+          q: "How long does it take to connect a store to Hissa?",
+          a: "With OneID and E-IMZO digital signing, online onboarding takes only 5–15 minutes. You can start accepting customer payments within 1–2 business days.",
+        },
+        {
+          q: "When are sales funds deposited into the merchant account?",
+          a: "Under the T+2 settlement schedule, full transaction funds (minus commission) are transferred to your bank account within 2 business days.",
+        },
+        {
+          q: "What happens if a customer defaults or delays payment?",
+          a: "Uzcard and co-funding banks absorb 100% of the credit default risk. Your business is guaranteed to receive full payout with zero risk.",
+        },
+        {
+          q: "Do I need special expensive POS hardware?",
+          a: "No, Hissa works seamlessly with your existing Uzcard payment terminals or through TezQR codes on a smartphone or cashier tablet.",
+        },
+      ],
     },
     modal: {
       title: "Become a Hissa Partner",
@@ -902,6 +1280,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       turnover3: "Over 300M UZS",
       submit: "Submit Application",
       successMessage: "Application submitted successfully! Our business development representative will contact you shortly.",
+      successDesc: "Our specialist will contact you via the provided phone number and help onboard your store within 15 minutes.",
       close: "Close",
     },
     footer: {

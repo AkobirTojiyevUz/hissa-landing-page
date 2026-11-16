@@ -8,49 +8,7 @@ export const FAQSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'shoppers' | 'merchants'>('shoppers');
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const shopperFaqs = [
-    {
-      q: "Hissa xizmatidan foydalanish uchun qanday hujjatlar kerak?",
-      a: "Faqatgina o'zingizning Uzcard kartangiz, telefon raqamingiz va JShShIR (OneID) kifoya. Yangi karta ochish, daromad haqida ma'lumotnoma to'plash yoki kafil topish talab etilmaydi.",
-    },
-    {
-      q: "Haqiqatan ham 0% foizmi? Qayerdan foyda ko'riladi?",
-      a: "Ha! 0-0-3 tarifida xaridor uchun mutlaqo 0% ortiqcha to'lov. Xarid summasi teng 3 qismga bo'linadi. BNPL komissiyasini (MDR) savdosini oshirishni istagan hamkor do'kon to'lab beradi.",
-    },
-    {
-      q: "Oylik to'lovlar qanday amalga oshiriladi?",
-      a: "To'lovlar avtomatlashtirilgan. Har oy belgilangan sanada Hissa ilovasiga ulangan Uzcard kartangizdan kerakli summa yechib olinadi. Ilova sizni 3 kun oldin eslatib qo'yadi.",
-    },
-    {
-      q: "Limit miqdori qancha va uni qanday oshirish mumkin?",
-      a: "Boshlang'ich tasdiqlangan limit 25 000 000 so'mgacha bo'lishi mumkin. O'z vaqtida to'lovlarni amalga oshirishingiz bilan tizim sizning limitingizni avtomatik oshirib boradi.",
-    },
-    {
-      q: "To'lovni muddatidan oldin yopish mumkinmi?",
-      a: "Ha, albatta. Istalgan vaqtda Hissa mobil ilovasi orqali barcha qolgan qismlarni bir zumda hech qanday jarima yoki qo'shimcha to'lovlarsiz to'lashingiz mumkin.",
-    },
-  ];
-
-  const merchantFaqs = [
-    {
-      q: "Do'konni Hissa tizimiga ulash qancha vaqt oladi?",
-      a: "OneID va E-IMZO integratsiyasi tufayli ariza topshirish va shartnoma imzolash 5-15 daqiqa davom etadi. 1-2 ish kunida to'lovlarni qabul qilishni boshlaysiz.",
-    },
-    {
-      q: "Sotilgan mahsulot pullari qachon do'kon hisobiga tushadi?",
-      a: "T+2 reglamentiga muvofiq, xaridor buyumni olganidan so'ng 2 ish kuni ichida to'liq summa (komissiya chegirilgan holda) hisob-raqamingizga o'tkazib beriladi.",
-    },
-    {
-      q: "Agar mijoz to'lovni kechiktirsa yoki to'lamasa nima bo'ladi?",
-      a: "Barcha kredit risklarini Uzcard va hamkor banklar o'z zimmasiga oladi. Do'kon o'z mablag'ini 100% kafolat bilan oladi va mijoz bilan munosabatlarga aralashmaydi.",
-    },
-    {
-      q: "Do'konga alohida qimmat uskuna sotib olish kerakmi?",
-      a: "Yo'q, mavjud Uzcard POS-terminallaringiz yoki smartfon ekranidagi TezQR kodi orqali to'lovlar bir zumda qabul qilinadi.",
-    },
-  ];
-
-  const currentFaqs = activeTab === 'shoppers' ? shopperFaqs : merchantFaqs;
+  const currentFaqs = activeTab === 'shoppers' ? t.faq.shoppers : t.faq.merchants;
 
   return (
     <section id="faq" className="py-20 md:py-28 bg-gray-50/60 dark:bg-[#0B1015] relative">

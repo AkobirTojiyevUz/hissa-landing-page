@@ -141,7 +141,7 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
                     Hissa × UZCARD
                   </Badge>
                   <Badge variant="glass" className="font-bold text-emerald-400 px-3 py-1 text-xs">
-                    0-0-3 Tasdiqlangan
+                    {t.hero.verifiedPill}
                   </Badge>
                 </div>
 
@@ -168,7 +168,7 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
                     </div>
                     <div className="flex justify-between text-[10px] font-medium text-gray-500 dark:text-gray-400">
                       <span>{t.hero.payWithQr}</span>
-                      <span className="text-emerald-600 dark:text-emerald-400 font-bold">Faol</span>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-bold">{t.hero.activeStatus}</span>
                     </div>
                   </div>
                 </div>
@@ -196,10 +196,10 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
                 </div>
                 <div className="text-left">
                   <div className="text-xs font-black text-gray-900 dark:text-white">
-                    0% Foiz · 0 UZS
+                    {t.hero.zeroInterestPill}
                   </div>
                   <div className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
-                    Yashirin to'lovlarsiz
+                    {t.hero.noHiddenPill}
                   </div>
                 </div>
               </div>

@@ -32,10 +32,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
   ];
 
   const navLinks = [
+    { href: '#map', label: t.nav.map },
     { href: '#how-it-works', label: t.nav.howItWorks },
     { href: '#calculator', label: t.nav.calculator },
     { href: '#stores', label: t.nav.stores },
-    { href: '#map', label: t.nav.map },
     { href: '#app', label: t.nav.app },
     { href: '#for-business', label: t.nav.forBusiness },
     { href: '#security', label: t.nav.security },

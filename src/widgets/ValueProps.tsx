@@ -84,7 +84,7 @@ export const ValueProps: React.FC = () => {
 
               <div className="mt-6 pt-4 border-t border-gray-200/50 dark:border-gray-800 flex items-center gap-1.5 text-xs font-semibold text-[#FF655B]">
                 <Check className="w-3.5 h-3.5" />
-                <span>Kafolatlangan shart</span>
+                <span>{t.whyHissa.guaranteedCondition}</span>
               </div>
             </div>
           ))}

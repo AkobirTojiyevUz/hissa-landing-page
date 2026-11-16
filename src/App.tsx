@@ -31,6 +31,9 @@ const LandingPageContent: React.FC = () => {
         {/* Endless Partner Ticker */}
         <PartnerTicker />
 
+        {/* Interactive Nearby Stores & Geolocation Map (Primary Feature) */}
+        <NearbyStoresMap />
+
         {/* Why Hissa / Value Pillars (Klarna / Afterpay Benchmark) */}
         <ValueProps />
 
@@ -42,9 +45,6 @@ const LandingPageContent: React.FC = () => {
 
         {/* Partner Stores & Categories */}
         <CategoriesShowcase />
-
-        {/* Interactive Nearby Stores & Geolocation Map */}
-        <NearbyStoresMap />
 
         {/* Interactive Smartphone App Showcase */}
         <MobileAppShowcase />

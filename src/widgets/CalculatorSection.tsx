@@ -179,7 +179,7 @@ export const CalculatorSection: React.FC = () => {
                       className="bg-gray-50 dark:bg-[#181F26] p-3 rounded-xl border border-gray-100 dark:border-gray-800"
                     >
                       <div className="text-[10px] font-bold text-gray-400">
-                        {item.month}-oy · {item.date}
+                        {item.month}{t.calculator.monthPrefix} · {item.date}
                       </div>
                       <div className="text-xs font-extrabold text-gray-900 dark:text-white mt-1">
                         {formatMoney(item.amount)}
@@ -250,7 +250,7 @@ export const CalculatorSection: React.FC = () => {
 
                 {isCalculatedSuccess && (
                   <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold text-center animate-in fade-in">
-                    ✓ Limit hisoblandi! Ilovaga yo'naltirilmoqda...
+                    {t.calculator.successToast}
                   </div>
                 )}
 
