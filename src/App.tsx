@@ -1,65 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from './app/theme/ThemeContext';
 import { I18nProvider } from './app/i18n/I18nContext';
 import { Navbar } from './widgets/Navbar';
-import { HeroSection } from './widgets/HeroSection';
-import { PartnerTicker } from './widgets/PartnerTicker';
-import { ValueProps } from './widgets/ValueProps';
-import { HowItWorks } from './widgets/HowItWorks';
-import { CalculatorSection } from './widgets/CalculatorSection';
-import { CategoriesShowcase } from './widgets/CategoriesShowcase';
-import { NearbyStoresMap } from './widgets/NearbyStoresMap';
-import { MobileAppShowcase } from './widgets/MobileAppShowcase';
-import { MerchantB2BSection } from './widgets/MerchantB2BSection';
-import { TrustAndSecurity } from './widgets/TrustAndSecurity';
-import { FAQSection } from './widgets/FAQSection';
+import { HomePage } from './pages/HomePage';
+import { BusinessPage } from './pages/BusinessPage';
+import { StoresPage } from './pages/StoresPage';
+import { FaqPage } from './pages/FaqPage';
 import { Footer } from './widgets/Footer';
 import { MerchantModal } from './widgets/MerchantModal';
 
+type AppRoute = 'home' | 'stores' | 'business' | 'faq';
+
 const LandingPageContent: React.FC = () => {
+  const [currentRoute, setCurrentRoute] = useState<AppRoute>('home');
   const [isMerchantModalOpen, setIsMerchantModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleHashRouting = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash.includes('for-business') || hash.includes('business')) {
+        setCurrentRoute('business');
+      } else if (hash.includes('stores')) {
+        setCurrentRoute('stores');
+      } else if (hash.includes('faq')) {
+        setCurrentRoute('faq');
+      } else {
+        setCurrentRoute('home');
+      }
+    };
+
+    handleHashRouting();
+    window.addEventListener('hashchange', handleHashRouting);
+    return () => window.removeEventListener('hashchange', handleHashRouting);
+  }, []);
+
+  const handleRouteChange = (route: string) => {
+    setCurrentRoute(route as AppRoute);
+  };
 
   return (
     <div className="min-h-screen bg-[#F2F4F7] dark:bg-[#0A0F14] text-[#0C111D] dark:text-[#FFFFFF] transition-colors duration-200">
       {/* Sticky Glass Navbar */}
-      <Navbar onOpenMerchantModal={() => setIsMerchantModalOpen(true)} />
+      <Navbar
+        currentRoute={currentRoute}
+        onRouteChange={handleRouteChange}
+        onOpenMerchantModal={() => setIsMerchantModalOpen(true)}
+      />
 
-      {/* Hero Section */}
-      <main>
-        <HeroSection onOpenMerchantModal={() => setIsMerchantModalOpen(true)} />
+      {/* Dynamic Route View */}
+      {currentRoute === 'business' && (
+        <BusinessPage onOpenMerchantModal={() => setIsMerchantModalOpen(true)} />
+      )}
+      {currentRoute === 'stores' && <StoresPage />}
+      {currentRoute === 'faq' && <FaqPage />}
+      {currentRoute === 'home' && (
+        <HomePage onOpenMerchantModal={() => setIsMerchantModalOpen(true)} />
+      )}
 
-        {/* Endless Partner Ticker */}
-        <PartnerTicker />
-
-        {/* Interactive Nearby Stores & Geolocation Map (Primary Feature) */}
-        <NearbyStoresMap />
-
-        {/* Why Hissa / Value Pillars (Klarna / Afterpay Benchmark) */}
-        <ValueProps />
-
-        {/* How It Works (3 Steps) */}
-        <HowItWorks />
-
-        {/* Interactive BNPL Calculator */}
-        <CalculatorSection />
-
-        {/* Partner Stores & Categories */}
-        <CategoriesShowcase />
-
-        {/* Interactive Smartphone App Showcase */}
-        <MobileAppShowcase />
-
-        {/* Merchant & Business Partnership */}
-        <MerchantB2BSection onOpenMerchantModal={() => setIsMerchantModalOpen(true)} />
-
-        {/* Trust & Uzcard Security Infrastructure */}
-        <TrustAndSecurity />
-
-        {/* Interactive FAQ Accordion */}
-        <FAQSection />
-      </main>
-
-      {/* Footer */}
+      {/* Global Footer */}
       <Footer onOpenMerchantModal={() => setIsMerchantModalOpen(true)} />
 
       {/* Merchant Application Modal */}

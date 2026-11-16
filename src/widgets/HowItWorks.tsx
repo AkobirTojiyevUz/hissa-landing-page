@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
 import { Badge } from '../shared/ui/Badge';
-import { Button } from '../shared/ui/Button';
 import { HissaMark } from '../shared/ui/HissaMark';
-import { UserCheck, Store, QrCode, ArrowRight, CheckCircle } from 'lucide-react';
+import { UserCheck, Store, QrCode, CheckCircle } from 'lucide-react';
 
 export const HowItWorks: React.FC = () => {
   const { t } = useI18n();
@@ -102,34 +101,6 @@ export const HowItWorks: React.FC = () => {
               </div>
             );
           })}
-        </div>
-
-        {/* Action Banner */}
-        <div className="mt-16 rounded-3xl bg-gradient-to-r from-gray-900 via-[#1D2329] to-[#0A0F14] text-white p-8 sm:p-12 shadow-2xl border border-gray-800 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
-          <div className="space-y-2 text-center md:text-left z-10">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              {t.howItWorks.bannerTitle}
-            </h3>
-            <p className="text-gray-400 text-sm sm:text-base max-w-xl">
-              {t.howItWorks.bannerDesc}
-            </p>
-          </div>
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => {
-              document.getElementById('app')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            rightIcon={<ArrowRight className="w-4 h-4" />}
-            className="z-10 shrink-0 text-base px-8 shadow-xl shadow-[#FF655B]/30"
-          >
-            {t.howItWorks.bannerBtn}
-          </Button>
-
-          {/* Decorative motif in background */}
-          <div className="absolute right-0 bottom-0 translate-x-12 translate-y-12 opacity-10 pointer-events-none">
-            <HissaMark size={220} animated={false} color="#FF655B" />
-          </div>
         </div>
 
       </div>

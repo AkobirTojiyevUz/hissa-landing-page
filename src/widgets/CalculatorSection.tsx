@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
 import { Badge } from '../shared/ui/Badge';
 import { Button } from '../shared/ui/Button';
-import { Calculator, Calendar, ChevronRight } from 'lucide-react';
+import { Calculator, Calendar, ChevronRight, CheckCircle2, Table2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const CalculatorSection: React.FC = () => {
@@ -14,15 +14,11 @@ export const CalculatorSection: React.FC = () => {
   const presets = [1500000, 3000000, 6000000, 12000000, 20000000];
 
   const calculation = useMemo(() => {
-    // 0-0-3 is 0% markup
-    // 6 months has 0-4% depending on partner
-    // 12 months has 0-8% depending on partner
     const interestRate = term === 3 ? 0 : term === 6 ? 0.03 : 0.06;
     const overpayment = Math.round(amount * interestRate);
     const totalAmount = amount + overpayment;
     const monthlyPayment = Math.round(totalAmount / term);
 
-    // Schedule dates calculation
     const today = new Date();
     const schedule = Array.from({ length: term }, (_, i) => {
       const payDate = new Date(today);
@@ -43,8 +39,42 @@ export const CalculatorSection: React.FC = () => {
     };
   }, [amount, term]);
 
+  const plansComparison = useMemo(() => {
+    return [
+      {
+        months: 3,
+        title: t.calculator.plan3Months,
+        today: 0,
+        monthly: Math.round(amount / 3),
+        total: amount,
+        overpay: 0,
+        badge: t.calculator.month3Badge,
+        isZero: true,
+      },
+      {
+        months: 6,
+        title: t.calculator.plan6Months,
+        today: 0,
+        monthly: Math.round((amount * 1.03) / 6),
+        total: Math.round(amount * 1.03),
+        overpay: Math.round(amount * 0.03),
+        badge: t.calculator.month6Badge,
+        isZero: false,
+      },
+      {
+        months: 12,
+        title: t.calculator.plan12Months,
+        today: 0,
+        monthly: Math.round((amount * 1.06) / 12),
+        total: Math.round(amount * 1.06),
+        overpay: Math.round(amount * 0.06),
+        badge: t.calculator.month12Badge,
+        isZero: false,
+      },
+    ];
+  }, [amount, t]);
+
   const handleApply = () => {
-    // Trigger celebratory confetti
     confetti({
       particleCount: 80,
       spread: 70,
@@ -78,8 +108,8 @@ export const CalculatorSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Calculator Widget Box */}
-        <div className="bg-white dark:bg-[#13181E] rounded-[2.5rem] border border-gray-200/80 dark:border-gray-800 shadow-2xl p-6 sm:p-10 lg:p-12 max-w-5xl mx-auto">
+        {/* Calculator Main Widget Box */}
+        <div className="bg-white dark:bg-[#13181E] rounded-[2.5rem] border border-gray-200/80 dark:border-gray-800 shadow-2xl p-6 sm:p-10 lg:p-12 max-w-5xl mx-auto mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             {/* Left Controls: Amount Slider & Term Selector */}
@@ -119,7 +149,7 @@ export const CalculatorSection: React.FC = () => {
                     <button
                       key={preset}
                       onClick={() => setAmount(preset)}
-                      className={`text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all ${
+                      className={`text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all cursor-pointer ${
                         amount === preset
                           ? 'bg-[#FF655B] text-white border-[#FF655B] shadow-md shadow-[#FF655B]/20'
                           : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-[#FF655B]'
@@ -151,7 +181,7 @@ export const CalculatorSection: React.FC = () => {
                     <button
                       key={item.months}
                       onClick={() => setTerm(item.months)}
-                      className={`p-3.5 rounded-2xl border text-center transition-all ${
+                      className={`p-3.5 rounded-2xl border text-center transition-all cursor-pointer ${
                         term === item.months
                           ? 'border-[#FF655B] bg-[#FF655B]/10 dark:bg-[#FF655B]/15 text-gray-900 dark:text-white shadow-md'
                           : 'border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/40 text-gray-700 dark:text-gray-300 hover:border-gray-300'
@@ -261,6 +291,74 @@ export const CalculatorSection: React.FC = () => {
 
             </div>
 
+          </div>
+        </div>
+
+        {/* Side-by-Side Tariff Comparison (Qisqa tarif taqqoslash - 3 ta muddat bir qarashda) */}
+        <div className="max-w-5xl mx-auto bg-white dark:bg-[#13181E] rounded-3xl border border-gray-200/80 dark:border-gray-800 shadow-xl p-6 sm:p-8 space-y-6">
+          <div className="flex items-center gap-2">
+            <Table2 className="w-4 h-4 text-[#FF655B]" />
+            <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+              {t.calculator.comparePlansTitle}
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {plansComparison.map((plan) => {
+              const isSelected = term === plan.months;
+              return (
+                <div
+                  key={plan.months}
+                  onClick={() => setTerm(plan.months)}
+                  className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+                    isSelected
+                      ? 'border-[#FF655B] bg-[#FF655B]/5 dark:bg-[#FF655B]/10 shadow-md ring-2 ring-[#FF655B]/20'
+                      : 'border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-[#181F26]/40 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-base font-extrabold text-gray-900 dark:text-white">
+                        {plan.title}
+                      </span>
+                      {plan.isZero && (
+                        <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                          {t.calculator.recommended}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="space-y-2 pt-2 border-t border-gray-100 dark:border-gray-800/80 text-xs">
+                      <div className="flex justify-between">
+                        <span className="text-gray-500 dark:text-gray-400">{t.calculator.colToday}:</span>
+                        <span className="font-bold text-emerald-600 dark:text-emerald-400">{t.calculator.zeroSum}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-500 dark:text-gray-400">{t.calculator.colMonthly}:</span>
+                        <span className="font-extrabold text-[#FF655B]">{formatMoney(plan.monthly)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-500 dark:text-gray-400">{t.calculator.colTotal}:</span>
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">{formatMoney(plan.total)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-500 dark:text-gray-400">{t.calculator.colOverpay}:</span>
+                        <span className={`font-bold ${plan.isZero ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-800 dark:text-gray-200'}`}>
+                          {plan.overpay === 0 ? t.calculator.zeroOverpay : formatMoney(plan.overpay)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 mt-3 border-t border-gray-100 dark:border-gray-800/80 flex items-center justify-between">
+                    <span className="text-[11px] font-semibold text-gray-400">{plan.badge}</span>
+                    {isSelected && (
+                      <CheckCircle2 className="w-4 h-4 text-[#FF655B]" />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 

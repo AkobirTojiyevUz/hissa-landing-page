@@ -50,23 +50,28 @@ export const Footer: React.FC<FooterProps> = ({ onOpenMerchantModal }) => {
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a href="#calculator" className="hover:text-[#FF655B] transition-colors">
-                  {t.nav.calculator}
+                <a href="#/" className="hover:text-[#FF655B] transition-colors">
+                  {t.audience.shoppers}
                 </a>
               </li>
               <li>
-                <a href="#stores" className="hover:text-[#FF655B] transition-colors">
+                <a href="#/stores" className="hover:text-[#FF655B] transition-colors">
                   {t.nav.stores}
                 </a>
               </li>
               <li>
-                <a href="#app" className="hover:text-[#FF655B] transition-colors">
-                  {t.nav.app}
+                <a href="#/faq" className="hover:text-[#FF655B] transition-colors">
+                  {t.nav.faq}
                 </a>
               </li>
               <li>
                 <a href="#how-it-works" className="hover:text-[#FF655B] transition-colors">
                   {t.nav.howItWorks}
+                </a>
+              </li>
+              <li>
+                <a href="#calculator" className="hover:text-[#FF655B] transition-colors">
+                  {t.nav.calculator}
                 </a>
               </li>
             </ul>
@@ -87,7 +92,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenMerchantModal }) => {
                 </button>
               </li>
               <li>
-                <a href="#for-business" className="hover:text-[#FF655B] transition-colors">
+                <a href="#/for-business" className="hover:text-[#FF655B] transition-colors">
                   {t.nav.forBusiness}
                 </a>
               </li>

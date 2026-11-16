@@ -103,6 +103,16 @@ export interface TranslationDictionary {
     bannerDesc: string;
     bannerBtn: string;
   };
+  eligibility: {
+    eyebrow: string;
+    title: string;
+    requirement: string;
+    step1Title: string;
+    step1Desc: string;
+    step2Title: string;
+    step2Desc: string;
+    ctaBtn: string;
+  };
   calculator: {
     eyebrow: string;
     title: string;
@@ -126,6 +136,16 @@ export interface TranslationDictionary {
     disclaimer: string;
     monthPrefix: string;
     daysAfter: string;
+    comparePlansTitle: string;
+    plan3Months: string;
+    plan6Months: string;
+    plan12Months: string;
+    colToday: string;
+    colMonthly: string;
+    colTotal: string;
+    colOverpay: string;
+    zeroOverpay: string;
+    recommended: string;
   };
   stores: {
     eyebrow: string;
@@ -140,6 +160,10 @@ export interface TranslationDictionary {
     auto: string;
     shopBtn: string;
     upToMonth: string;
+    channelOnline: string;
+    channelInStore: string;
+    channelBoth: string;
+    viewBranchesBtn: string;
     categoryLabels: {
       electronics: string;
       fashion: string;
@@ -323,6 +347,20 @@ export interface TranslationDictionary {
     shoppers: FAQItem[];
     merchants: FAQItem[];
   };
+  managePayments: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    card1Title: string;
+    card1Desc: string;
+    card1Btn: string;
+    card2Title: string;
+    card2Desc: string;
+    card2Btn: string;
+    card3Title: string;
+    card3Desc: string;
+    card3Btn: string;
+  };
   modal: {
     title: string;
     subtitle: string;
@@ -393,10 +431,10 @@ export const translations: Record<Language, TranslationDictionary> = {
     hero: {
       badge: "Uzcard ekotizimidagi birinchi milliy BNPL xizmati",
       titlePart1: "Bugun oling.",
-      titleHighlight: "Bo'lib to'lang.",
-      titlePart2: "Ortiqcha foizsiz.",
-      description: "Uzcard Hissa bilan sevimli brendlaringizdan xaridlarni 3, 6 yoki 12 oyga teng ulushlarga bo'lib to'lang. Birinchi to'lov — 0 so'm, ortiqcha foiz — 0%.",
-      startCta: "Xaridlarni boshlash",
+      titleHighlight: "Hissa bilan",
+      titlePart2: "bo‘lib to‘lang.",
+      description: "0-0-3 taklifida xarid summasini 3 oyga ortiqcha to‘lovsiz bo‘ling. 6 va 12 oylik takliflar shartlarini kalkulyatorda ko‘ring.",
+      startCta: "Hamkor do‘konlarni ko‘rish",
       calcCta: "To'lovni hisoblash",
       stat1Value: "5 000+",
       stat1Label: "Hamkor do'konlar",
@@ -460,6 +498,16 @@ export const translations: Record<Language, TranslationDictionary> = {
       bannerDesc: "Ilovani bepul yuklab oling va birinchi xaridingiz uchun tasdiqlangan limitni darhol oling.",
       bannerBtn: "Hissa ilovasini yuklash",
     },
+    eligibility: {
+      eyebrow: "Foydalanish shartlari",
+      title: "Hissa’dan kim foydalanishi mumkin?",
+      requirement: "Hissa’dan foydalanishni boshlash uchun o‘zingizga tegishli UZCARD kartasi va telefon raqamingiz kerak.",
+      step1Title: "Shaxsingizni tasdiqlang",
+      step1Desc: "Hissa ilovasida OneID orqali shaxsingizni tasdiqlang.",
+      step2Title: "Xarid limitingizni tekshiring",
+      step2Desc: "Arizangiz ko‘rib chiqilgach, natijani ilovada ko‘rasiz. Limit tasdiqlansa, xarid uchun qancha mablag‘dan foydalanishingiz mumkinligi ham ko‘rsatiladi.",
+      ctaBtn: "Ilovada limitni tekshirish",
+    },
     calculator: {
       eyebrow: "Shaffof hisob-kitob",
       title: "To'lov kalkulyatori",
@@ -483,6 +531,16 @@ export const translations: Record<Language, TranslationDictionary> = {
       disclaimer: "0-0-3 muddatida qo'shimcha foiz olinmaydi. 6 va 12 oylik tariflarda hamkor do'kon aksiyalari va bank shartlari amal qiladi.",
       monthPrefix: "-oy",
       daysAfter: "kundan so'ng",
+      comparePlansTitle: "Qisqa tarif taqqoslash (3 ta muddat bir qarashda)",
+      plan3Months: "3 oy (0-0-3)",
+      plan6Months: "6 oy",
+      plan12Months: "12 oy",
+      colToday: "Bugun to'lanadi",
+      colMonthly: "Oylik to'lov",
+      colTotal: "Jami summa",
+      colOverpay: "Ortiqcha to'lov",
+      zeroOverpay: "0 UZS (0%)",
+      recommended: "Tavsiya etiladi",
     },
     stores: {
       eyebrow: "Keng tanlov",
@@ -497,6 +555,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       auto: "Avto & Xizmatlar",
       shopBtn: "Do'konda xarid qilish",
       upToMonth: "oygacha bo'lib to'lash",
+      channelOnline: "Onlayn",
+      channelInStore: "Filialda",
+      channelBoth: "Onlayn & Filialda",
+      viewBranchesBtn: "Filiallarni ko‘rish",
       categoryLabels: {
         electronics: "Elektronika",
         fashion: "Kiyim & Poyabzal",
@@ -698,6 +760,22 @@ export const translations: Record<Language, TranslationDictionary> = {
           q: "To'lovni muddatidan oldin yopish mumkinmi?",
           a: "Ha, albatta. Istalgan vaqtda Hissa mobil ilovasi orqali barcha qolgan qismlarni bir zumda hech qanday jarima yoki qo'shimcha to'lovlarsiz to'lashingiz mumkin.",
         },
+        {
+          q: "Kartada pul yetmasa nima bo‘ladi?",
+          a: "To'lov sanasida kartangizda yetarli mablag' bo'lmasa, tizim bir necha kun davomida to'lovni avtomatik takrorlaydi va ilovada eslatma bildirishnomalari yuboradi. Jarima yoki penya qo'llanilmasligi uchun mablag'ni o'z vaqtida to'ldirish tavsiya etiladi.",
+        },
+        {
+          q: "Tovarni qaytarsam, to‘lov jadvali qanday o‘zgaradi?",
+          a: "Hamkor do'konga tovarni qaytarganingizda, do'kon tizimda bekor qilishni tasdiqlaydi. Shundan so'ng to'langan barcha qismlar kartangizga qaytariladi va keyingi to'lovlar jadvali avtomatik ravishda yopiladi.",
+        },
+        {
+          q: "Birinchi to‘lov qachon yechiladi?",
+          a: "Hissa 0-0-3 tarifida xarid paytida birinchi to'lov — 0 so'm! Birinchi oylik to'lov xarid qilingan kundan boshlab roppa-rosa 30 kun o'tgach, belgilangan sanada kartangizdan yechiladi.",
+        },
+        {
+          q: "To‘lov bo‘yicha yordamni qayerdan olaman?",
+          a: "To'lovlar, muddatlar yoki qaytarishlar bo'yicha savollaringiz bo'lsa, Hissa ilovasidagi 24/7 onlayn chat, Telegram qo'llab-quvvatlash boti (@hissauz_support) yoki +998 71 200 00 00 telefon raqami orqali yordam olishingiz mumkin.",
+        },
       ],
       merchants: [
         {
@@ -717,6 +795,20 @@ export const translations: Record<Language, TranslationDictionary> = {
           a: "Yo'q, mavjud Uzcard POS-terminallaringiz yoki smartfon ekranidagi TezQR kodi orqali to'lovlar bir zumda qabul qilinadi.",
         },
       ],
+    },
+    managePayments: {
+      eyebrow: "To'lovlar boshqaruvi",
+      title: "Xarid qildingizmi? To‘lovlaringizni boshqaring",
+      subtitle: "Keyingi to‘lov sanasi, summasi va to‘lov tarixini Hissa ilovasida ko‘ring.",
+      card1Title: "To‘lov jadvalini ko‘rish",
+      card1Desc: "Keyingi to‘lov qachon va qancha bo‘lishini tekshiring.",
+      card1Btn: "Ilovadagi jadval",
+      card2Title: "To‘lov holatini ko‘rish",
+      card2Desc: "To‘lovingiz amalga oshganini ilovada tekshiring yoki muddatidan oldin to‘lang.",
+      card2Btn: "To'lov bo'limini ochish",
+      card3Title: "Yordam olish",
+      card3Desc: "To‘lov, kechikish yoki tovarni qaytarish bo‘yicha savolingiz bo‘lsa, Hissa yordam xizmatiga murojaat qiling.",
+      card3Btn: "Qo'llab-quvvatlash xizmati",
     },
     modal: {
       title: "Hissa hamkoriga aylaning",
@@ -786,10 +878,10 @@ export const translations: Record<Language, TranslationDictionary> = {
     hero: {
       badge: "Первый национальный BNPL-сервис в экосистеме Uzcard",
       titlePart1: "Покупайте сейчас.",
-      titleHighlight: "Платите частями.",
-      titlePart2: "Без переплат.",
-      description: "Делите оплату на 3, 6 или 12 месяцев в любимых магазинах Узбекистана вместе с Uzcard Hissa. Первый взнос — 0 сум, переплата — 0%.",
-      startCta: "Начать покупки",
+      titleHighlight: "С Hissa делите",
+      titlePart2: "на части.",
+      description: "0-0-3: делите стоимость покупки на 3 месяца без переплат. Условия на 6 и 12 месяцев смотрите в калькуляторе.",
+      startCta: "Посмотреть магазины-партнеры",
       calcCta: "Рассчитать платеж",
       stat1Value: "5 000+",
       stat1Label: "Партнерских магазинов",
@@ -853,6 +945,16 @@ export const translations: Record<Language, TranslationDictionary> = {
       bannerDesc: "Скачайте приложение прямо сейчас и узнайте ваш персональный лимит за пару минут.",
       bannerBtn: "Скачать приложение Hissa",
     },
+    eligibility: {
+      eyebrow: "Условия использования",
+      title: "Кто может пользоваться Hissa?",
+      requirement: "Чтобы начать пользоваться сервисом, вам потребуется собственная карта UZCARD и номер телефона.",
+      step1Title: "Подтвердите личность",
+      step1Desc: "Пройдите быструю идентификацию личности через OneID в приложении Hissa.",
+      step2Title: "Проверьте лимит покупок",
+      step2Desc: "После рассмотрения заявки результат появится в приложении. При одобрении отобразится доступный лимит на покупки.",
+      ctaBtn: "Проверить лимит в приложении",
+    },
     calculator: {
       eyebrow: "Прозрачный расчет",
       title: "Кредитный калькулятор",
@@ -876,6 +978,16 @@ export const translations: Record<Language, TranslationDictionary> = {
       disclaimer: "На тарифе 0-0-3 переплата 0%. Для сроков 6 и 12 месяцев действуют акции партнеров и условия банков-участников.",
       monthPrefix: "-й месяц",
       daysAfter: "дней спустя",
+      comparePlansTitle: "Сравнение тарифов (3 срока наглядно)",
+      plan3Months: "3 месяца (0-0-3)",
+      plan6Months: "6 месяцев",
+      plan12Months: "12 месяцев",
+      colToday: "Оплата сегодня",
+      colMonthly: "Ежемесячный платеж",
+      colTotal: "Итого к оплате",
+      colOverpay: "Переплата",
+      zeroOverpay: "0 UZS (0%)",
+      recommended: "Рекомендуем",
     },
     stores: {
       eyebrow: "Широкий выбор",
@@ -890,6 +1002,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       auto: "Авто и услуги",
       shopBtn: "Купить в магазине",
       upToMonth: "мес. рассрочки",
+      channelOnline: "Онлайн",
+      channelInStore: "В филиале",
+      channelBoth: "Онлайн и в филиалах",
+      viewBranchesBtn: "Посмотреть филиалы",
       categoryLabels: {
         electronics: "Электроника",
         fashion: "Одежда и обувь",
@@ -1091,6 +1207,22 @@ export const translations: Record<Language, TranslationDictionary> = {
           q: "Можно ли погасить рассрочку досрочно?",
           a: "Да, в любой момент через мобильное приложение Hissa можно закрыть остаток долга без штрафов, комиссий и дополнительных переплат.",
         },
+        {
+          q: "Что произойдет, если на карте недостаточно средств?",
+          a: "Если в день списания на карте не хватает средств, система будет автоматически повторять попытки списания в течение нескольких дней и присылать напоминания в приложении. Рекомендуем пополнить карту вовремя, чтобы избежать штрафов.",
+        },
+        {
+          q: "Если я верну товар, как изменится график платежей?",
+          a: "При возврате товара в магазин партнер подтверждает отмену в системе Hissa. После этого все уже внесенные платежи возвращаются на вашу карту, а график оставшихся списаний автоматически аннулируется.",
+        },
+        {
+          q: "Когда списывается первый платеж?",
+          a: "По тарифу 0-0-3 первый платеж в момент покупки равен 0 сум! Первый ежемесячный платеж списывается ровно через 30 дней после совершения покупки.",
+        },
+        {
+          q: "Где получить помощь по платежам и сервису?",
+          a: "По любым вопросам вы можете обратиться в круглосуточную службу поддержки в приложении Hissa, через Telegram-бот (@hissauz_support) или по единому номеру телефона +998 71 200 00 00.",
+        },
       ],
       merchants: [
         {
@@ -1110,6 +1242,20 @@ export const translations: Record<Language, TranslationDictionary> = {
           a: "Нет, оплата принимается через имеющиеся POS-терминалы Uzcard либо через TezQR-код со смартфона продавца.",
         },
       ],
+    },
+    managePayments: {
+      eyebrow: "Управление платежами",
+      title: "Сделали покупку? Управляйте вашими платежами",
+      subtitle: "Проверяйте дату и сумму следующего платежа и историю покупок в приложении Hissa.",
+      card1Title: "График платежей",
+      card1Desc: "Узнайте дату и точную сумму следующего списания.",
+      card1Btn: "График в приложении",
+      card2Title: "Статус платежей",
+      card2Desc: "Проверьте успешность оплаты или погасите рассрочку досрочно.",
+      card2Btn: "Раздел оплаты",
+      card3Title: "Получить помощь",
+      card3Desc: "Возник вопрос по возврату, задержке или оплате? Служба заботы Hissa всегда на связи.",
+      card3Btn: "Служба поддержки",
     },
     modal: {
       title: "Станьте партнером Hissa",
@@ -1179,10 +1325,10 @@ export const translations: Record<Language, TranslationDictionary> = {
     hero: {
       badge: "The First National BNPL Service in the Uzcard Ecosystem",
       titlePart1: "Buy now.",
-      titleHighlight: "Pay in parts.",
+      titleHighlight: "Split with Hissa.",
       titlePart2: "Zero interest.",
-      description: "Split your payments into 3, 6, or 12 equal monthly installments at your favorite stores in Uzbekistan with Uzcard Hissa. 0 UZS upfront, 0% overpayment.",
-      startCta: "Start Shopping",
+      description: "0-0-3 plan: split your purchase into 3 monthly installments with 0% overpayment. View terms for 6 and 12 months in the calculator.",
+      startCta: "Explore Partner Stores",
       calcCta: "Calculate Payment",
       stat1Value: "5,000+",
       stat1Label: "Partner Stores",
@@ -1246,6 +1392,16 @@ export const translations: Record<Language, TranslationDictionary> = {
       bannerDesc: "Download Hissa app for free and check your approved shopping limit in under 2 minutes.",
       bannerBtn: "Download Hissa App",
     },
+    eligibility: {
+      eyebrow: "Eligibility & Requirements",
+      title: "Who can use Hissa?",
+      requirement: "To start using Hissa, all you need is your personal UZCARD bank card and mobile phone number.",
+      step1Title: "Verify Your Identity",
+      step1Desc: "Instantly verify your identity in the Hissa mobile app using OneID.",
+      step2Title: "Check Your Shopping Limit",
+      step2Desc: "Once reviewed, view your approved credit line in the app and see exactly how much you can spend.",
+      ctaBtn: "Check My Limit in App",
+    },
     calculator: {
       eyebrow: "Transparent Breakdown",
       title: "Installment Calculator",
@@ -1269,6 +1425,16 @@ export const translations: Record<Language, TranslationDictionary> = {
       disclaimer: "0% overpayment applies to the 0-0-3 plan. 6 and 12-month plans are subject to merchant promotions and participating bank terms.",
       monthPrefix: "Month",
       daysAfter: "days later",
+      comparePlansTitle: "Plan Comparison (3 terms at a glance)",
+      plan3Months: "3 months (0-0-3)",
+      plan6Months: "6 months",
+      plan12Months: "12 months",
+      colToday: "Pay Today",
+      colMonthly: "Monthly Payment",
+      colTotal: "Total Amount",
+      colOverpay: "Overpayment",
+      zeroOverpay: "0 UZS (0%)",
+      recommended: "Recommended",
     },
     stores: {
       eyebrow: "Extensive Network",
@@ -1283,6 +1449,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       auto: "Auto & Services",
       shopBtn: "Shop in Store",
       upToMonth: "months installments",
+      channelOnline: "Online",
+      channelInStore: "In-Store",
+      channelBoth: "Online & In-Store",
+      viewBranchesBtn: "View Branches",
       categoryLabels: {
         electronics: "Electronics",
         fashion: "Fashion & Footwear",
@@ -1484,6 +1654,22 @@ export const translations: Record<Language, TranslationDictionary> = {
           q: "Can I repay my installments early?",
           a: "Yes, absolutely. You can pay off remaining installments at any time via the Hissa mobile app with zero penalties or additional charges.",
         },
+        {
+          q: "What happens if there are insufficient funds on my card?",
+          a: "If there are insufficient funds on your card on the due date, the system will automatically retry charging over the next few days and send reminders in the app. To avoid penalties, we recommend topping up your card on time.",
+        },
+        {
+          q: "How does the payment schedule change if I return an item?",
+          a: "When you return an item to a partner store, the store confirms the cancellation in Hissa. All previously paid installments are refunded to your card, and the remaining schedule is automatically closed.",
+        },
+        {
+          q: "When is the first installment charged?",
+          a: "Under the 0-0-3 plan, the initial payment at checkout is exactly 0 UZS! Your first monthly installment is charged exactly 30 days after the purchase date.",
+        },
+        {
+          q: "Where can I get support regarding my payments?",
+          a: "If you have questions about payments, schedule dates, or returns, you can reach Hissa support 24/7 via the in-app chat, Telegram bot (@hissauz_support), or phone line at +998 71 200 00 00.",
+        },
       ],
       merchants: [
         {
@@ -1503,6 +1689,20 @@ export const translations: Record<Language, TranslationDictionary> = {
           a: "No, Hissa works seamlessly with your existing Uzcard payment terminals or through TezQR codes on a smartphone or cashier tablet.",
         },
       ],
+    },
+    managePayments: {
+      eyebrow: "Payment Management",
+      title: "Made a purchase? Manage your payments",
+      subtitle: "Track your upcoming due dates, amounts, and payment history directly in the Hissa mobile app.",
+      card1Title: "View Payment Schedule",
+      card1Desc: "Check when your next installment is due and exact amount.",
+      card1Btn: "Schedule in App",
+      card2Title: "Payment Status & Pay Early",
+      card2Desc: "Verify your payment status or pay off remaining parts early.",
+      card2Btn: "Open Payment Section",
+      card3Title: "Get Help & Support",
+      card3Desc: "Questions about delays, returns, or billing? Hissa care team is available 24/7.",
+      card3Btn: "Contact Support",
     },
     modal: {
       title: "Become a Hissa Partner",

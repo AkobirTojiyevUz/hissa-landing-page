@@ -7,10 +7,16 @@ import { Button } from '../shared/ui/Button';
 import { Sun, Moon, Globe, Menu, X, ArrowUpRight, Briefcase } from 'lucide-react';
 
 interface NavbarProps {
+  currentRoute: string;
+  onRouteChange: (route: string) => void;
   onOpenMerchantModal: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  currentRoute,
+  onRouteChange,
+  onOpenMerchantModal,
+}) => {
   const { language, setLanguage, t } = useI18n();
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,14 +38,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
   ];
 
   const navLinks = [
-    { href: '#map', label: t.nav.map },
-    { href: '#how-it-works', label: t.nav.howItWorks },
-    { href: '#calculator', label: t.nav.calculator },
-    { href: '#stores', label: t.nav.stores },
-    { href: '#app', label: t.nav.app },
-    { href: '#for-business', label: t.nav.forBusiness },
-    { href: '#security', label: t.nav.security },
+    { route: 'home', hash: '#/', label: t.audience.shoppers },
+    { route: 'stores', hash: '#/stores', label: t.nav.stores },
+    { route: 'business', hash: '#/for-business', label: t.nav.forBusiness, isB2B: true },
+    { route: 'faq', hash: '#/faq', label: t.nav.faq },
   ];
+
+  const handleNavClick = (hash: string, route: string) => {
+    onRouteChange(route);
+    window.location.hash = hash;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header
@@ -51,9 +61,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Logo with 3 animated crescents */}
+          {/* Brand Logo */}
           <a
-            href="#"
+            href="#/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('#/', 'home');
+            }}
             className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#FF655B] rounded-xl p-1"
           >
             <HissaLogo height={28} animated={true} />
@@ -65,20 +79,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2 bg-gray-100/70 dark:bg-gray-900/60 p-1.5 rounded-full border border-gray-200/60 dark:border-gray-800/80 backdrop-blur-md">
             {navLinks.map((link) => {
-              const isB2B = link.href === '#for-business';
+              const isB2B = link.isB2B;
+              const isActive = currentRoute === link.route;
               return (
                 <a
-                  key={link.href}
-                  href={link.href}
-                  className={`px-3 py-1.5 text-xs font-semibold rounded-full transition-all duration-150 flex items-center gap-1 ${
-                    isB2B
-                      ? 'bg-[#FF655B]/15 text-[#FF655B] font-extrabold hover:bg-[#FF655B] hover:text-white'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-[#FF655B] dark:hover:text-[#FF655B] hover:bg-white dark:hover:bg-gray-800'
+                  key={link.route}
+                  href={link.hash}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.hash, link.route);
+                  }}
+                  className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
+                    isActive
+                      ? 'bg-white dark:bg-gray-800 text-[#FF655B] font-bold shadow-sm'
+                      : isB2B
+                      ? 'bg-[#FF655B]/10 text-[#FF655B] font-extrabold hover:bg-[#FF655B] hover:text-white'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-[#FF655B] dark:hover:text-[#FF655B] hover:bg-white/60 dark:hover:bg-gray-800/60'
                   }`}
                 >
                   <span>{link.label}</span>
                   {isB2B && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#FF655B] text-white uppercase font-black tracking-wider leading-none">
+                    <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-[#FF655B] text-white uppercase font-black tracking-wider leading-none">
                       B2B
                     </span>
                   )}
@@ -93,7 +114,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
             <div className="relative">
               <button
                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
                 aria-label="Language selection"
               >
                 <Globe className="w-4 h-4 text-gray-500" />
@@ -114,7 +135,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
                           setLanguage(l.code);
                           setIsLangDropdownOpen(false);
                         }}
-                        className={`w-full flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-left hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
+                        className={`w-full flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-left hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer ${
                           language === l.code
                             ? 'text-[#FF655B] font-bold bg-[#FF655B]/10'
                             : 'text-gray-700 dark:text-gray-300'
@@ -159,7 +180,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
               size="sm"
               onClick={() => {
                 const el = document.getElementById('app');
-                el?.scrollIntoView({ behavior: 'smooth' });
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  handleNavClick('#/', 'home');
+                  setTimeout(() => {
+                    document.getElementById('app')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 200);
+                }
               }}
               rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}
               className="hidden sm:inline-flex"
@@ -170,7 +198,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors"
+              className="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
               aria-label="Open menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -185,12 +213,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
           <nav className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-2.5 text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-[#FF655B] hover:bg-gray-100 dark:hover:bg-gray-800/60 rounded-xl transition-colors"
+                key={link.route}
+                href={link.hash}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.hash, link.route);
+                }}
+                className={`px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors flex items-center justify-between cursor-pointer ${
+                  currentRoute === link.route
+                    ? 'text-[#FF655B] font-bold bg-[#FF655B]/10'
+                    : 'text-gray-800 dark:text-gray-200 hover:text-[#FF655B] hover:bg-gray-100 dark:hover:bg-gray-800/60'
+                }`}
               >
-                {link.label}
+                <span>{link.label}</span>
+                {link.isB2B && (
+                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#FF655B] text-white uppercase font-black">
+                    B2B
+                  </span>
+                )}
               </a>
             ))}
           </nav>
@@ -202,6 +242,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
                 setIsMobileMenuOpen(false);
                 onOpenMerchantModal();
               }}
+              leftIcon={<Briefcase className="w-4 h-4 text-[#FF655B]" />}
               className="w-full justify-center"
             >
               {t.nav.partnerCta}
@@ -211,8 +252,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
               size="md"
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                const el = document.getElementById('app');
-                el?.scrollIntoView({ behavior: 'smooth' });
+                handleNavClick('#/', 'home');
+                setTimeout(() => {
+                  document.getElementById('app')?.scrollIntoView({ behavior: 'smooth' });
+                }, 200);
               }}
               rightIcon={<ArrowUpRight className="w-4 h-4" />}
               className="w-full justify-center"
