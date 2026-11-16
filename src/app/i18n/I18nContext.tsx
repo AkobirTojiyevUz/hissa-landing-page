@@ -14,16 +14,16 @@ const I18nContext = createContext<I18nContextType | undefined>(undefined);
 export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {
     const saved = localStorage.getItem('hissa_lang');
-    if (saved === 'uz' || saved === 'ru' || saved === 'en') return saved;
+    if (saved === 'uz' || saved === 'uz_lat' || saved === 'ru' || saved === 'en') return saved as Language;
     return 'uz';
   });
 
   useEffect(() => {
     localStorage.setItem('hissa_lang', language);
-    document.documentElement.lang = language;
+    document.documentElement.lang = language.startsWith('uz') ? 'uz' : language;
   }, [language]);
 
-  const t = translations[language];
+  const t = translations[language] || translations.uz;
 
   const formatMoney = (amount: number): string => {
     return new Intl.NumberFormat('ru-RU').format(Math.round(amount)) + ' UZS';

@@ -88,7 +88,7 @@ export const NearbyStoresMap: React.FC = () => {
 
   // Load Yandex Maps Script dynamically
   useEffect(() => {
-    const ymapsLang = language === 'uz' ? 'uz_UZ' : language === 'en' ? 'en_US' : 'ru_RU';
+    const ymapsLang = (language === 'uz' || (language as string) === 'uz_lat') ? 'uz_UZ' : language === 'en' ? 'en_US' : 'ru_RU';
     const scriptId = 'yandex-maps-api-script';
 
     const initYandexMap = () => {

@@ -32,7 +32,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const languages: { code: Language; label: string; flag: string }[] = [
-    { code: 'uz', label: "O'zbekcha", flag: '🇺🇿' },
+    { code: 'uz', label: "Özbekçe (Yangi)", flag: '🇺🇿' },
+    { code: 'uz_lat', label: "O‘zbekcha (Lotin)", flag: '🇺🇿' },
     { code: 'ru', label: 'Русский', flag: '🇷🇺' },
     { code: 'en', label: 'English', flag: '🇬🇧' },
   ];
@@ -118,7 +119,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-label="Language selection"
               >
                 <Globe className="w-4 h-4 text-gray-500" />
-                <span className="uppercase">{language}</span>
+                <span className="uppercase text-[11px] font-black tracking-wide">
+                  {language === 'uz' ? 'ÖZB' : language === 'uz_lat' ? 'OʻZB' : language}
+                </span>
               </button>
 
               {isLangDropdownOpen && (
@@ -127,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className="fixed inset-0 z-10"
                     onClick={() => setIsLangDropdownOpen(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-[#13181E] border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl py-1 z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-[#13181E] border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl py-1 z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
                     {languages.map((l) => (
                       <button
                         key={l.code}
