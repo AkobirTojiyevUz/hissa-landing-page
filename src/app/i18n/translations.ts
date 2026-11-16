@@ -29,6 +29,10 @@ export interface TranslationDictionary {
     partnerCta: string;
     getAppCta: string;
   };
+  audience: {
+    shoppers: string;
+    merchants: string;
+  };
   hero: {
     badge: string;
     titlePart1: string;
@@ -234,6 +238,62 @@ export interface TranslationDictionary {
     ctaCardTitle: string;
     ctaCardDesc: string;
     ctaBtn: string;
+    // B2B Growth Calculator
+    calcTitle: string;
+    calcSubtitle: string;
+    turnoverLabel: string;
+    projectedGrowthLabel: string;
+    avgCheckLabel: string;
+    newShoppersLabel: string;
+    calcApplyBtn: string;
+    // Solutions Matrix
+    solutionsTitle: string;
+    solutionsSubtitle: string;
+    solRetailTitle: string;
+    solRetailDesc: string;
+    solRetailBadge: string;
+    solEcomTitle: string;
+    solEcomDesc: string;
+    solEcomBadge: string;
+    solEnterpriseTitle: string;
+    solEnterpriseDesc: string;
+    solEnterpriseBadge: string;
+    solServicesTitle: string;
+    solServicesDesc: string;
+    solServicesBadge: string;
+    // Comparison Table
+    compareTitle: string;
+    compareSubtitle: string;
+    compareHissa: string;
+    compareBank: string;
+    compRow1: string;
+    compRow1Hissa: string;
+    compRow1Bank: string;
+    compRow2: string;
+    compRow2Hissa: string;
+    compRow2Bank: string;
+    compRow3: string;
+    compRow3Hissa: string;
+    compRow3Bank: string;
+    compRow4: string;
+    compRow4Hissa: string;
+    compRow4Bank: string;
+    compRow5: string;
+    compRow5Hissa: string;
+    compRow5Bank: string;
+    // 3-Step Onboarding
+    stepsTitle: string;
+    step1Title: string;
+    step1Desc: string;
+    step2Title: string;
+    step2Desc: string;
+    step3Title: string;
+    step3Desc: string;
+    // Direct Application
+    formTitle: string;
+    formSubtitle: string;
+    formSuccess: string;
+    formSuccessDesc: string;
   };
   security: {
     eyebrow: string;
@@ -325,6 +385,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       faq: "Ko'p so'raladigan savollar",
       partnerCta: "Hamkor bo'lish",
       getAppCta: "Ilovani olish",
+    },
+    audience: {
+      shoppers: "Xaridorlarga",
+      merchants: "Biznes uchun (B2B)",
     },
     hero: {
       badge: "Uzcard ekotizimidagi birinchi milliy BNPL xizmati",
@@ -531,6 +595,62 @@ export const translations: Record<Language, TranslationDictionary> = {
       ctaCardTitle: "Do'koningizni bugunoq Hissaga ulang",
       ctaCardDesc: "Onlayn ariza qoldiring, mutaxassislarimiz 15 daqiqa ichida siz bilan bog'lanib, integratsiyani boshlaydi.",
       ctaBtn: "Hamkorlik arizasini topshirish",
+      // B2B Growth Calculator
+      calcTitle: "Savdo o'sishi kalkulyatori",
+      calcSubtitle: "Oylik savdo aylanmangizni tanlang va Hissa bilan kutilayotgan o'sish dinamikasini hisoblang.",
+      turnoverLabel: "Hozirgi oylik savdo aylanmangiz:",
+      projectedGrowthLabel: "Kutilayotgan oylik qo'shimcha aylanma:",
+      avgCheckLabel: "O'rtacha chek miqdori:",
+      newShoppersLabel: "Yangi xaridorlar oqimi:",
+      calcApplyBtn: "Do'koningizni Hissaga ulab hisoblash",
+      // Solutions Matrix
+      solutionsTitle: "Barcha savdo formatlari uchun tayyor yechimlar",
+      solutionsSubtitle: "Chakana do'kon, kassa zanjirlari yoki yirik internet-do'kon — Hissa har qanday biznes infratuzilmasiga tez moslashadi.",
+      solRetailTitle: "Chakana savdo & Do'konlar (Retail)",
+      solRetailDesc: "Mavjud Uzcard POS-terminallaringiz yoki kassa yonidagi TezQR stendlari orqali hech qanday yangi apparat sotib olmasdan ulanadi.",
+      solRetailBadge: "1 daqiqada faol",
+      solEcomTitle: "Internet-do'konlar & E-commerce",
+      solEcomDesc: "Telegram botlar, veb-saytlar, OpenCart, WooCommerce va qulay REST API orqali onlayn to'lovlarni bir zumda qabul qiling.",
+      solEcomBadge: "Ochiq REST API",
+      solEnterpriseTitle: "Yirik savdo tarmoqlari & FMCG",
+      solEnterpriseDesc: "1C, IIKO, R-Keeper bilan to'liq avtomatlashtirish, maxsus ko-marketing dasturlari va shaxsiy B2B menejer yordami.",
+      solEnterpriseBadge: "Enterprise SLA",
+      solServicesTitle: "Xizmat ko'rsatish, Tibbiyot & Ta'lim",
+      solServicesDesc: "O'quv markazlari, xususiy klinikalar, fitnes va turizm kompaniyalari uchun xizmatlarni qismlarga bo'lib to'lash havolalari.",
+      solServicesBadge: "To'lov havolalari",
+      // Comparison Table
+      compareTitle: "Nega oddiy bank krediti emas, aynan Hissa BNPL?",
+      compareSubtitle: "Klassik bank kreditlari bilan taqqoslang va savdongiz uchun eng samarali to'lov vositasini tanlang.",
+      compareHissa: "Uzcard Hissa BNPL",
+      compareBank: "An'anaviy bank krediti",
+      compRow1: "Mijoz arizasini ko'rib chiqish tezligi",
+      compRow1Hissa: "2 daqiqa (Raqamli avto-skoring)",
+      compRow1Bank: "1-3 ish kuni (Uzoq tekshiruv)",
+      compRow2: "Talab qilinadigan hujjatlar",
+      compRow2Hissa: "Faqat OneID / JShShIR, 0 ta qog'oz",
+      compRow2Bank: "Daromad ma'lumotnomasi, kafil, nusxalar",
+      compRow3: "Xaridor uchun foiz stavkasi",
+      compRow3Hissa: "0% ortiqcha to'lov (0-0-3 tarifida)",
+      compRow3Bank: "24% – 36% yillik foiz ustamasi",
+      compRow4: "Do'konga pul tushish muddati",
+      compRow4Hissa: "T+2 kafolatlangan bank o'tkazmasi",
+      compRow4Bank: "Mijoz to'loviga bog'liq yoki T+7 gacha",
+      compRow5: "Kredit qaytmaslik xatari",
+      compRow5Hissa: "0% risk (Barcha risklarni Uzcard oladi)",
+      compRow5Bank: "Do'kon yoki mijoz zimmasida",
+      // 3-Step Onboarding
+      stepsTitle: "Do'konni Hissaga ulashning 3 ta oddiy qadami",
+      step1Title: "Onlayn ariza",
+      step1Desc: "STIR (INN) va aloqa raqamingizni kiriting — bu 2 daqiqa vaqt oladi.",
+      step2Title: "E-IMZO bilan shartnoma",
+      step2Desc: "Ofisga bormasdan, 100% masofadan Didox yoki Soliq orqali shartnoma imzolang.",
+      step3Title: "Savdoni boshlang",
+      step3Desc: "1-2 ish kunida TezQR va POS orqali to'lovlarni qabul qilishni boshlang.",
+      // Direct Application
+      formTitle: "Hamkorlik arizasini topshirish",
+      formSubtitle: "Kompaniya ma'lumotlaringizni qoldiring, B2B mutaxassisimiz 15 daqiqada bog'lanadi va ulanishga yordam beradi.",
+      formSuccess: "Arizangiz qabul qilindi!",
+      formSuccessDesc: "Mutaxassisimiz kiritilgan raqam orqali bog'lanadi va do'koningizni tizimga ulab beradi.",
     },
     security: {
       eyebrow: "Ishonch va Xavfsizlik",
@@ -658,6 +778,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       faq: "Частые вопросы",
       partnerCta: "Стать партнером",
       getAppCta: "Скачать",
+    },
+    audience: {
+      shoppers: "Покупателям",
+      merchants: "Бизнесу и партнерам",
     },
     hero: {
       badge: "Первый национальный BNPL-сервис в экосистеме Uzcard",
@@ -864,6 +988,62 @@ export const translations: Record<Language, TranslationDictionary> = {
       ctaCardTitle: "Подключите свой магазин к Hissa сегодня",
       ctaCardDesc: "Оставьте заявку онлайн, наш специалист свяжется с вами в течение 15 минут.",
       ctaBtn: "Подать заявку на партнерство",
+      // B2B Growth Calculator
+      calcTitle: "Калькулятор роста продаж для бизнеса",
+      calcSubtitle: "Выберите ваш среднемесячный оборот и оцените финансовый эффект от внедрения Hissa BNPL.",
+      turnoverLabel: "Текущий ежемесячный оборот магазина:",
+      projectedGrowthLabel: "Ожидаемый прирост выручки:",
+      avgCheckLabel: "Рост среднего чека:",
+      newShoppersLabel: "Приток новых клиентов:",
+      calcApplyBtn: "Подключить магазин и увеличить продажи",
+      // Solutions Matrix
+      solutionsTitle: "Готовые решения для любого формата бизнеса",
+      solutionsSubtitle: "Розничные магазины, сетевой ритейл или онлайн-площадки — Hissa быстро интегрируется в любые бизнес-процессы.",
+      solRetailTitle: "Розничная торговля (Retail)",
+      solRetailDesc: "Работает на ваших имеющихся терминалах Uzcard или через настольные стойки TezQR без закупки оборудования.",
+      solRetailBadge: "Подключение за 1 день",
+      solEcomTitle: "Интернет-магазины и e-commerce",
+      solEcomDesc: "Модули для веб-сайтов, Telegram-ботов, OpenCart, WooCommerce и гибкий REST API для мгновенного приема платежей.",
+      solEcomBadge: "Открытый REST API",
+      solEnterpriseTitle: "Крупные торговые сети и FMCG",
+      solEnterpriseDesc: "Интеграция с 1С, IIKO, R-Keeper, совместные федеральные маркетинговые кампании и выделенный B2B-менеджер.",
+      solEnterpriseBadge: "Enterprise SLA",
+      solServicesTitle: "Сфера услуг, медицина и образование",
+      solServicesDesc: "Платежные ссылки и счета для языковых курсов, частных клиник, фитнес-центров и сервисных предприятий.",
+      solServicesBadge: "Платежные ссылки",
+      // Comparison Table
+      compareTitle: "Почему Hissa выгоднее классического банковского кредита?",
+      compareSubtitle: "Сравните ключевые параметры и выберите лучшее решение для масштабирования продаж.",
+      compareHissa: "Uzcard Hissa BNPL",
+      compareBank: "Классический кредит",
+      compRow1: "Скорость рассмотрения заявки",
+      compRow1Hissa: "2 минуты (Автоматический скоринг)",
+      compRow1Bank: "1–3 рабочих дня (Долгие проверки)",
+      compRow2: "Необходимый пакет документов",
+      compRow2Hissa: "Только ПИНФЛ / OneID, 0 бумаг",
+      compRow2Bank: "Справка о доходах, поручители, копии",
+      compRow3: "Переплата для покупателя",
+      compRow3Hissa: "0% переплаты (по тарифу 0-0-3)",
+      compRow3Bank: "24% – 36% годовых процентная ставка",
+      compRow4: "Срок зачисления денег магазину",
+      compRow4Hissa: "Т+2 гарантированно на счет",
+      compRow4Bank: "Зависит от банка (до 7 дней)",
+      compRow5: "Кредитный риск невозврата",
+      compRow5Hissa: "0% риска (Uzcard берет риск на себя)",
+      compRow5Bank: "Риск на магазине или клиенте",
+      // 3-Step Onboarding
+      stepsTitle: "3 простых шага для подключения магазина",
+      step1Title: "Онлайн-заявка",
+      step1Desc: "Укажите ИНН компании и контактный номер телефона — это займет не более 2 минут.",
+      step2Title: "Договор по ЭЦП",
+      step2Desc: "Подписание через Didox или Soliq полностью удаленно без посещения отделений.",
+      step3Title: "Старт продаж",
+      step3Desc: "Принимайте оплаты через TezQR и POS уже через 1–2 рабочих дня.",
+      // Direct Application
+      formTitle: "Заявка на подключение бизнеса",
+      formSubtitle: "Заполните данные компании, и наш B2B-менеджер свяжется с вами в течение 15 минут для подключения.",
+      formSuccess: "Заявка успешно принята!",
+      formSuccessDesc: "Наш специалист свяжется с вами по указанному номеру и поможет подключить магазин.",
     },
     security: {
       eyebrow: "Надежность и доверие",
@@ -991,6 +1171,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       faq: "FAQ",
       partnerCta: "Become a Partner",
       getAppCta: "Get the App",
+    },
+    audience: {
+      shoppers: "For Shoppers",
+      merchants: "For Business (B2B)",
     },
     hero: {
       badge: "The First National BNPL Service in the Uzcard Ecosystem",
@@ -1197,6 +1381,62 @@ export const translations: Record<Language, TranslationDictionary> = {
       ctaCardTitle: "Connect your business to Hissa today",
       ctaCardDesc: "Submit your online application, and our onboarding team will contact you within 15 minutes.",
       ctaBtn: "Apply for Merchant Partnership",
+      // B2B Growth Calculator
+      calcTitle: "Merchant Sales Growth Calculator",
+      calcSubtitle: "Select your monthly store revenue and estimate your projected revenue lift with Hissa BNPL.",
+      turnoverLabel: "Current Monthly Sales Volume:",
+      projectedGrowthLabel: "Projected Additional Revenue Lift:",
+      avgCheckLabel: "Average Order Value Boost:",
+      newShoppersLabel: "New Qualified Shoppers:",
+      calcApplyBtn: "Connect Your Store & Boost Sales",
+      // Solutions Matrix
+      solutionsTitle: "Tailored Solutions for Every Business Model",
+      solutionsSubtitle: "Physical retail, merchant chain, or high-volume e-commerce — Hissa seamlessly fits your transaction stack.",
+      solRetailTitle: "Physical Retail & Brick-and-Mortar",
+      solRetailDesc: "Works on your existing Uzcard POS terminals or tabletop TezQR stands with zero extra hardware investment.",
+      solRetailBadge: "1-day Activation",
+      solEcomTitle: "E-Commerce & Online Stores",
+      solEcomDesc: "Pre-built modules for web checkouts, Telegram bots, OpenCart, WooCommerce, and a robust REST API.",
+      solEcomBadge: "REST API & SDK",
+      solEnterpriseTitle: "Enterprise Chains & Retailers",
+      solEnterpriseDesc: "Full automation with 1C, IIKO, and R-Keeper, bespoke co-marketing initiatives, and a 24/7 dedicated B2B manager.",
+      solEnterpriseBadge: "Enterprise SLA",
+      solServicesTitle: "Services, Healthcare & Education",
+      solServicesDesc: "Direct payment links and digital invoices for training centers, medical clinics, fitness clubs, and auto centers.",
+      solServicesBadge: "Payment Links",
+      // Comparison Table
+      compareTitle: "Why Hissa BNPL vs Traditional Bank Credit?",
+      compareSubtitle: "Compare key business factors and see why top merchants choose Hissa over old-school loans.",
+      compareHissa: "Uzcard Hissa BNPL",
+      compareBank: "Traditional Bank Loan",
+      compRow1: "Application Approval Speed",
+      compRow1Hissa: "2 minutes (Automated scoring)",
+      compRow1Bank: "1–3 business days (Long paperwork)",
+      compRow2: "Required Documentation",
+      compRow2Hissa: "Only PINFL / OneID, zero paperwork",
+      compRow2Bank: "Income proof, guarantors, notarized copies",
+      compRow3: "Overpayment for the Buyer",
+      compRow3Hissa: "0% interest (Under 0-0-3 plan)",
+      compRow3Bank: "24% – 36% APR interest added",
+      compRow4: "Store Payout Settlement",
+      compRow4Hissa: "T+2 guaranteed interbank transfer",
+      compRow4Bank: "Variable (up to 7 business days)",
+      compRow5: "Default Credit Risk",
+      compRow5Hissa: "0% risk (Uzcard and banks absorb 100%)",
+      compRow5Bank: "Merchant or borrower bears default liability",
+      // 3-Step Onboarding
+      stepsTitle: "3 Frictionless Steps to Onboard Your Store",
+      step1Title: "Online Application",
+      step1Desc: "Submit your company TIN (STIR) and phone number in less than 2 minutes.",
+      step2Title: "Digital E-IMZO Contract",
+      step2Desc: "Sign the agreement digitally via Didox or Soliq with zero physical visits.",
+      step3Title: "Start Accepting Payments",
+      step3Desc: "Begin taking zero-risk BNPL payments via TezQR and POS within 1–2 business days.",
+      // Direct Application
+      formTitle: "Merchant Partnership Application",
+      formSubtitle: "Enter your company details, and our B2B onboarding team will contact you within 15 minutes.",
+      formSuccess: "Application Received!",
+      formSuccessDesc: "Our onboarding specialist will call your registered number and guide you through immediate setup.",
     },
     security: {
       eyebrow: "Trust & Compliance",

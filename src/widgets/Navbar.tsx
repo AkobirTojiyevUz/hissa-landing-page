@@ -4,7 +4,7 @@ import { useTheme } from '../app/theme/ThemeContext';
 import type { Language } from '../app/i18n/translations';
 import { HissaLogo } from '../shared/ui/HissaLogo';
 import { Button } from '../shared/ui/Button';
-import { Sun, Moon, Globe, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Sun, Moon, Globe, Menu, X, ArrowUpRight, Briefcase } from 'lucide-react';
 
 interface NavbarProps {
   onOpenMerchantModal: () => void;
@@ -64,15 +64,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2 bg-gray-100/70 dark:bg-gray-900/60 p-1.5 rounded-full border border-gray-200/60 dark:border-gray-800/80 backdrop-blur-md">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="px-3.5 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:text-[#FF655B] dark:hover:text-[#FF655B] hover:bg-white dark:hover:bg-gray-800 rounded-full transition-all duration-150"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isB2B = link.href === '#for-business';
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-full transition-all duration-150 flex items-center gap-1 ${
+                    isB2B
+                      ? 'bg-[#FF655B]/15 text-[#FF655B] font-extrabold hover:bg-[#FF655B] hover:text-white'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-[#FF655B] dark:hover:text-[#FF655B] hover:bg-white dark:hover:bg-gray-800'
+                  }`}
+                >
+                  <span>{link.label}</span>
+                  {isB2B && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#FF655B] text-white uppercase font-black tracking-wider leading-none">
+                      B2B
+                    </span>
+                  )}
+                </a>
+              );
+            })}
           </nav>
 
           {/* Right Action Bar */}
@@ -135,7 +147,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMerchantModal }) => {
               variant="outline"
               size="sm"
               onClick={onOpenMerchantModal}
-              className="hidden md:inline-flex border-gray-300 dark:border-gray-700 hover:border-[#FF655B]"
+              leftIcon={<Briefcase className="w-3.5 h-3.5 text-[#FF655B]" />}
+              className="hidden md:inline-flex border-[#FF655B]/40 hover:border-[#FF655B] font-bold"
             >
               {t.nav.partnerCta}
             </Button>

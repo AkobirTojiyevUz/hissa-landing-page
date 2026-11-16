@@ -3,7 +3,7 @@ import { useI18n } from '../app/i18n/I18nContext';
 import { HissaMark } from '../shared/ui/HissaMark';
 import { Button } from '../shared/ui/Button';
 import { Badge } from '../shared/ui/Badge';
-import { ArrowRight, QrCode, Sparkles, CheckCircle2, ShoppingBag } from 'lucide-react';
+import { ArrowRight, QrCode, Sparkles, CheckCircle2, ShoppingBag, Briefcase } from 'lucide-react';
 
 interface HeroSectionProps {
   onOpenMerchantModal?: () => void;
@@ -77,6 +77,18 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
               >
                 {t.hero.calcCta}
               </Button>
+            </div>
+
+            {/* Direct B2B Portal Strip */}
+            <div className="flex items-center justify-center lg:justify-start pt-1">
+              <a
+                href="#for-business"
+                className="inline-flex items-center gap-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:text-[#FF655B] dark:hover:text-[#FF655B] px-4 py-2 rounded-2xl bg-white/80 dark:bg-[#13181E]/80 border border-gray-200/90 dark:border-gray-800 shadow-sm transition-all group hover:border-[#FF655B]/40"
+              >
+                <Briefcase className="w-3.5 h-3.5 text-[#FF655B]" />
+                <span>{t.audience.merchants}: {t.merchant.title}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#FF655B] group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
 
             {/* Key Trust Stats Pill Grid */}
