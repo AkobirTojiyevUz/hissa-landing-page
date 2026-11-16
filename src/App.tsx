@@ -8,6 +8,7 @@ import { ValueProps } from './widgets/ValueProps';
 import { HowItWorks } from './widgets/HowItWorks';
 import { CalculatorSection } from './widgets/CalculatorSection';
 import { CategoriesShowcase } from './widgets/CategoriesShowcase';
+import { NearbyStoresMap } from './widgets/NearbyStoresMap';
 import { MobileAppShowcase } from './widgets/MobileAppShowcase';
 import { MerchantB2BSection } from './widgets/MerchantB2BSection';
 import { TrustAndSecurity } from './widgets/TrustAndSecurity';
@@ -41,6 +42,9 @@ const LandingPageContent: React.FC = () => {
 
         {/* Partner Stores & Categories */}
         <CategoriesShowcase />
+
+        {/* Interactive Nearby Stores & Geolocation Map */}
+        <NearbyStoresMap />
 
         {/* Interactive Smartphone App Showcase */}
         <MobileAppShowcase />

@@ -5,6 +5,7 @@ export interface TranslationDictionary {
     howItWorks: string;
     calculator: string;
     stores: string;
+    map: string;
     app: string;
     forBusiness: string;
     security: string;
@@ -111,6 +112,27 @@ export interface TranslationDictionary {
     shopBtn: string;
     upToMonth: string;
   };
+  map: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    yourLocation: string;
+    nearbyTab: string;
+    allStoresTab: string;
+    searchPlaceholder: string;
+    distance: string;
+    openNow: string;
+    getDirections: string;
+    viewProducts: string;
+    filterAll: string;
+    storesFound: string;
+    selectedStoreBadge: string;
+    routeDrawn: string;
+    categoryElectronics: string;
+    categoryFashion: string;
+    categorySupermarket: string;
+    categoryBeauty: string;
+  };
   mobileApp: {
     eyebrow: string;
     title: string;
@@ -214,6 +236,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       howItWorks: "Qanday ishlaydi?",
       calculator: "Kalkulyator",
       stores: "Do'konlar",
+      map: "Xarita",
       app: "Ilova",
       forBusiness: "Biznes uchun",
       security: "Xavfsizlik",
@@ -320,6 +343,27 @@ export const translations: Record<Language, TranslationDictionary> = {
       shopBtn: "Do'konda xarid qilish",
       upToMonth: "oygacha bo'lib to'lash",
     },
+    map: {
+      eyebrow: "Geolokatsiya va xarita",
+      title: "Sizga eng yaqin Hissa hamkor do'konlari",
+      subtitle: "Xaritada ko'ring — 5 000 dan ortiq do'konlar yoningizda. Istalgan do'konga boring va TezQR bilan foizsiz bo'lib to'lang.",
+      yourLocation: "Sizning joylashuvingiz",
+      nearbyTab: "Eng yaqin do'konlar",
+      allStoresTab: "Barcha filiallar",
+      searchPlaceholder: "Do'kon, tuman yoki manzilni qidirish...",
+      distance: "masofada",
+      openNow: "Hozir ochiq",
+      getDirections: "Marshrut chizish",
+      viewProducts: "Do'konga o'tish",
+      filterAll: "Barchasi",
+      storesFound: "ta hamkor nuqta topildi",
+      selectedStoreBadge: "Tanlangan do'kon",
+      routeDrawn: "Optimal marshrut chizildi (piyoda 4 daqiqa)",
+      categoryElectronics: "Elektronika",
+      categoryFashion: "Kiyim & Moda",
+      categorySupermarket: "Supermarket",
+      categoryBeauty: "Go'zallik",
+    },
     mobileApp: {
       eyebrow: "Barchasi bir ilovada",
       title: "Hissa mobil ilovasi — sizning shaxsiy moliyaviy yordamchingiz",
@@ -421,6 +465,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       howItWorks: "Как это работает?",
       calculator: "Калькулятор",
       stores: "Магазины",
+      map: "Карта",
       app: "Приложение",
       forBusiness: "Для бизнеса",
       security: "Безопасность",
@@ -527,6 +572,27 @@ export const translations: Record<Language, TranslationDictionary> = {
       shopBtn: "Купить в магазине",
       upToMonth: "мес. рассрочки",
     },
+    map: {
+      eyebrow: "Геолокация и карта",
+      title: "Ближайшие партнерские магазины Hissa",
+      subtitle: "Смотрите на карте — более 5 000 магазинов рядом с вами. Приходите и покупайте в рассрочку по TezQR без переплат.",
+      yourLocation: "Ваше местоположение",
+      nearbyTab: "Ближайшие магазины",
+      allStoresTab: "Все филиалы",
+      searchPlaceholder: "Поиск магазина, района или адреса...",
+      distance: "расстояние",
+      openNow: "Сейчас открыто",
+      getDirections: "Маршрут",
+      viewProducts: "Товары магазина",
+      filterAll: "Все",
+      storesFound: "партнерских точек найдено",
+      selectedStoreBadge: "Выбранный магазин",
+      routeDrawn: "Оптимальный маршрут построен (4 мин пешком)",
+      categoryElectronics: "Электроника",
+      categoryFashion: "Одежда и мода",
+      categorySupermarket: "Супермаркет",
+      categoryBeauty: "Красота",
+    },
     mobileApp: {
       eyebrow: "Все в одном месте",
       title: "Мобильное приложение Hissa — ваш умный финансовый ассистент",
@@ -628,6 +694,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       howItWorks: "How it works",
       calculator: "Calculator",
       stores: "Stores",
+      map: "Store Map",
       app: "App",
       forBusiness: "For Business",
       security: "Security",
@@ -733,6 +800,27 @@ export const translations: Record<Language, TranslationDictionary> = {
       auto: "Auto & Services",
       shopBtn: "Shop in Store",
       upToMonth: "months installments",
+    },
+    map: {
+      eyebrow: "Geolocation & Map",
+      title: "Find Hissa Partner Stores Near You",
+      subtitle: "Explore interactive map — over 5,000 stores near your current location. Walk in and split payments via TezQR at 0% overpayment.",
+      yourLocation: "Your Location",
+      nearbyTab: "Nearby Stores",
+      allStoresTab: "All Branches",
+      searchPlaceholder: "Search store, district or address...",
+      distance: "away",
+      openNow: "Open Now",
+      getDirections: "Get Directions",
+      viewProducts: "Store Products",
+      filterAll: "All",
+      storesFound: "partner locations found",
+      selectedStoreBadge: "Selected Store",
+      routeDrawn: "Optimal route plotted (4 min walk)",
+      categoryElectronics: "Electronics",
+      categoryFashion: "Fashion & Apparel",
+      categorySupermarket: "Supermarket",
+      categoryBeauty: "Beauty & Fragrance",
     },
     mobileApp: {
       eyebrow: "All-in-One Experience",
