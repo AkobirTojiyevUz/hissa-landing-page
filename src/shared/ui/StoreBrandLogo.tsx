@@ -1,11 +1,19 @@
 import React from 'react';
 import texnomartSvg from '../../assets/texnomart-logo.svg';
+import texnomartSquare from '../../assets/texnomart-square.png';
 import mediaparkPng from '../../assets/mediapark-logo.png';
-import korzinkaPng from '../../assets/korzinka-fav.png';
-import ishonchPng from '../../assets/ishonch-logo.png';
-import bellstorePng from '../../assets/bellstore-logo.png';
+import mediaparkSquare from '../../assets/mediapark-square.png';
+import korzinkaSquare from '../../assets/korzinka-square.png';
+import ishonchSquare from '../../assets/ishonch-square.png';
+import bellstoreCleanPng from '../../assets/bellstore-clean.png';
+import bellstoreSquarePng from '../../assets/bellstore-square.png';
 import terraproSvg from '../../assets/terrapro-logo.svg';
+import terraproSquare from '../../assets/terrapro-square.png';
 import makroSvg from '../../assets/makro-logo.svg';
+import makroSquareSvg from '../../assets/makro-square.svg';
+import floSquare from '../../assets/flo-square.png';
+import arenaSquare from '../../assets/arena-square.png';
+import arenaLogoPng from '../../assets/arena-logo.png';
 
 export interface StoreBrandLogoProps {
   storeId: string;
@@ -20,36 +28,39 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
   variant = 'icon',
   className = '',
 }) => {
-  // 1. Square Icon representation (48x48) with official brand mark
+  // Sizing helper: default w-12 h-12 rounded-2xl if not overridden in className
+  const hasWidth = className.includes('w-');
+  const hasHeight = className.includes('h-');
+  const hasRounded = className.includes('rounded-');
+  const baseDim = `${hasWidth ? '' : 'w-12 '} ${hasHeight ? '' : 'h-12 '} ${hasRounded ? '' : 'rounded-2xl '}`.trim();
+
+  // 1. Square Icon representation with official brand mobile app icon / vector emblem
   if (variant === 'icon') {
     switch (storeId) {
       case 'texnomart':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-[#FFB800] p-2 flex items-center justify-center shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-[#FFB800] p-1.5 flex items-center justify-center shadow-sm shrink-0 overflow-hidden ${className}`}
             title="Texnomart"
           >
-            {/* Exact official Texnomart star asterisk mark from texnomart.uz */}
-            <svg
-              viewBox="205 0 25 25"
-              className="w-7 h-7 text-black fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M229.556 15.6006L226.551 20.4863L220.539 17.1334V23.8392H214.527V17.1334L208.516 20.4863L205.51 15.6006L211.622 12.2477L205.61 8.89475L208.516 4.00906L214.527 7.36198V0.656128H220.539V7.36198L226.551 4.00906L229.456 8.89475L223.445 12.2477L229.556 15.6006Z" />
-            </svg>
+            <img
+              src={texnomartSquare}
+              alt="Texnomart"
+              className="w-full h-full object-contain rounded-xl"
+            />
           </div>
         );
 
       case 'mediapark':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-[#E31E24] p-1.5 flex items-center justify-center shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-[#E31E24] p-1.5 flex items-center justify-center shadow-sm shrink-0 overflow-hidden ${className}`}
             title="Mediapark"
           >
             <img
-              src={mediaparkPng}
+              src={mediaparkSquare}
               alt="Mediapark"
-              className="w-full h-full object-contain brightness-0 invert"
+              className="w-full h-full object-contain rounded-xl"
             />
           </div>
         );
@@ -57,11 +68,11 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
       case 'korzinka':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-[#E30613] p-1.5 flex items-center justify-center shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-[#E30613] p-1 flex items-center justify-center shadow-sm shrink-0 overflow-hidden ${className}`}
             title="Korzinka"
           >
             <img
-              src={korzinkaPng}
+              src={korzinkaSquare}
               alt="Korzinka"
               className="w-full h-full object-contain rounded-xl"
             />
@@ -71,13 +82,13 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
       case 'ishonch':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-[#005BAC] dark:bg-[#30B34A] p-2 flex items-center justify-center shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-[#005BAC] dark:bg-[#30B34A] p-1.5 flex items-center justify-center shadow-sm shrink-0 overflow-hidden ${className}`}
             title="Ishonch"
           >
             <img
-              src={ishonchPng}
+              src={ishonchSquare}
               alt="Ishonch"
-              className="w-full h-full object-contain brightness-0 invert"
+              className="w-full h-full object-contain rounded-xl"
             />
           </div>
         );
@@ -85,13 +96,13 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
       case 'bellstore':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-[#E91E63] p-2 flex items-center justify-center shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-[#E11D48] p-1.5 flex items-center justify-center shadow-sm shrink-0 overflow-hidden ${className}`}
             title="Bellstore"
           >
             <img
-              src={bellstorePng}
+              src={bellstoreSquarePng}
               alt="Bellstore"
-              className="w-full h-full object-contain brightness-0 invert"
+              className="w-full h-full object-contain rounded-xl"
             />
           </div>
         );
@@ -99,13 +110,13 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
       case 'terrapro':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-[#111827] dark:bg-[#00805A] p-2 flex items-center justify-center shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-[#111827] dark:bg-[#00805A] p-1.5 flex items-center justify-center shadow-sm shrink-0 overflow-hidden ${className}`}
             title="Terra Pro"
           >
             <img
-              src={terraproSvg}
+              src={terraproSquare}
               alt="Terra Pro"
-              className="w-full h-full object-contain filter invert"
+              className="w-full h-full object-contain rounded-xl"
             />
           </div>
         );
@@ -113,54 +124,49 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
       case 'makro':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-white dark:bg-white/95 p-1.5 flex items-center justify-center shadow-md border border-gray-200/80 dark:border-transparent shrink-0 ${className}`}
+            className={`${baseDim} bg-white dark:bg-white/95 p-1.5 flex items-center justify-center shadow-sm border border-gray-200/80 dark:border-transparent shrink-0 overflow-hidden ${className}`}
             title="Makro"
           >
-            {/* Exact quad-color clover mark from makromarket.uz */}
-            <svg
-              viewBox="0 0 46 46"
+            <img
+              src={makroSquareSvg}
+              alt="Makro"
               className="w-8 h-8 object-contain"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M7.37757 9.50128C10.9637 12.9447 14.3585 16.6112 17.9127 20.0865C18.4227 20.5967 20.6222 22.2386 20.5585 22.8763L5.97502 37.2716C-1.38842 30.0341 -1.97813 18.1895 4.38119 10.0592C4.6362 9.72443 5.60844 8.481 5.87939 8.35346C6.34159 8.14623 7.04287 9.16644 7.37757 9.48528V9.50128Z" fill="#40358C"/>
-              <path d="M40.2581 37.0965L39.8756 37.2718L39.5727 37.1602L25.3081 22.7171L39.764 8.30585C40.0987 8.24208 41.5332 10.0435 41.8041 10.3783C47.8446 18.4288 47.0956 29.8111 40.2581 37.0965Z" fill="#1DA348"/>
-              <path d="M20.3198 18.0776C16.3033 14.1081 12.255 10.1387 8.27051 6.15321C16.0165 -2.00891 29.8348 -1.99297 37.5967 6.15321L23.093 20.6601C22.6467 20.8674 20.7182 18.4602 20.3198 18.0776Z" fill="#DC2E2A"/>
-              <path d="M23.0932 24.8691L37.2941 39.2963L37.4376 39.4876C37.5172 39.9499 34.7281 41.9585 34.218 42.2934C26.0417 47.6019 15.156 46.502 8.28662 39.5992L8.43008 39.2963L23.0932 24.8691Z" fill="#FBC913"/>
-            </svg>
+            />
           </div>
         );
 
       case 'flo':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-[#FF6000] p-1.5 flex items-center justify-center shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-[#FF6000] p-1.5 flex items-center justify-center shadow-sm shrink-0 overflow-hidden ${className}`}
             title="FLO Shoes"
           >
-            <span className="text-base font-black tracking-widest text-white leading-none font-sans uppercase">
-              FLO
-            </span>
+            <img
+              src={floSquare}
+              alt="FLO"
+              className="w-full h-full object-contain rounded-xl"
+            />
           </div>
         );
 
       case 'arena':
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-[#0A192F] p-1.5 flex flex-col items-center justify-center shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-white dark:bg-[#0A192F] p-1.5 flex items-center justify-center shadow-sm border border-gray-200/80 dark:border-slate-800 shrink-0 overflow-hidden ${className}`}
             title="Arena Markaz"
           >
-            <span className="text-[11px] font-black tracking-wider text-white uppercase leading-none">
-              ARENA
-            </span>
-            <span className="text-[8px] font-bold text-[#00C2FF] uppercase tracking-widest leading-none mt-0.5">
-              markaz
-            </span>
+            <img
+              src={arenaSquare}
+              alt="Arena Markaz"
+              className="w-full h-full object-contain rounded-xl dark:invert"
+            />
           </div>
         );
 
       default:
         return (
           <div
-            className={`w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center font-bold text-base text-gray-700 dark:text-gray-300 shadow-md shrink-0 ${className}`}
+            className={`${baseDim} bg-gray-100 dark:bg-gray-800 flex items-center justify-center font-bold text-base text-gray-700 dark:text-gray-300 shadow-sm shrink-0 ${className}`}
           >
             {name.charAt(0)}
           </div>
@@ -168,7 +174,7 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
     }
   }
 
-  // 2. Full official horizontal logo badge extracted from official sites
+  // 2. Full official horizontal logo badge extracted from official retailer sites
   switch (storeId) {
     case 'texnomart':
       return (
@@ -219,9 +225,9 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
       return (
         <div className={`flex items-center px-3 py-1 bg-white dark:bg-white/95 rounded-xl border border-gray-200/80 dark:border-transparent shadow-xs ${className}`}>
           <img
-            src={bellstorePng}
+            src={bellstoreCleanPng}
             alt="Bellstore"
-            className="h-6 w-auto max-w-[100px] object-contain"
+            className="h-6 w-auto max-w-[110px] object-contain"
           />
         </div>
       );
@@ -250,7 +256,12 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
 
     case 'flo':
       return (
-        <div className={`flex items-center justify-center px-3.5 py-1 bg-[#FF6000] text-white rounded-xl shadow-xs ${className}`}>
+        <div className={`flex items-center justify-center gap-1.5 px-3 py-1 bg-[#FF6000] text-white rounded-xl shadow-xs ${className}`}>
+          <img
+            src={floSquare}
+            alt="FLO"
+            className="h-5 w-5 object-contain"
+          />
           <span className="text-sm font-black tracking-widest text-white leading-none font-sans uppercase">
             FLO
           </span>
@@ -260,9 +271,11 @@ export const StoreBrandLogo: React.FC<StoreBrandLogoProps> = ({
     case 'arena':
       return (
         <div className={`flex items-center justify-center px-3 py-1 bg-[#0A192F] text-white rounded-xl shadow-xs ${className}`}>
-          <span className="text-xs font-black tracking-tight text-white uppercase">
-            ARENA <span className="text-[#00C2FF] font-medium text-[10px]">markaz</span>
-          </span>
+          <img
+            src={arenaLogoPng}
+            alt="Arena Markaz"
+            className="h-6 w-auto max-w-[120px] object-contain"
+          />
         </div>
       );
 
