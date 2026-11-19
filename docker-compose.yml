@@ -1,0 +1,26 @@
+# ============================================================================
+#  hissa-landing (frontend landing SPA) — Staging deploy stacki (10.10.10.20 VM'da).
+#
+#  Zona: frontend — brauzerdan ochiladi, shuning uchun HOST port oladi (19090).
+#  Chekka proxy (landing domeni) shu yerga uzatadi:
+#      domen → 10.10.10.20:19090 → bu nginx → static landing.
+#  Static marketing landing — backend/gateway kerak emas.
+#
+#  Secret yo'q — bari static.
+# ============================================================================
+services:
+  hissa-landing:
+    image: ${IMAGE}
+    container_name: hissa-landing
+    hostname: hissa-landing
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Tashkent
+    ports:
+      - "19090:80"   # HOST 19090 → konteyner 80 (edge proxy shu portga keladi)
+    networks:
+      - bnpl_net
+
+networks:
+  bnpl_net:
+    external: true   # bir marta: docker network create bnpl_net

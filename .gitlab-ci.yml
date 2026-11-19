@@ -1,0 +1,62 @@
+# ============================================================================
+#  hissa-landing (frontend landing SPA) — STAGING pipeline (2 job).
+#   build:image    (avto)  : Kaniko multi-stage (node build → nginx static) → registry push.
+#                            Token YO'Q — ommaviy npm. npm kesh Kaniko layer'ida.
+#   deploy:staging (qo'lda) : SSH → staging VM → docker compose up -d (bnpl-vm runner).
+#  Qo'lda bosish BITTA — faqat deploy.
+#  To'xtatish: VM'da `cd bnpl/hissa-landing && docker compose down`.
+#
+#  Setup (bir marta): Container registry yoqilsin; bnpl-vm runner shu loyihaga ulansin.
+#  CI variable'lar: DEPLOY_* — README'da. App secret yo'q (static landing).
+# ============================================================================
+
+variables:
+  IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+
+stages: [BUILD, DEPLOY]
+
+# ── 1) AVTO: Kaniko image (node build + nginx) — layer kesh registry'da ──
+build:image:
+  stage: BUILD
+  retry: 2
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(printf '%s:%s' "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - >-
+      /kaniko/executor
+      --context "$CI_PROJECT_DIR"
+      --dockerfile "$CI_PROJECT_DIR/Dockerfile"
+      --build-arg "APP_BUILD=$CI_COMMIT_SHORT_SHA"
+      --cache=true
+      --cache-repo "$CI_REGISTRY_IMAGE/cache"
+      --image-download-retry=3
+      --image-fs-extract-retry=3
+      --push-retry=3
+      --destination "$IMAGE"
+
+# ── 2) QO'LDA: SSH → staging VM → docker compose up -d (bnpl-vm runner) ──
+deploy:staging:
+  stage: DEPLOY
+  tags: [bnpl-vm]
+  needs: ["build:image"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+  image: alpine:3.20
+  before_script:
+    - apk add --no-cache openssh-client
+  script:
+    - sh deploy.sh
+  environment:
+    name: Staging

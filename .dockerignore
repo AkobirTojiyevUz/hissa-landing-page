@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+.github
+.gitlab-ci.yml
+.npm
+reports
+playwright-report
+test-results
+*.log
