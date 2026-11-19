@@ -1,45 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { CheckCircle2 } from 'lucide-react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { Icon3D } from '../shared/ui/Icon3D';
+import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
-import { Badge } from '../shared/ui/Badge';
 import { HissaMark } from '../shared/ui/HissaMark';
-import { UserCheck, Store, QrCode, CheckCircle } from 'lucide-react';
+import { PhoneFrame } from '../shared/ui/PhoneFrame';
+import homeScreen from '../assets/app-screens/home.jpg';
+import mapScreen from '../assets/app-screens/map.jpg';
+import qrScreen from '../assets/app-screens/qr-scan.jpg';
+import successScreen from '../assets/app-screens/success.jpg';
 
+/**
+ * Scroll-driven product walkthrough (Afterpay/Klarna style): on desktop the
+ * phone stays sticky while the steps scroll past, and the screen inside it
+ * cross-fades to the step currently in the middle of the viewport. On mobile
+ * every step shows its own screen inline.
+ * Screens are exports of the Hissa app frames in Figma ("Hissa · Branch").
+ */
 export const HowItWorks: React.FC = () => {
   const { t } = useI18n();
-  const [activeStep, setActiveStep] = useState(0);
+  const [active, setActive] = useState(0);
+  const stepRefs = useRef<(HTMLElement | null)[]>([]);
 
   const steps = [
-    {
-      num: t.howItWorks.step1Num,
-      title: t.howItWorks.step1Title,
-      desc: t.howItWorks.step1Desc,
-      icon: <UserCheck className="w-7 h-7 text-brand-ink" />,
-      pill: t.hero.stat3Value,
-      highlight: t.howItWorks.step1Highlight,
-    },
-    {
-      num: t.howItWorks.step2Num,
-      title: t.howItWorks.step2Title,
-      desc: t.howItWorks.step2Desc,
-      icon: <Store className="w-7 h-7 text-blue-500" />,
-      pill: `${t.hero.stat1Value} ${t.nav.stores}`,
-      highlight: t.howItWorks.step2Highlight,
-    },
-    {
-      num: t.howItWorks.step3Num,
-      title: t.howItWorks.step3Title,
-      desc: t.howItWorks.step3Desc,
-      icon: <QrCode className="w-7 h-7 text-emerald-500" />,
-      pill: `0 UZS · ${t.calculator.cardTodayPay}`,
-      highlight: t.howItWorks.step3Highlight,
-    },
+    { num: t.howItWorks.step1Num, title: t.howItWorks.step1Title, desc: t.howItWorks.step1Desc, highlight: t.howItWorks.step1Highlight, icon: 'identification-card' as const, screen: homeScreen },
+    { num: t.howItWorks.step2Num, title: t.howItWorks.step2Title, desc: t.howItWorks.step2Desc, highlight: t.howItWorks.step2Highlight, icon: 'department-store' as const, screen: mapScreen },
+    { num: t.howItWorks.step3Num, title: t.howItWorks.step3Title, desc: t.howItWorks.step3Desc, highlight: t.howItWorks.step3Highlight, icon: 'mobile-phone' as const, screen: qrScreen },
+    { num: t.howItWorks.step4Num, title: t.howItWorks.step4Title, desc: t.howItWorks.step4Desc, highlight: t.howItWorks.step4Highlight, icon: 'spiral-calendar' as const, screen: successScreen },
   ];
 
+  // The active step is the last one whose top has passed the viewport centre.
+  // Computed from positions (not IntersectionObserver) so fast scrolls and
+  // anchor jumps never leave the phone on a stale screen.
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const centre = window.innerHeight / 2;
+      let next = 0;
+      stepRefs.current.forEach((el, i) => {
+        if (el && el.getBoundingClientRect().top < centre) next = i;
+      });
+      setActive(next);
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
-    <section id="how-it-works" className="py-20 md:py-28 bg-gray-50/60 dark:bg-[#0B1015] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+    <section id="how-it-works" className="relative py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow={t.howItWorks.eyebrow}
           icon={<HissaMark size={12} animated className="!w-auto" />}
@@ -47,56 +67,83 @@ export const HowItWorks: React.FC = () => {
           subtitle={t.howItWorks.subtitle}
         />
 
-        {/* 3 Step Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          {/* Connector Line on Desktop */}
-          <div className="hidden md:block absolute top-1/2 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-brand/20 via-blue-500/20 to-emerald-500/20 -translate-y-12 z-0" />
-
-          {steps.map((step, idx) => {
-            const isActive = activeStep === idx;
-            return (
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+          {/* Steps */}
+          <ol className="relative">
+            {/* Progress rail (desktop) */}
+            <div aria-hidden="true" className="absolute bottom-[25vh] left-6 top-[25vh] hidden w-0.5 rounded-full bg-line lg:block">
               <div
-                key={idx}
-                onMouseEnter={() => setActiveStep(idx)}
-                className={`relative z-10 p-8 rounded-3xl transition-all duration-300 cursor-pointer ${
-                  isActive
-                    ? 'bg-surface shadow-2xl border-2 border-brand/40 -translate-y-2'
-                    : 'bg-white/80 dark:bg-[#13181E] border border-line shadow-sm hover:shadow-md'
-                }`}
-              >
-                {/* Step Number Badge */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-surface-2 border border-line flex items-center justify-center shadow-inner">
-                    {step.icon}
+                className="w-full rounded-full bg-brand transition-[height] duration-500 ease-out"
+                style={{ height: `${((active + 1) / steps.length) * 100}%` }}
+              />
+            </div>
+
+            {steps.map((step, i) => {
+              const isActive = active === i;
+              return (
+                <li
+                  key={step.num}
+                  ref={(el) => {
+                    stepRefs.current[i] = el;
+                  }}
+                  data-step={i}
+                  {...reveal('fade-up')}
+                  className="group flex flex-col justify-center py-6 lg:min-h-[70vh] lg:py-0"
+                >
+                  <div
+                    className={`flex gap-5 transition-opacity duration-500 ${isActive ? 'lg:opacity-100' : 'lg:opacity-40'}`}
+                  >
+                    <span
+                      className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl transition-colors duration-300 ${
+                        isActive ? 'bg-brand-tint ring-2 ring-brand shadow-brand' : 'bg-surface shadow-card'
+                      }`}
+                    >
+                      <Icon3D name={step.icon} size={34} />
+                    </span>
+                    <div className="max-w-md space-y-3">
+                      <p className="text-sm font-extrabold text-brand-ink">{step.num}</p>
+                      <h3 className="text-2xl font-extrabold leading-tight tracking-[-0.03em] text-ink sm:text-3xl">{step.title}</h3>
+                      <p className="text-base leading-relaxed text-ink-2 sm:text-lg">{step.desc}</p>
+                      <p className="inline-flex items-center gap-2 rounded-full bg-success-soft px-3 py-1.5 text-sm font-bold text-success">
+                        <CheckCircle2 className="h-4 w-4" />
+                        {step.highlight}
+                      </p>
+                    </div>
                   </div>
-                  <span className="text-4xl font-black text-gray-200 dark:text-gray-700 select-none">
-                    {step.num}
-                  </span>
-                </div>
 
-                {/* Badge Tag */}
-                <Badge variant={isActive ? 'brand' : 'neutral'} size="sm" className="mb-3">
-                  {step.pill}
-                </Badge>
+                  {/* Inline screen on mobile/tablet */}
+                  <PhoneFrame className="mx-auto mt-8 w-[min(280px,80%)] lg:hidden">
+                    <img src={step.screen} alt={`${t.howItWorks.screenAlt}: ${step.title}`} loading="lazy" className="block h-full w-full object-cover" />
+                  </PhoneFrame>
+                </li>
+              );
+            })}
+          </ol>
 
-                {/* Title & Desc */}
-                <h3 className="text-xl font-bold text-ink mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-sm text-ink-2 leading-relaxed font-normal">
-                  {step.desc}
-                </p>
-
-                {/* Highlight footer */}
-                <div className="mt-6 pt-4 border-t border-line flex items-center gap-1.5 text-xs font-semibold text-ink-3">
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>{step.highlight}</span>
-                </div>
-              </div>
-            );
-          })}
+          {/* Sticky phone (desktop) */}
+          <div className="relative hidden lg:block">
+            <div className="sticky top-[12vh] flex h-[76vh] items-center justify-center">
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-8 top-1/2 h-3/4 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,var(--coral-200),transparent)] opacity-60 blur-2xl dark:opacity-25"
+              />
+              <PhoneFrame className="relative h-full max-h-[720px]">
+                {steps.map((step, i) => (
+                  <img
+                    key={step.num}
+                    src={step.screen}
+                    alt={active === i ? `${t.howItWorks.screenAlt}: ${step.title}` : ''}
+                    aria-hidden={active !== i}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none ${
+                      active === i ? 'scale-100 opacity-100' : 'scale-[1.03] opacity-0'
+                    }`}
+                  />
+                ))}
+              </PhoneFrame>
+            </div>
+          </div>
         </div>
-
       </div>
     </section>
   );

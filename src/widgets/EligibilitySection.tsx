@@ -1,6 +1,7 @@
 import React from 'react';
-import { ShieldCheck, CreditCard, ArrowRight, UserCheck, Sparkles } from 'lucide-react';
+import { CreditCard, ArrowRight, UserCheck, Sparkles } from 'lucide-react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { Icon3D } from '../shared/ui/Icon3D';
 import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
 import { Button } from '../shared/ui/Button';
@@ -10,7 +11,7 @@ export const EligibilitySection: React.FC = () => {
 
   const steps = [
     {
-      icon: <ShieldCheck className="h-6 w-6" />,
+      icon: <Icon3D name="identification-card" delay={0} size={44} />,
       title: t.eligibility.step1Title,
       desc: t.eligibility.step1Desc,
       note: t.eligibility.step1Note,
@@ -18,7 +19,7 @@ export const EligibilitySection: React.FC = () => {
       noteTone: 'text-brand-ink',
     },
     {
-      icon: <CreditCard className="h-6 w-6" />,
+      icon: <Icon3D name="credit-card" delay={500} size={44} />,
       title: t.eligibility.step2Title,
       desc: t.eligibility.step2Desc,
       note: t.eligibility.step2Note,
@@ -42,10 +43,10 @@ export const EligibilitySection: React.FC = () => {
             <article
               key={step.title}
               {...reveal('fade-up', i * 100)}
-              className="flex flex-col justify-between rounded-3xl bg-surface p-6 shadow-card transition-shadow duration-200 hover:shadow-lift sm:p-8"
+              className="group flex flex-col justify-between rounded-3xl bg-surface p-6 shadow-card transition-shadow duration-200 hover:shadow-lift sm:p-8"
             >
               <div className="space-y-4">
-                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${step.tone}`}>{step.icon}</div>
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-canvas">{step.icon}</div>
                 <h3 className="text-lg font-bold text-ink sm:text-xl">{step.title}</h3>
                 <p className="text-sm leading-relaxed text-ink-2">{step.desc}</p>
               </div>

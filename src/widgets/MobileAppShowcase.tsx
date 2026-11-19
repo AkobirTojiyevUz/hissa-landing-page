@@ -1,300 +1,101 @@
 import React, { useState } from 'react';
+import { Smartphone } from 'lucide-react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { Icon3D } from '../shared/ui/Icon3D';
+import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
-import { HissaMark } from '../shared/ui/HissaMark';
-import { Smartphone, QrCode, ShieldCheck, Bell, Sparkles } from 'lucide-react';
+import { PhoneFrame } from '../shared/ui/PhoneFrame';
+import { StoreBadges } from '../shared/ui/StoreBadges';
+import homeScreen from '../assets/app-screens/home.jpg';
+import qrScreen from '../assets/app-screens/qr-scan.jpg';
+import scheduleScreen from '../assets/app-screens/schedule.jpg';
+
+type Tab = 'card' | 'qr' | 'schedule';
 
 export const MobileAppShowcase: React.FC = () => {
   const { t } = useI18n();
-  const [activeTab, setActiveTab] = useState<'card' | 'qr' | 'schedule'>('card');
+  const [activeTab, setActiveTab] = useState<Tab>('card');
+
+  const tabs: { id: Tab; label: string; screen: string }[] = [
+    { id: 'card', label: t.mobileApp.tabCard, screen: homeScreen },
+    { id: 'qr', label: t.mobileApp.tabQr, screen: qrScreen },
+    { id: 'schedule', label: t.mobileApp.tabSchedule, screen: scheduleScreen },
+  ];
+
+  const benefits = [
+    { icon: 'bell' as const, tone: 'bg-brand-tint', title: t.mobileApp.benefit1Title, desc: t.mobileApp.benefit1Desc },
+    { icon: 'shield' as const, tone: 'bg-blue-500/10', title: t.mobileApp.benefit2Title, desc: t.mobileApp.benefit2Desc },
+    { icon: 'sparkles' as const, tone: 'bg-amber-500/10', title: t.mobileApp.benefit3Title, desc: t.mobileApp.benefit3Desc },
+  ];
 
   return (
-    <section id="app" className="py-20 md:py-28 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/3 -left-32 w-96 h-96 bg-brand/10 blur-[130px] rounded-full pointer-events-none -z-10" />
+    <section id="app" className="relative py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeader eyebrow={t.mobileApp.eyebrow} icon={<Smartphone />} title={t.mobileApp.title} subtitle={t.mobileApp.subtitle} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <SectionHeader
-          eyebrow={t.mobileApp.eyebrow}
-          icon={<Smartphone />}
-          title={t.mobileApp.title}
-          subtitle={t.mobileApp.subtitle}
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left Column: Phone Interactive Mockup */}
-          <div className="lg:col-span-6 flex justify-center">
-            
-            {/* Phone Outer Shell */}
-            <div className="relative w-[320px] sm:w-[350px] bg-gray-900 rounded-[3rem] p-3 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border-4 border-gray-800">
-              
-              {/* Dynamic Island */}
-              <div className="absolute top-6 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-30 flex items-center justify-between px-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-gray-800" />
-                <div className="w-2 h-2 rounded-full bg-brand animate-pulse" />
-              </div>
-
-              {/* Phone Inner Screen */}
-              <div className="relative bg-[#0A0F14] text-white rounded-[2.5rem] overflow-hidden pt-10 pb-6 px-4 min-h-[580px] flex flex-col justify-between border border-gray-800">
-                
-                {/* Top App Bar inside Phone */}
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <HissaMark size={16} animated={true} />
-                      <span className="text-xs font-black tracking-wider text-white">hissa</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 bg-gray-800/80 px-2 py-1 rounded-full text-[10px] font-bold text-emerald-400">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      Uzcard Online
-                    </div>
-                  </div>
-
-                  {/* Inside-Phone Tab Switcher */}
-                  <div className="grid grid-cols-3 gap-1 bg-gray-900 p-1 rounded-2xl mb-4 border border-gray-800">
-                    <button
-                      onClick={() => setActiveTab('card')}
-                      className={`text-[10px] font-bold py-1.5 rounded-xl transition-all ${
-                        activeTab === 'card'
-                          ? 'bg-brand text-white shadow-sm'
-                          : 'text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      {t.mobileApp.tabCard}
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('qr')}
-                      className={`text-[10px] font-bold py-1.5 rounded-xl transition-all ${
-                        activeTab === 'qr'
-                          ? 'bg-brand text-white shadow-sm'
-                          : 'text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      {t.mobileApp.tabQr}
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('schedule')}
-                      className={`text-[10px] font-bold py-1.5 rounded-xl transition-all ${
-                        activeTab === 'schedule'
-                          ? 'bg-brand text-white shadow-sm'
-                          : 'text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      {t.mobileApp.tabSchedule}
-                    </button>
-                  </div>
-
-                  {/* Tab 1: Virtual Card & Limit Screen */}
-                  {activeTab === 'card' && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      {/* Realistic Uzcard Hissa Virtual Card */}
-                      <div className="relative rounded-2xl bg-gradient-to-tr from-[#1E252D] via-[#2A3440] to-brand/40 p-4 border border-white/10 shadow-lg overflow-hidden">
-                        <div className="flex justify-between items-start mb-6">
-                          <div>
-                            <span className="text-[10px] uppercase font-bold text-gray-300">Uzcard BNPL</span>
-                            <div className="text-sm font-black text-white mt-0.5">Hissa Platinum</div>
-                          </div>
-                          <HissaMark size={20} animated={true} />
-                        </div>
-                        <div className="text-[10px] text-gray-400">{t.mobileApp.cardSubtitle}</div>
-                        <div className="text-xl font-black text-white tracking-tight">
-                          12 500 000 UZS
-                        </div>
-                        <div className="mt-4 flex justify-between items-end text-[10px] text-gray-300">
-                          <span>•••• 4820</span>
-                          <span className="font-bold uppercase tracking-wider text-brand-ink">UZCARD</span>
-                        </div>
-                      </div>
-
-                      {/* Limit Progress */}
-                      <div className="bg-gray-900/90 p-3 rounded-2xl border border-gray-800 space-y-2">
-                        <div className="flex justify-between text-[11px] font-semibold">
-                          <span className="text-gray-400">{t.mobileApp.totalLimitLabel}</span>
-                          <span className="text-white">15 000 000 UZS</span>
-                        </div>
-                        <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                          <div className="w-4/5 h-full bg-brand rounded-full" />
-                        </div>
-                        <div className="flex justify-between text-[10px] text-gray-400">
-                          <span>{t.mobileApp.spentLabel}: 2 500 000 UZS</span>
-                          <span className="text-emerald-400 font-bold">{t.common.active}</span>
-                        </div>
-                      </div>
-
-                      {/* Recent transactions mini list */}
-                      <div className="bg-gray-900/90 p-3 rounded-2xl border border-gray-800 space-y-2">
-                        <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                          {t.mobileApp.recentPaymentsTitle}
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-medium text-gray-200">Texnomart</span>
-                          <span className="font-bold text-white">450 000 UZS · 1/3</span>
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-medium text-gray-200">Asaxiy</span>
-                          <span className="font-bold text-white">180 000 UZS · 2/3</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tab 2: TezQR Checkout Screen */}
-                  {activeTab === 'qr' && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
-                      <div className="relative aspect-square w-full rounded-2xl bg-gray-900 border-2 border-dashed border-brand/60 p-4 flex flex-col items-center justify-center">
-                        <QrCode className="w-24 h-24 text-brand-ink opacity-90 animate-pulse" />
-                        <span className="text-xs font-bold text-white mt-3">{t.mobileApp.scanQrCashier}</span>
-                        <span className="text-[10px] text-gray-400">{t.mobileApp.tezQrIntegration}</span>
-                      </div>
-
-                      <div className="bg-gray-900 p-3 rounded-2xl border border-gray-800 space-y-1 text-center">
-                        <div className="text-xs font-extrabold text-white">Texnomart Chilonzor</div>
-                        <div className="text-[11px] text-gray-400">iPhone 15 Pro · 0-0-3</div>
-                        <div className="text-xs font-bold text-emerald-400 pt-1">{t.mobileApp.payTodayZero}</div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tab 3: Schedule Screen */}
-                  {activeTab === 'schedule' && (
-                    <div className="space-y-3 animate-in fade-in duration-200">
-                      <div className="text-xs font-bold text-white mb-2">{t.mobileApp.upcomingPaymentsTitle}</div>
-                      
-                      <div className="bg-gray-900 p-3 rounded-2xl border border-gray-800 flex items-center justify-between">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">
-                            ✓
-                          </div>
-                          <div>
-                            <div className="text-xs font-bold text-white">{t.mobileApp.payment1Paid}</div>
-                            <div className="text-[10px] text-gray-400">12 Okt</div>
-                          </div>
-                        </div>
-                        <span className="text-xs font-bold text-gray-300">450 000 UZS</span>
-                      </div>
-
-                      <div className="bg-brand/15 p-3 rounded-2xl border border-brand/40 flex items-center justify-between">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-7 h-7 rounded-full bg-brand text-white flex items-center justify-center text-xs font-bold">
-                            2
-                          </div>
-                          <div>
-                            <div className="text-xs font-bold text-white">{t.mobileApp.payment2Next}</div>
-                            <div className="text-[10px] text-[#FF847A]">12 Noy · 3 {t.mobileApp.daysLeft}</div>
-                          </div>
-                        </div>
-                        <span className="text-xs font-bold text-brand-ink">450 000 UZS</span>
-                      </div>
-
-                      <div className="bg-gray-900 p-3 rounded-2xl border border-gray-800 flex items-center justify-between opacity-70">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-7 h-7 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center text-xs font-bold">
-                            3
-                          </div>
-                          <div>
-                            <div className="text-xs font-bold text-white">{t.mobileApp.payment3Final}</div>
-                            <div className="text-[10px] text-gray-400">12 Dek</div>
-                          </div>
-                        </div>
-                        <span className="text-xs font-bold text-gray-400">450 000 UZS</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Bottom Inside-Phone Button */}
-                <div className="pt-4 border-t border-gray-800/80">
-                  <button className="w-full py-2.5 bg-brand text-white rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 shadow-md">
-                    <QrCode className="w-4 h-4" />
-                    {t.hero.payWithQr}
-                  </button>
-                </div>
-
-              </div>
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+          {/* Real app screens from Figma, switched by tab */}
+          <div className="flex flex-col items-center gap-6 lg:col-span-6" {...reveal('zoom-in')}>
+            <div className="relative">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 -z-10 scale-125 rounded-full bg-[radial-gradient(closest-side,var(--coral-200),transparent)] opacity-60 blur-2xl dark:opacity-25"
+              />
+              <PhoneFrame className="w-[280px] sm:w-[320px]">
+                {tabs.map((tab) => (
+                  <img
+                    key={tab.id}
+                    src={tab.screen}
+                    alt={activeTab === tab.id ? `${t.howItWorks.screenAlt}: ${tab.label}` : ''}
+                    aria-hidden={activeTab !== tab.id}
+                    loading="lazy"
+                    className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none ${
+                      activeTab === tab.id ? 'scale-100 opacity-100' : 'scale-[1.03] opacity-0'
+                    }`}
+                  />
+                ))}
+              </PhoneFrame>
             </div>
 
+            <div role="tablist" className="inline-flex rounded-full bg-sunken p-1">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`rounded-full px-4 py-2.5 text-sm font-bold transition-colors ${
+                    activeTab === tab.id ? 'bg-surface text-ink shadow-card' : 'text-ink-2 hover:text-ink'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Right Column: App Features, QR code & Download Links */}
-          <div className="lg:col-span-6 space-y-8 text-center lg:text-left">
-            
-            {/* Feature 1 */}
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-brand/10 text-brand-ink flex items-center justify-center shrink-0">
-                <Bell className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-ink mb-1">
-                  {t.mobileApp.benefit1Title}
-                </h3>
-                <p className="text-sm text-ink-2 font-normal">
-                  {t.mobileApp.benefit1Desc}
-                </p>
-              </div>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-ink mb-1">
-                  {t.mobileApp.benefit2Title}
-                </h3>
-                <p className="text-sm text-ink-2 font-normal">
-                  {t.mobileApp.benefit2Desc}
-                </p>
-              </div>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
-                <Sparkles className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-ink mb-1">
-                  {t.mobileApp.benefit3Title}
-                </h3>
-                <p className="text-sm text-ink-2 font-normal">
-                  {t.mobileApp.benefit3Desc}
-                </p>
-              </div>
-            </div>
-
-            {/* QR Download Card */}
-            <div className="bg-surface p-6 rounded-3xl border border-line shadow-xl flex flex-col sm:flex-row items-center gap-6">
-              {/* QR Code Graphic */}
-              <div className="w-24 h-24 bg-white p-2 rounded-2xl border border-gray-200 shadow-sm flex items-center justify-center shrink-0">
-                <div className="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center text-white font-mono text-[9px] text-center p-1 leading-tight">
-                  SCAN FOR HISSA APP
-                </div>
-              </div>
-              <div className="space-y-3 text-center sm:text-left">
-                <div className="text-xs font-bold text-ink">
-                  {t.mobileApp.scanQrToDownload}
-                </div>
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                  <span className="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-800 dark:text-gray-200">
-                     App Store
+          {/* Benefits and downloads */}
+          <div className="space-y-4 lg:col-span-6">
+            {benefits.map((b, i) => {
+              return (
+                <article key={b.title} {...reveal('fade-left', i * 100)} className="group flex items-start gap-4 rounded-3xl bg-surface p-5 shadow-card transition-shadow hover:shadow-lift">
+                  <span className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${b.tone}`}>
+                    <Icon3D name={b.icon} delay={i * 400} size={38} />
                   </span>
-                  <span className="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-800 dark:text-gray-200">
-                    Google Play
-                  </span>
-                  <span className="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-800 dark:text-gray-200">
-                    AppGallery
-                  </span>
-                </div>
-              </div>
-            </div>
+                  <div>
+                    <h3 className="mb-1 text-lg font-bold text-ink">{b.title}</h3>
+                    <p className="text-[15px] leading-relaxed text-ink-2">{b.desc}</p>
+                  </div>
+                </article>
+              );
+            })}
 
+            <div {...reveal('fade-up', 300)} className="rounded-3xl bg-ink p-6 text-white shadow-lift dark:bg-surface-2">
+              <p className="mb-4 text-base font-bold">{t.howItWorks.bannerDesc}</p>
+              <StoreBadges />
+            </div>
           </div>
-
         </div>
-
       </div>
     </section>
   );

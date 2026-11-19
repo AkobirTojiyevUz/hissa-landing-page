@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'relative inline-flex items-center justify-center font-bold tracking-figma rounded-full transition-[background-color,border-color,color,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas active:scale-[0.98] select-none cursor-pointer disabled:opacity-50 disabled:pointer-events-none';
+    'relative inline-flex items-center justify-center whitespace-nowrap font-bold tracking-figma rounded-full transition-[background-color,border-color,color,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas active:scale-[0.98] select-none cursor-pointer disabled:opacity-50 disabled:pointer-events-none';
 
   const sizeStyles = {
     sm: 'text-xs px-4 py-2 gap-1.5',

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
 import { SectionHeader } from '../shared/ui/SectionHeader';
-import { Badge } from '../shared/ui/Badge';
-import { HissaMark } from '../shared/ui/HissaMark';
 import { StoreBrandLogo } from '../shared/ui/StoreBrandLogo';
 import {
   MOCK_STORE_BRANCHES,
@@ -13,6 +11,10 @@ import {
   getYandexMapsUrl,
   getGoogleMapsUrl,
 } from '../shared/api/storesMockApi';
+import { getPartner } from '../shared/config/partners';
+import type { PartnerCategory } from '../shared/config/partners';
+import { reveal } from '../app/motion/useScrollReveal';
+import { storePinHtml, USER_DOT_HTML, PIN_SHAPE } from '../shared/map/storePins';
 import {
   Navigation,
   Search,
@@ -23,6 +25,12 @@ import {
   ExternalLink,
   Route,
   MapPin,
+  LayoutGrid,
+  Smartphone,
+  Shirt,
+  Sofa,
+  ShoppingCart,
+  LocateFixed,
 } from 'lucide-react';
 
 declare global {
@@ -108,7 +116,7 @@ export const NearbyStoresMap: React.FC = () => {
           {
             center: [userCoords.lat, userCoords.lng],
             zoom: 13,
-            controls: ['zoomControl', 'fullscreenControl'],
+            controls: ['zoomControl'],
             behaviors: ['default', 'scrollZoom'],
           },
           {
@@ -160,57 +168,40 @@ export const NearbyStoresMap: React.FC = () => {
 
     const geoCollection = new window.ymaps.GeoObjectCollection();
 
-    // 1. User Location Placemark (Green pulsating icon)
+    // 1. User location: blue dot with a soft pulse (Figma 1203:32935)
     const userPlacemark = new window.ymaps.Placemark(
       [userCoords.lat, userCoords.lng],
+      { hintContent: `${t.map.yourLocation} · ${t.map.userLocationLabel}` },
       {
-        hintContent: `${t.map.yourLocation} (${t.map.userLocationLabel})`,
-        balloonContentHeader: `<div style="font-weight: 800; font-size: 13px; color: #10B981;">📍 ${t.map.yourLocation}</div>`,
-        balloonContentBody: `<div style="font-size: 12px; color: #475467; margin-top: 4px;">${t.map.userLocationLabel}</div>`,
-        iconCaption: t.map.yourLocation,
-      },
-      {
-        preset: 'islands#darkGreenCircleDotIconWithCaption',
-        iconColor: '#10B981',
+        iconLayout: window.ymaps.templateLayoutFactory.createClass(USER_DOT_HTML),
+        iconShape: { type: 'Circle', coordinates: [0, 0], radius: 12 },
+        hasBalloon: false,
+        zIndex: 300,
       }
     );
     geoCollection.add(userPlacemark);
 
-    // 2. Add Placemark for each store
+    // 2. Store pins: coral pill with category icon and brand name.
+    // Stores outside the active filter stay visible but muted.
+    const visibleIds = new Set(filteredStores.map((s) => s.id));
     storesWithDistance.forEach((store) => {
       const isSelected = store.id === selectedStore.id;
+      const html = storePinHtml({
+        name: getPartner(store.brandId)?.name ?? store.name,
+        category: store.category,
+        term: store.terms.split(' / ')[0],
+        active: isSelected,
+        muted: !isSelected && !visibleIds.has(store.id),
+      });
 
       const storePlacemark = new window.ymaps.Placemark(
         [store.lat, store.lng],
+        { hintContent: `${store.name} · ${formatDistance(store.distanceMeters)}` },
         {
-          hintContent: `${store.name} · ${formatDistance(store.distanceMeters)}`,
-          balloonContentHeader: `
-            <div style="font-family: inherit; font-size: 14px; font-weight: 800; color: #0C111D;">
-              ${store.name}
-            </div>
-          `,
-          balloonContentBody: `
-            <div style="font-family: inherit; font-size: 12px; line-height: 1.5; color: #475467; padding-top: 4px;">
-              <div><b>${t.map.userLocationLabel}:</b> ${store.address}</div>
-              <div style="color: #10B981; font-weight: 700; margin-top: 4px;">✓ ${store.terms} · TezQR</div>
-              <div style="color: #FF655B; font-weight: 700; margin-top: 2px;">
-                ${formatDistance(store.distanceMeters)} (${store.walkMinutes} ${t.common.walkMinutes})
-              </div>
-              <div style="color: #98A2B3; font-size: 11px; margin-top: 2px;">⏱ ${store.workingHours}</div>
-            </div>
-          `,
-          balloonContentFooter: `
-            <div style="margin-top: 8px; display: flex; gap: 8px;">
-              <a href="${getYandexMapsUrl(store.lat, store.lng)}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 6px 12px; background: #FF655B; color: #ffffff; text-decoration: none; border-radius: 10px; font-size: 11px; font-weight: 700;">
-                ${t.map.openInYandex} ↗
-              </a>
-            </div>
-          `,
-          iconCaption: `${store.name.split(' ')[0]} (${formatDistance(store.distanceMeters)})`,
-        },
-        {
-          preset: isSelected ? 'islands#redCircleDotIconWithCaption' : 'islands#nightDotIconWithCaption',
-          iconColor: isSelected ? '#FF655B' : '#475467',
+          iconLayout: window.ymaps.templateLayoutFactory.createClass(html),
+          iconShape: PIN_SHAPE,
+          hasBalloon: false,
+          zIndex: isSelected ? 250 : 200,
         }
       );
 
@@ -220,7 +211,6 @@ export const NearbyStoresMap: React.FC = () => {
 
       geoCollection.add(storePlacemark);
     });
-
     // 3. Draw Dashed Polyline Route from User to Selected Store
     const routePolyline = new window.ymaps.Polyline(
       [
@@ -257,15 +247,16 @@ export const NearbyStoresMap: React.FC = () => {
         [minLat - latPadding, minLng - lngPadding],
         [maxLat + latPadding, maxLng + lngPadding],
       ],
-      { checkZoomRange: true, duration: 600 }
+      { checkZoomRange: true, duration: 600, zoomMargin: [80, 80, 260, 40] }
     );
-  }, [storesWithDistance, selectedStore, isMapReady, t]);
+  }, [storesWithDistance, filteredStores, selectedStore, isMapReady, t]);
 
-  const categories = [
-    { id: 'all', label: t.map.filterAll },
-    { id: 'electronics', label: t.map.categoryElectronics },
-    { id: 'fashion', label: t.map.categoryFashion },
-    { id: 'supermarket', label: t.map.categorySupermarket },
+  const categories: { id: 'all' | PartnerCategory; label: string; icon: React.ReactNode }[] = [
+    { id: 'all', label: t.map.filterAll, icon: <LayoutGrid className="h-[18px] w-[18px]" /> },
+    { id: 'electronics', label: t.map.categoryElectronics, icon: <Smartphone className="h-[18px] w-[18px]" /> },
+    { id: 'fashion', label: t.map.categoryFashion, icon: <Shirt className="h-[18px] w-[18px]" /> },
+    { id: 'home', label: t.stores.categoryLabels.home, icon: <Sofa className="h-[18px] w-[18px]" /> },
+    { id: 'supermarket', label: t.map.categorySupermarket, icon: <ShoppingCart className="h-[18px] w-[18px]" /> },
   ];
 
   const handleRecenter = () => {
@@ -273,249 +264,174 @@ export const NearbyStoresMap: React.FC = () => {
     ymapsInstanceRef.current.setCenter([userCoords.lat, userCoords.lng], 14, { duration: 600 });
   };
 
+  const tabClass = (active: boolean) =>
+    `rounded-full py-2.5 text-sm font-bold transition-colors ${active ? 'bg-surface text-ink shadow-card' : 'text-ink-2 hover:text-ink'}`;
+
   return (
-    <section id="map" className="py-20 md:py-28 relative overflow-hidden">
-      {/* Background radial glow */}
-      <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[min(600px,100%)] h-[500px] bg-brand/5 dark:bg-brand/10 blur-[140px] rounded-full pointer-events-none -z-10" />
+    <section id="map" className="relative py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeader eyebrow={t.map.eyebrow} icon={<Compass />} title={t.map.title} subtitle={t.map.subtitle} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow={t.map.eyebrow}
-          icon={<Compass />}
-          title={t.map.title}
-          subtitle={t.map.subtitle}
-        />
+        <div {...reveal('fade-up')} className="overflow-hidden rounded-[32px] bg-surface shadow-lift">
+          <div className="grid min-h-[680px] grid-cols-1 lg:grid-cols-12">
+            {/* Controls and store list */}
+            <div className="flex flex-col gap-4 border-b border-line p-4 sm:p-6 lg:col-span-5 lg:border-b-0 lg:border-r">
+              <label className="relative block">
+                <span className="sr-only">{t.map.searchPlaceholder}</span>
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-3" />
+                <input
+                  type="search"
+                  placeholder={t.map.searchPlaceholder}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full rounded-full bg-canvas py-3.5 pl-12 pr-4 text-[15px] font-medium text-ink placeholder:text-ink-3 focus:outline-none focus:ring-2 focus:ring-brand"
+                />
+              </label>
 
-        {/* Interactive Map Card */}
-        <div className="bg-surface rounded-[2.5rem] border border-line shadow-2xl overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
-            {/* Left Controls & Stores List */}
-            <div className="lg:col-span-5 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-line flex flex-col justify-between space-y-4">
-              <div className="space-y-4">
-                {/* Search Bar */}
-                <div className="flex items-center gap-2">
-                  <div className="relative flex-1">
-                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder={t.map.searchPlaceholder}
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-surface-2 border border-line rounded-2xl text-xs text-ink placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand"
-                    />
-                  </div>
-                  <button
-                    onClick={handleRecenter}
-                    title={t.map.yourLocation}
-                    className="p-2.5 rounded-2xl bg-brand/10 hover:bg-brand/20 text-brand-ink border border-brand/20 transition-colors cursor-pointer"
-                  >
-                    <Navigation className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Tabs & Category Filter Chips */}
-                <div className="space-y-2">
-                  <div className="grid grid-cols-2 gap-1.5 p-1 bg-gray-100 dark:bg-[#181F26] rounded-2xl border border-line">
-                    <button
-                      onClick={() => setActiveTab('nearby')}
-                      className={`text-xs font-bold py-2 rounded-xl transition-all cursor-pointer ${
-                        activeTab === 'nearby'
-                          ? 'bg-white dark:bg-[#262D35] text-ink shadow-sm'
-                          : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
-                      }`}
-                    >
-                      {t.map.nearbyTab}
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('all')}
-                      className={`text-xs font-bold py-2 rounded-xl transition-all cursor-pointer ${
-                        activeTab === 'all'
-                          ? 'bg-white dark:bg-[#262D35] text-ink shadow-sm'
-                          : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
-                      }`}
-                    >
-                      {t.map.allStoresTab}
-                    </button>
-                  </div>
-
-                  {/* Horizontal Category Chips */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-                    {categories.map((c) => (
-                      <button
-                        key={c.id}
-                        onClick={() => setCategoryFilter(c.id)}
-                        className={`text-[11px] font-semibold px-3 py-1.5 rounded-xl whitespace-nowrap transition-all cursor-pointer ${
-                          categoryFilter === c.id
-                            ? 'bg-brand text-white shadow-sm'
-                            : 'bg-gray-100 dark:bg-[#181F26] text-ink-2 hover:bg-gray-200 dark:hover:bg-gray-700'
-                        }`}
-                      >
-                        {c.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* User Location Bar */}
-                <div className="flex items-center justify-between text-[11px] text-ink-3 px-1 pt-1">
-                  <span className="flex items-center gap-1 font-semibold text-gray-800 dark:text-gray-200">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
-                    {t.map.userLocationLabel}
-                  </span>
-                  <span>
-                    {filteredStores.length} {t.map.storesFound}
-                  </span>
-                </div>
+              <div className="grid grid-cols-2 gap-1 rounded-full bg-sunken p-1" role="tablist">
+                <button role="tab" aria-selected={activeTab === 'nearby'} onClick={() => setActiveTab('nearby')} className={tabClass(activeTab === 'nearby')}>
+                  {t.map.nearbyTab}
+                </button>
+                <button role="tab" aria-selected={activeTab === 'all'} onClick={() => setActiveTab('all')} className={tabClass(activeTab === 'all')}>
+                  {t.map.allStoresTab}
+                </button>
               </div>
 
-              {/* Scrollable Store List */}
-              <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
-                {filteredStores.map((store) => {
-                  const isSelected = store.id === selectedStore.id;
+              <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none]">
+                {categories.map((c) => {
+                  const active = categoryFilter === c.id;
                   return (
-                    <div
-                      key={store.id}
-                      onClick={() => setSelectedStoreId(store.id)}
-                      className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-start justify-between gap-3 ${
-                        isSelected
-                          ? 'border-brand bg-brand/10 dark:bg-brand/15 shadow-sm'
-                          : 'border-line bg-gray-50/50 dark:bg-[#181F26]/60 hover:border-gray-300 dark:hover:border-gray-700'
+                    <button
+                      key={c.id}
+                      onClick={() => setCategoryFilter(c.id)}
+                      aria-pressed={active}
+                      className={`flex shrink-0 items-center gap-1.5 rounded-full border bg-surface py-2 pl-3 pr-4 text-sm font-semibold shadow-card transition-colors ${
+                        active ? 'border-brand text-brand-ink' : 'border-transparent text-ink-2 hover:text-ink'
                       }`}
                     >
-                      <div className="flex items-start gap-2.5">
-                        <StoreBrandLogo
-                          storeId={store.brandId}
-                          name={store.name}
-                          className="w-10 h-10 rounded-xl shrink-0 mt-0.5"
-                        />
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                            <h4 className="text-xs font-black text-ink">
-                              {store.name}
-                            </h4>
-                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                              {store.terms}
-                            </span>
-                          </div>
-                          <p className="text-[11px] text-ink-3 leading-tight">
-                            {store.address}
-                          </p>
-                          <div className="flex items-center gap-3 text-[10px] text-gray-400 pt-1">
-                            <span className="flex items-center gap-1 font-bold text-brand-ink">
-                              <Navigation className="w-3 h-3" />
-                              {formatDistance(store.distanceMeters)} ({store.walkMinutes} {t.common.walkMinutes})
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Clock className="w-3 h-3 text-gray-400" />
-                              {store.workingHours}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <ChevronRight
-                        className={`w-4 h-4 shrink-0 mt-1 transition-transform ${
-                          isSelected ? 'text-brand-ink translate-x-1' : 'text-gray-400'
-                        }`}
-                      />
-                    </div>
+                      {c.icon}
+                      {c.label}
+                    </button>
                   );
                 })}
               </div>
 
-              {/* Selected Store Bottom Action Panel */}
+              <div className="flex items-center justify-between gap-3 px-1 text-sm">
+                <span className="flex min-w-0 items-center gap-2 font-semibold text-ink">
+                  <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#2e90fa] ring-4 ring-[#2e90fa]/20" />
+                  {t.map.userLocationLabel}
+                </span>
+                <span className="shrink-0 text-ink-3">
+                  {filteredStores.length} {t.map.storesFound}
+                </span>
+              </div>
+
+              <ul className="-mr-2 max-h-[420px] flex-1 space-y-2 overflow-y-auto pr-2">
+                {filteredStores.map((store) => {
+                  const isSelected = store.id === selectedStore.id;
+                  return (
+                    <li key={store.id}>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedStoreId(store.id)}
+                        aria-pressed={isSelected}
+                        className={`flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-colors ${
+                          isSelected ? 'border-brand/40 bg-brand-tint' : 'border-transparent bg-canvas hover:border-line-strong'
+                        }`}
+                      >
+                        <StoreBrandLogo storeId={store.brandId} name={store.name} className="h-12 w-12 rounded-2xl" />
+                        <span className="min-w-0 flex-1 space-y-1">
+                          <span className="flex items-center gap-2">
+                            <span className="truncate text-[15px] font-bold text-ink">{store.name}</span>
+                            <span className="shrink-0 rounded-md border border-brand px-1.5 py-0.5 text-[11px] font-bold text-brand-ink">
+                              {store.terms.split(' / ')[0]}
+                            </span>
+                          </span>
+                          <span className="block truncate text-[13px] text-ink-2">{store.address}</span>
+                          <span className="flex items-center gap-3 text-xs font-semibold">
+                            <span className="flex items-center gap-1 whitespace-nowrap text-brand-ink">
+                              <Navigation className="h-3.5 w-3.5" />
+                              {formatDistance(store.distanceMeters)} · {store.walkMinutes} {t.common.walkMinutes}
+                            </span>
+                            <span className="hidden items-center gap-1 whitespace-nowrap text-ink-3 sm:flex">
+                              <Clock className="h-3.5 w-3.5" />
+                              {store.workingHours}
+                            </span>
+                          </span>
+                        </span>
+                        <ChevronRight className={`h-5 w-5 shrink-0 ${isSelected ? 'text-brand-ink' : 'text-ink-3'}`} />
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* Yandex map */}
+            <div className="relative min-h-[520px] bg-sunken lg:col-span-7 lg:min-h-[680px]">
+              <div ref={mapContainerRef} className="yandex-map-container absolute inset-0 z-10" />
+
+              <button
+                type="button"
+                onClick={handleRecenter}
+                aria-label={t.map.yourLocation}
+                className="absolute right-4 top-4 z-20 flex h-12 w-12 items-center justify-center rounded-2xl bg-surface text-ink shadow-card transition-colors hover:text-brand-ink"
+              >
+                <LocateFixed className="h-6 w-6" />
+              </button>
+
               {selectedStore && (
-                <div className="pt-3 border-t border-line space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <StoreBrandLogo
-                        storeId={selectedStore.brandId}
-                        name={selectedStore.name}
-                        className="w-10 h-10 rounded-xl"
-                      />
-                      <div>
-                        <div className="text-[10px] font-bold text-brand-ink uppercase tracking-wider">
-                          {t.map.selectedStoreBadge}
-                        </div>
-                        <div className="text-xs font-extrabold text-ink">
-                          {selectedStore.name}
-                        </div>
-                      </div>
+                <div className="absolute inset-x-3 bottom-3 z-20 rounded-3xl bg-surface p-4 shadow-lift sm:inset-x-4 sm:bottom-4">
+                  <div className="flex items-start gap-3">
+                    <StoreBrandLogo storeId={selectedStore.brandId} name={selectedStore.name} className="h-12 w-12 rounded-2xl" />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-bold uppercase tracking-wide text-brand-ink">{t.map.selectedStoreBadge}</p>
+                      <p className="truncate text-base font-bold text-ink">{selectedStore.name}</p>
+                      <p className="mt-0.5 hidden items-center gap-1 truncate text-[13px] text-ink-2 sm:flex">
+                        <MapPin className="h-3.5 w-3.5 shrink-0" />
+                        {selectedStore.address}
+                      </p>
                     </div>
-                    <Badge variant="success" size="sm">
-                      <QrCode className="w-3 h-3 mr-1" />
-                      TezQR {t.common.active}
-                    </Badge>
+                    <span className="hidden shrink-0 items-center gap-1 rounded-lg bg-success-soft px-2 py-1 text-xs font-bold text-success sm:inline-flex">
+                      <QrCode className="h-3.5 w-3.5" />
+                      TezQR
+                    </span>
                   </div>
-
-                  <div className="text-[11px] text-ink-3 flex items-center gap-2">
-                    <MapPin className="w-3 h-3 text-gray-400 shrink-0" />
-                    <span className="truncate">{selectedStore.address}</span>
+                  <div className="mt-3 flex flex-wrap items-center gap-2 text-[13px] font-semibold max-sm:hidden">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-canvas px-3 py-1.5 text-ink">
+                      <Navigation className="h-3.5 w-3.5 text-brand-ink" />
+                      {formatDistance(selectedStore.distanceMeters)} · {selectedStore.walkMinutes} {t.common.walkMinutes}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-canvas px-3 py-1.5 text-ink">
+                      <Clock className="h-3.5 w-3.5 text-ink-3" />
+                      {selectedStore.workingHours}
+                    </span>
+                    <span className="inline-flex items-center rounded-full border border-brand px-3 py-1 text-brand-ink">
+                      {selectedStore.terms}
+                    </span>
                   </div>
-
-                  <div className="flex flex-wrap gap-2">
+                  <div className="mt-3 flex gap-2">
                     <a
                       href={getYandexMapsUrl(selectedStore.lat, selectedStore.lng)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-brand hover:bg-brand-pressed text-white text-xs font-bold transition-all shadow-md shadow-brand/20"
+                      className="inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand transition-colors hover:bg-brand-pressed"
                     >
-                      <Route className="w-3.5 h-3.5" />
+                      <Route className="h-4 w-4" />
                       {t.map.openInYandex}
                     </a>
                     <a
                       href={getGoogleMapsUrl(selectedStore.lat, selectedStore.lng)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-[#1D2329] dark:hover:bg-[#262D35] text-gray-800 dark:text-gray-200 text-xs font-bold transition-all border border-line"
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-line-strong px-4 py-3 text-sm font-bold text-ink transition-colors hover:border-brand hover:text-brand-ink max-sm:hidden"
                     >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      Google Maps
+                      <ExternalLink className="h-4 w-4" />
+                      {t.map.openInGoogle}
                     </a>
                   </div>
                 </div>
               )}
-            </div>
-
-            {/* Right Map Canvas (Official Yandex Maps API Container) */}
-            <div className="lg:col-span-7 relative min-h-[460px] lg:min-h-[640px] bg-gray-100 dark:bg-[#0A0F14]">
-              {/* Actual Yandex Map DOM element */}
-              <div
-                ref={mapContainerRef}
-                className="yandex-map-container w-full h-full min-h-[460px] lg:min-h-[640px] z-10"
-              />
-
-              {/* Top Floating Badge & Active Route Indicator */}
-              {selectedStore && (
-                <div className="absolute top-4 left-4 z-20 bg-white/95 dark:bg-[#13181E]/95 backdrop-blur-md px-3.5 py-2.5 rounded-2xl shadow-xl border border-line flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-brand/15 text-brand-ink flex items-center justify-center shrink-0">
-                    <HissaMark size={14} animated={false} color="#FF655B" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-black text-ink">
-                      {selectedStore.name}
-                    </div>
-                    <div className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
-                      {formatDistance(selectedStore.distanceMeters)} · {selectedStore.walkMinutes} {t.common.walkMinutes} ({t.map.routeDrawn})
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Yandex Maps Badge on Top-Right */}
-              <div className="absolute top-4 right-4 z-20 hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-[#13181E]/90 backdrop-blur-md border border-line text-[11px] font-bold text-ink-2 shadow-md">
-                <span className="w-2 h-2 rounded-full bg-brand" />
-                <span>{t.map.yandexMapBadge}</span>
-              </div>
-
-              {/* Re-center Floating Compass Button */}
-              <button
-                onClick={handleRecenter}
-                title={t.map.yourLocation}
-                className="absolute bottom-16 right-4 z-20 w-9 h-9 rounded-xl bg-surface border border-line shadow-xl text-emerald-500 hover:bg-emerald-500 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <Compass className="w-5 h-5" />
-              </button>
             </div>
           </div>
         </div>

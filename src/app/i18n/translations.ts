@@ -107,6 +107,11 @@ export interface TranslationDictionary {
     bannerTitle: string;
     bannerDesc: string;
     bannerBtn: string;
+    step4Num: string;
+    step4Title: string;
+    step4Desc: string;
+    step4Highlight: string;
+    screenAlt: string;
   };
   eligibility: {
     eyebrow: string;
@@ -514,6 +519,11 @@ export const translations: Record<Language, TranslationDictionary> = {
       bannerTitle: "Bugunoq xarid qilişga tayyormisiz?",
       bannerDesc: "Ilovani bepul yuklab oling va birinçi xaridingiz uçun tasdiqlangan limitni darhol oling.",
       bannerBtn: "Hissa ilovasini yuklaş",
+      step4Num: "04",
+      step4Title: "Tölovlarni ilovada boşqaring",
+      step4Desc: "Keyingi tölov sanasi, summasi va keşbek balansi doim köz oldingizda. Ilova tölovdan oldin eslatadi va kartangizdan avtomatik yeçadi.",
+      step4Highlight: "Avtomatik yeçib olinadi",
+      screenAlt: "Hissa ilovasi ekrani",
     },
     eligibility: {
       eyebrow: "Foydalaniş şartlari",
@@ -973,6 +983,11 @@ export const translations: Record<Language, TranslationDictionary> = {
       bannerTitle: "Bugunoq xarid qilishga tayyormisiz?",
       bannerDesc: "Ilovani bepul yuklab oling va birinchi xaridingiz uchun tasdiqlangan limitni darhol oling.",
       bannerBtn: "Hissa ilovasini yuklash",
+      step4Num: "04",
+      step4Title: "To‘lovlarni ilovada boshqaring",
+      step4Desc: "Keyingi to‘lov sanasi, summasi va keshbek balansi doim ko‘z oldingizda. Ilova to‘lovdan oldin eslatadi va kartangizdan avtomatik yechadi.",
+      step4Highlight: "Avtomatik yechib olinadi",
+      screenAlt: "Hissa ilovasi ekrani",
     },
     eligibility: {
       eyebrow: "Foydalanish shartlari",
@@ -1432,6 +1447,11 @@ export const translations: Record<Language, TranslationDictionary> = {
       bannerTitle: "Готовы сделать первую покупку?",
       bannerDesc: "Скачайте приложение прямо сейчас и узнайте ваш персональный лимит за пару минут.",
       bannerBtn: "Скачать приложение Hissa",
+      step4Num: "04",
+      step4Title: "Управляйте платежами в приложении",
+      step4Desc: "Дата и сумма следующего платежа и баланс кешбэка всегда под рукой. Приложение напомнит о платеже и спишет его с карты автоматически.",
+      step4Highlight: "Автоматическое списание",
+      screenAlt: "Экран приложения Hissa",
     },
     eligibility: {
       eyebrow: "Условия использования",
@@ -1891,6 +1911,11 @@ export const translations: Record<Language, TranslationDictionary> = {
       bannerTitle: "Ready to elevate your shopping?",
       bannerDesc: "Download Hissa app for free and check your approved shopping limit in under 2 minutes.",
       bannerBtn: "Download Hissa App",
+      step4Num: "04",
+      step4Title: "Manage payments in the app",
+      step4Desc: "Your next payment date, amount and cashback balance are always at hand. The app reminds you and charges your card automatically.",
+      step4Highlight: "Automatic payments",
+      screenAlt: "Hissa app screen",
     },
     eligibility: {
       eyebrow: "Eligibility & Requirements",

@@ -1,8 +1,15 @@
 import React from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { Icon3D } from '../shared/ui/Icon3D';
+import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
+import { TrustBadges } from '../shared/ui/TrustBadges';
+import kapitalbankLogo from '../assets/banks/kapitalbank.png';
+import ipakYuliLogo from '../assets/banks/ipakyuli.png';
+import sqbLogo from '../assets/banks/sqb.png';
+import aloqabankLogo from '../assets/banks/aloqabank.png';
 import { Badge } from '../shared/ui/Badge';
-import { ShieldCheck, Lock, Award, Building2, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export const TrustAndSecurity: React.FC = () => {
   const { t } = useI18n();
@@ -11,30 +18,35 @@ export const TrustAndSecurity: React.FC = () => {
     {
       title: t.security.card1Title,
       desc: t.security.card1Desc,
-      icon: <Building2 className="w-6 h-6 text-brand-ink" />,
+      icon: <Icon3D name="classical-building" delay={0} size={44} />,
       badge: t.security.card1Badge,
     },
     {
       title: t.security.card2Title,
       desc: t.security.card2Desc,
-      icon: <ShieldCheck className="w-6 h-6 text-emerald-500" />,
+      icon: <Icon3D name="shield" delay={400} size={44} />,
       badge: t.security.card2Badge,
     },
     {
       title: t.security.card3Title,
       desc: t.security.card3Desc,
-      icon: <Award className="w-6 h-6 text-blue-500" />,
+      icon: <Icon3D name="sports-medal" delay={800} size={44} />,
       badge: t.security.card3Badge,
     },
     {
       title: t.security.card4Title,
       desc: t.security.card4Desc,
-      icon: <Lock className="w-6 h-6 text-amber-500" />,
+      icon: <Icon3D name="locked" delay={1200} size={44} />,
       badge: t.security.card4Badge,
     },
   ];
 
-  const banks = ['Kapitalbank', 'Ipak Yo\'li Bank', 'O\'zsanoatqurilishbank (SQB)', 'Aloqabank'];
+  const banks = [
+    { name: 'Kapitalbank', logo: kapitalbankLogo },
+    { name: "Ipak Yo'li Bank", logo: ipakYuliLogo },
+    { name: "O'zsanoatqurilishbank (SQB)", logo: sqbLogo },
+    { name: 'Aloqabank', logo: aloqabankLogo },
+  ];
 
   return (
     <section id="security" className="py-20 md:py-28 relative">
@@ -52,11 +64,12 @@ export const TrustAndSecurity: React.FC = () => {
           {cards.map((c, i) => (
             <div
               key={i}
-              className="bg-surface p-7 rounded-3xl border border-line shadow-sm flex flex-col justify-between hover:shadow-lg transition-all"
+              {...reveal('fade-up', i * 80)}
+              className="group bg-surface p-7 rounded-3xl shadow-card flex flex-col justify-between hover:shadow-lift transition-shadow"
             >
               <div>
                 <div className="flex items-center justify-between mb-5">
-                  <div className="w-12 h-12 rounded-2xl bg-surface-2 flex items-center justify-center border border-line">
+                  <div className="w-16 h-16 rounded-2xl bg-canvas flex items-center justify-center">
                     {c.icon}
                   </div>
                   <Badge variant="neutral" size="sm">
@@ -80,17 +93,20 @@ export const TrustAndSecurity: React.FC = () => {
         </div>
 
         {/* Co-Funding Bank Partners Strip */}
-        <div className="bg-surface-2 rounded-3xl p-6 sm:p-8 border border-line text-center space-y-4">
+        <div {...reveal('fade-up')} className="bg-surface rounded-3xl p-6 sm:p-8 shadow-card text-center space-y-4">
+          <TrustBadges className="justify-center pb-2" />
           <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
             {t.security.coFundingTitle}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
             {banks.map((bank, index) => (
               <div
-                key={index}
-                className="px-5 py-2.5 rounded-2xl bg-surface border border-line text-xs sm:text-sm font-extrabold text-gray-800 dark:text-gray-200 shadow-sm"
+                key={bank.name}
+                {...reveal('zoom-in', index * 60)}
+                className="flex items-center gap-3 rounded-2xl bg-canvas py-2 pl-2 pr-5 text-sm font-extrabold text-ink"
               >
-                {bank}
+                <img src={bank.logo} alt="" aria-hidden="true" width={36} height={36} className="h-9 w-9 rounded-xl" />
+                {bank.name}
               </div>
             ))}
           </div>

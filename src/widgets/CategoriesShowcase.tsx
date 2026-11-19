@@ -1,11 +1,23 @@
 import React, { useState, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
 import { Badge } from '../shared/ui/Badge';
 import { Button } from '../shared/ui/Button';
 import { StoreBrandLogo } from '../shared/ui/StoreBrandLogo';
 import { PARTNERS } from '../shared/config/partners';
 import type { PartnerCategory, PartnerId } from '../shared/config/partners';
+import electronicsPhoto from '../assets/photos/category-electronics.jpg';
+import fashionPhoto from '../assets/photos/category-fashion.jpg';
+import homePhoto from '../assets/photos/category-home.jpg';
+import supermarketPhoto from '../assets/photos/category-supermarket.jpg';
+
+const CATEGORY_PHOTOS: Record<PartnerCategory, string> = {
+  electronics: electronicsPhoto,
+  fashion: fashionPhoto,
+  home: homePhoto,
+  supermarket: supermarketPhoto,
+};
 import {
   Store,
   Search,
@@ -72,7 +84,7 @@ export const CategoriesShowcase: React.FC = () => {
   }, [stores, activeCategory, searchQuery]);
 
   return (
-    <section id="stores" className="py-20 md:py-28 bg-[#F8F9FA] dark:bg-[#070A0E] relative">
+    <section id="stores" className="py-20 md:py-28 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <SectionHeader
@@ -82,8 +94,45 @@ export const CategoriesShowcase: React.FC = () => {
           subtitle={t.stores.subtitle}
         />
 
+        {/* Category photo tiles (free-licensed Unsplash photos), act as filters */}
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {categories
+            .filter((cat): cat is { id: PartnerCategory; label: string } => cat.id !== 'all')
+            .map((cat, i) => {
+              const active = activeCategory === cat.id;
+              const brands = stores.filter((s) => s.category === cat.id);
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setActiveCategory(active ? 'all' : cat.id)}
+                  {...reveal('zoom-in', i * 90)}
+                  className={`group relative h-40 overflow-hidden rounded-3xl text-left shadow-card transition-shadow hover:shadow-lift sm:h-48 ${
+                    active ? 'ring-4 ring-brand ring-offset-2 ring-offset-canvas' : ''
+                  }`}
+                >
+                  <img
+                    src={CATEGORY_PHOTOS[cat.id]}
+                    alt=""
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
+                  <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                  <span className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-2">
+                    <span className="text-base font-extrabold leading-tight text-white sm:text-lg">{cat.label}</span>
+                    <span className="flex -space-x-2">
+                      {brands.slice(0, 3).map((b) => (
+                        <StoreBrandLogo key={b.id} storeId={b.id} name={b.name} className="h-8 w-8 rounded-full ring-2 ring-white" />
+                      ))}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+        </div>
         {/* Filter and Search Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-line">
+        <div {...reveal('fade-up')} className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-line">
           {/* Category Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
             {categories.map((cat) => (
@@ -116,10 +165,11 @@ export const CategoriesShowcase: React.FC = () => {
 
         {/* Store Cards Grid with Official Brand Logos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredStores.map((store) => (
+          {filteredStores.map((store, i) => (
             <div
               key={store.id}
-              className="group bg-surface rounded-3xl p-6 border border-line shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+              {...reveal('fade-up', (i % 3) * 80)}
+              className="group bg-surface rounded-3xl p-6 shadow-card hover:shadow-lift hover:-translate-y-1 transition-[translate,box-shadow] duration-200 flex flex-col justify-between"
             >
               <div>
                 {/* Brand Header with Exact Official Brand Emblem & Metadata */}

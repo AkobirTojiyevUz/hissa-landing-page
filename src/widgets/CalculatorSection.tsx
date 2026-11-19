@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
 import { Badge } from '../shared/ui/Badge';
 import { Button } from '../shared/ui/Button';
@@ -103,7 +104,7 @@ export const CalculatorSection: React.FC = () => {
         />
 
         {/* Calculator Main Widget Box */}
-        <div className="bg-surface rounded-[2.5rem] border border-line shadow-2xl p-6 sm:p-10 lg:p-12 max-w-5xl mx-auto mb-10">
+        <div {...reveal('zoom-in')} className="bg-surface rounded-[2.5rem] border border-line shadow-lift p-6 sm:p-10 lg:p-12 max-w-5xl mx-auto mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             {/* Left Controls: Amount Slider & Term Selector */}
@@ -289,7 +290,7 @@ export const CalculatorSection: React.FC = () => {
         </div>
 
         {/* Side-by-Side Tariff Comparison (Qisqa tarif taqqoslash - 3 ta muddat bir qarashda) */}
-        <div className="max-w-5xl mx-auto bg-surface rounded-3xl border border-line shadow-xl p-6 sm:p-8 space-y-6">
+        <div {...reveal('fade-up')} className="max-w-5xl mx-auto bg-surface rounded-3xl border border-line shadow-card p-6 sm:p-8 space-y-6">
           <div className="flex items-center gap-2">
             <Table2 className="w-4 h-4 text-brand-ink" />
             <h3 className="text-sm sm:text-base font-bold text-ink">
@@ -298,11 +299,12 @@ export const CalculatorSection: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {plansComparison.map((plan) => {
+            {plansComparison.map((plan, i) => {
               const isSelected = term === plan.months;
               return (
                 <div
                   key={plan.months}
+                  {...reveal('fade-up', i * 80)}
                   onClick={() => setTerm(plan.months)}
                   className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected

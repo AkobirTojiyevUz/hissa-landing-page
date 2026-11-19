@@ -21,14 +21,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenMerchantModal }) => {
       {/* 1. Hero with PM promises & "Hamkor do‘konlarni ko‘rish" CTA */}
       <HeroSection onOpenMerchantModal={onOpenMerchantModal} />
 
+      {/* Scroll-driven app walkthrough */}
+      <HowItWorks />
+
       {/* 2. Interactive Yandex Map */}
       <NearbyStoresMap />
 
       {/* 3. Why Hissa / Value Props */}
       <ValueProps />
-
-      {/* 4. How It Works (3 Steps) */}
-      <HowItWorks />
 
       {/* 5. PM Requirement: Hissa’dan kim foydalanishi mumkin? */}
       <EligibilitySection />

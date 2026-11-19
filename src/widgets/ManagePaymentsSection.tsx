@@ -1,8 +1,10 @@
 import React from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { Icon3D } from '../shared/ui/Icon3D';
+import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
 import { Button } from '../shared/ui/Button';
-import { Calendar, CheckCircle, Headphones, ArrowRight, Smartphone, RefreshCw } from 'lucide-react';
+import { ArrowRight, Smartphone, RefreshCw } from 'lucide-react';
 
 export const ManagePaymentsSection: React.FC = () => {
   const { t } = useI18n();
@@ -16,7 +18,7 @@ export const ManagePaymentsSection: React.FC = () => {
       title: t.managePayments.card1Title,
       desc: t.managePayments.card1Desc,
       btn: t.managePayments.card1Btn,
-      icon: <Calendar className="w-6 h-6 text-brand-ink" />,
+      icon: <Icon3D name="spiral-calendar" delay={0} size={44} />,
       action: scrollToApp,
       color: 'border-l-4 border-l-brand',
     },
@@ -24,7 +26,7 @@ export const ManagePaymentsSection: React.FC = () => {
       title: t.managePayments.card2Title,
       desc: t.managePayments.card2Desc,
       btn: t.managePayments.card2Btn,
-      icon: <CheckCircle className="w-6 h-6 text-emerald-500" />,
+      icon: <Icon3D name="check-mark-button" delay={400} size={44} />,
       action: scrollToApp,
       color: 'border-l-4 border-l-emerald-500',
     },
@@ -32,7 +34,7 @@ export const ManagePaymentsSection: React.FC = () => {
       title: t.managePayments.card3Title,
       desc: t.managePayments.card3Desc,
       btn: t.managePayments.card3Btn,
-      icon: <Headphones className="w-6 h-6 text-blue-500" />,
+      icon: <Icon3D name="headphone" delay={800} size={44} />,
       action: () => {
         window.open('tel:+998712000000', '_self');
       },
@@ -56,10 +58,11 @@ export const ManagePaymentsSection: React.FC = () => {
           {cards.map((c, i) => (
             <div
               key={i}
-              className={`bg-surface p-7 sm:p-8 rounded-3xl border border-line shadow-sm flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${c.color}`}
+              {...reveal('fade-up', i * 100)}
+              className={`group bg-surface p-7 sm:p-8 rounded-3xl border border-line shadow-sm flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${c.color}`}
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-surface-2 border border-line flex items-center justify-center">
+                <div className="w-16 h-16 rounded-2xl bg-canvas flex items-center justify-center">
                   {c.icon}
                 </div>
                 <h3 className="text-lg font-bold text-ink">

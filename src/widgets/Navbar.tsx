@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Sun, Moon, Globe, Menu, X, ArrowUpRight, Briefcase, Check } from 'lucide-react';
 import { useI18n } from '../app/i18n/I18nContext';
 import { useTheme } from '../app/theme/ThemeContext';
 import type { Language } from '../app/i18n/translations';
 import { HissaLogo } from '../shared/ui/HissaLogo';
 import { Button } from '../shared/ui/Button';
-import { Sun, Moon, Globe, Menu, X, ArrowUpRight, Briefcase } from 'lucide-react';
 
 interface NavbarProps {
   currentRoute: string;
@@ -12,31 +12,29 @@ interface NavbarProps {
   onOpenMerchantModal: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({
-  currentRoute,
-  onRouteChange,
-  onOpenMerchantModal,
-}) => {
+const LANGUAGES: { code: Language; label: string; short: string }[] = [
+  { code: 'uz', label: 'Özbekçe (Yangi)', short: 'ÖZ' },
+  { code: 'uz_lat', label: 'O‘zbekcha (Lotin)', short: 'OʻZ' },
+  { code: 'ru', label: 'Русский', short: 'RU' },
+  { code: 'en', label: 'English', short: 'EN' },
+];
+
+const iconButton =
+  'inline-flex h-11 min-w-11 items-center justify-center gap-1.5 rounded-full px-3 text-ink-2 transition-colors hover:bg-sunken hover:text-ink cursor-pointer';
+
+export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onRouteChange, onOpenMerchantModal }) => {
   const { language, setLanguage, t } = useI18n();
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  const languages: { code: Language; label: string; flag: string }[] = [
-    { code: 'uz', label: "Özbekçe (Yangi)", flag: '🇺🇿' },
-    { code: 'uz_lat', label: "O‘zbekcha (Lotin)", flag: '🇺🇿' },
-    { code: 'ru', label: 'Русский', flag: '🇷🇺' },
-    { code: 'en', label: 'English', flag: '🇬🇧' },
-  ];
 
   const navLinks = [
     { route: 'home', hash: '#/', label: t.audience.shoppers },
@@ -52,217 +50,184 @@ export const Navbar: React.FC<NavbarProps> = ({
     setIsMobileMenuOpen(false);
   };
 
+  const goToApp = () => {
+    setIsMobileMenuOpen(false);
+    const el = document.getElementById('app');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    handleNavClick('#/', 'home');
+    window.setTimeout(() => document.getElementById('app')?.scrollIntoView({ behavior: 'smooth' }), 200);
+  };
+
+  const currentLang = LANGUAGES.find((l) => l.code === language) ?? LANGUAGES[0];
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/80 dark:bg-[#0A0F14]/85 backdrop-blur-xl border-b border-line shadow-sm py-3'
+      className={`fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,padding] duration-300 ${
+        isScrolled || isMobileMenuOpen
+          ? 'border-b border-line bg-surface/85 py-3 shadow-card backdrop-blur-xl'
           : 'bg-transparent py-5'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Brand Logo */}
-          <a
-            href="#/"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavClick('#/', 'home');
-            }}
-            className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-brand rounded-xl p-1"
-          >
-            <HissaLogo height={28} animated={true} />
-            <span className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full ml-1">
-              UZCARD
-            </span>
-          </a>
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <a
+          href="#/"
+          onClick={(e) => {
+            e.preventDefault();
+            handleNavClick('#/', 'home');
+          }}
+          className="flex shrink-0 items-center gap-2.5 rounded-xl p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+        >
+          <HissaLogo height={32} animated />
+          <span className="hidden rounded-full bg-sunken px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink-3 sm:inline-block">
+            Uzcard
+          </span>
+        </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 bg-gray-100/70 dark:bg-gray-900/60 p-1.5 rounded-full border border-line backdrop-blur-md">
-            {navLinks.map((link) => {
-              const isB2B = link.isB2B;
-              const isActive = currentRoute === link.route;
-              return (
-                <a
-                  key={link.route}
-                  href={link.hash}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(link.hash, link.route);
-                  }}
-                  className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
-                    isActive
-                      ? 'bg-white dark:bg-gray-800 text-brand-ink font-bold shadow-sm'
-                      : isB2B
-                      ? 'bg-brand/10 text-brand-ink font-extrabold hover:bg-brand hover:text-white'
-                      : 'text-ink-2 hover:text-brand-ink dark:hover:text-brand-ink hover:bg-white/60 dark:hover:bg-gray-800/60'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {isB2B && (
-                    <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-brand text-white uppercase font-black tracking-wider leading-none">
-                      B2B
-                    </span>
-                  )}
-                </a>
-              );
-            })}
-          </nav>
-
-          {/* Right Action Bar */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Language Switcher Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
-                aria-label={t.common.languageSelect}
-              >
-                <Globe className="w-4 h-4 text-gray-500" />
-                <span className="uppercase text-[11px] font-black tracking-wide">
-                  {language === 'uz' ? 'ÖZB' : language === 'uz_lat' ? 'OʻZB' : language}
-                </span>
-              </button>
-
-              {isLangDropdownOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setIsLangDropdownOpen(false)}
-                  />
-                  <div className="absolute right-0 mt-2 w-44 bg-surface border border-line rounded-2xl shadow-xl py-1 z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
-                    {languages.map((l) => (
-                      <button
-                        key={l.code}
-                        onClick={() => {
-                          setLanguage(l.code);
-                          setIsLangDropdownOpen(false);
-                        }}
-                        className={`w-full flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-left hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer ${
-                          language === l.code
-                            ? 'text-brand-ink font-bold bg-brand/10'
-                            : 'text-ink-2'
-                        }`}
-                      >
-                        <span>{l.flag}</span>
-                        <span>{l.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
-              aria-label={t.common.toggleTheme}
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-gray-700" />
-              )}
-            </button>
-
-            {/* B2B Partner CTA */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onOpenMerchantModal}
-              leftIcon={<Briefcase className="w-3.5 h-3.5 text-brand-ink" />}
-              className="max-md:hidden border-brand/40 hover:border-brand font-bold"
-            >
-              {t.nav.partnerCta}
-            </Button>
-
-            {/* Main App CTA */}
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => {
-                const el = document.getElementById('app');
-                if (el) {
-                  el.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  handleNavClick('#/', 'home');
-                  setTimeout(() => {
-                    document.getElementById('app')?.scrollIntoView({ behavior: 'smooth' });
-                  }, 200);
-                }
-              }}
-              rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}
-              className="max-sm:hidden"
-            >
-              {t.nav.getAppCta}
-            </Button>
-
-            {/* Mobile Hamburger Toggle */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
-              aria-label={t.common.openMenu}
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Navigation */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden bg-white/95 dark:bg-[#0A0F14]/95 backdrop-blur-2xl border-b border-line px-4 pt-3 pb-6 space-y-3">
-          <nav className="flex flex-col space-y-1">
-            {navLinks.map((link) => (
+        <nav
+         
+          className="hidden items-center gap-1 rounded-full border border-line bg-surface/70 p-1.5 shadow-card backdrop-blur-md lg:flex"
+        >
+          {navLinks.map((link) => {
+            const isActive = currentRoute === link.route;
+            return (
               <a
                 key={link.route}
                 href={link.hash}
+                aria-current={isActive ? 'page' : undefined}
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavClick(link.hash, link.route);
                 }}
-                className={`px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors flex items-center justify-between cursor-pointer ${
-                  currentRoute === link.route
-                    ? 'text-brand-ink font-bold bg-brand/10'
-                    : 'text-gray-800 dark:text-gray-200 hover:text-brand-ink hover:bg-gray-100 dark:hover:bg-gray-800/60'
+                className={`flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-[15px] font-semibold transition-colors ${
+                  isActive ? 'bg-brand-tint text-brand-ink' : 'text-ink-2 hover:bg-sunken hover:text-ink'
                 }`}
               >
-                <span>{link.label}</span>
+                {link.label}
                 {link.isB2B && (
-                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-brand text-white uppercase font-black">
+                  <span className="rounded-md bg-brand px-1.5 py-0.5 text-[10px] font-extrabold uppercase leading-none tracking-wide text-white">
+                    B2B
+                  </span>
+                )}
+              </a>
+            );
+          })}
+        </nav>
+
+        <div className="flex items-center gap-1 sm:gap-2">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsLangOpen((v) => !v)}
+              aria-label={t.common.languageSelect}
+              aria-expanded={isLangOpen}
+              className={iconButton}
+            >
+              <Globe className="h-5 w-5" />
+              <span className="text-sm font-bold">{currentLang.short}</span>
+            </button>
+            {isLangOpen && (
+              <>
+                <div className="fixed inset-0 z-10" onClick={() => setIsLangOpen(false)} />
+                <ul className="absolute right-0 z-20 mt-2 w-56 overflow-hidden rounded-2xl border border-line bg-surface p-1.5 shadow-lift">
+                  {LANGUAGES.map((l) => (
+                    <li key={l.code}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setLanguage(l.code);
+                          setIsLangOpen(false);
+                        }}
+                        className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-[15px] font-semibold transition-colors ${
+                          language === l.code ? 'bg-brand-tint text-brand-ink' : 'text-ink hover:bg-sunken'
+                        }`}
+                      >
+                        {l.label}
+                        {language === l.code && <Check className="h-4 w-4" />}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+
+          <button type="button" onClick={toggleTheme} aria-label={t.common.toggleTheme} className={iconButton}>
+            {theme === 'dark' ? <Sun className="h-5 w-5 text-amber-400" /> : <Moon className="h-5 w-5" />}
+          </button>
+
+          <Button
+            variant="outline"
+            size="md"
+            onClick={onOpenMerchantModal}
+            leftIcon={<Briefcase className="h-4 w-4 text-brand-ink" />}
+            className="max-2xl:hidden text-[15px]"
+          >
+            {t.nav.partnerCta}
+          </Button>
+
+          <Button
+            size="md"
+            onClick={goToApp}
+            rightIcon={<ArrowUpRight className="h-4 w-4" />}
+            className="max-sm:hidden text-[15px]"
+          >
+            {t.nav.getAppCta}
+          </Button>
+
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((v) => !v)}
+            aria-label={t.common.openMenu}
+            aria-expanded={isMobileMenuOpen}
+            className={`${iconButton} lg:hidden`}
+          >
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+      </div>
+
+      {isMobileMenuOpen && (
+        <div className="mx-auto max-w-7xl space-y-4 px-4 pb-6 pt-4 sm:px-6 lg:hidden">
+          <nav className="flex flex-col gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.route}
+                href={link.hash}
+                aria-current={currentRoute === link.route ? 'page' : undefined}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.hash, link.route);
+                }}
+                className={`flex items-center justify-between rounded-2xl px-4 py-3.5 text-base font-semibold transition-colors ${
+                  currentRoute === link.route ? 'bg-brand-tint text-brand-ink' : 'text-ink hover:bg-sunken'
+                }`}
+              >
+                {link.label}
+                {link.isB2B && (
+                  <span className="rounded-md bg-brand px-1.5 py-0.5 text-[10px] font-extrabold uppercase text-white">
                     B2B
                   </span>
                 )}
               </a>
             ))}
           </nav>
-          <div className="pt-3 border-t border-line flex flex-col gap-2">
+          <div className="flex flex-col gap-2 border-t border-line pt-4">
             <Button
               variant="outline"
-              size="md"
+              size="lg"
               onClick={() => {
                 setIsMobileMenuOpen(false);
                 onOpenMerchantModal();
               }}
-              leftIcon={<Briefcase className="w-4 h-4 text-brand-ink" />}
-              className="w-full justify-center"
+              leftIcon={<Briefcase className="h-5 w-5 text-brand-ink" />}
+              className="w-full"
             >
               {t.nav.partnerCta}
             </Button>
-            <Button
-              variant="primary"
-              size="md"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                handleNavClick('#/', 'home');
-                setTimeout(() => {
-                  document.getElementById('app')?.scrollIntoView({ behavior: 'smooth' });
-                }, 200);
-              }}
-              rightIcon={<ArrowUpRight className="w-4 h-4" />}
-              className="w-full justify-center"
-            >
+            <Button size="lg" onClick={goToApp} rightIcon={<ArrowUpRight className="h-5 w-5" />} className="w-full">
               {t.nav.getAppCta}
             </Button>
           </div>

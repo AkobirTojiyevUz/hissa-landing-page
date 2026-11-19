@@ -12,9 +12,9 @@ const prefersReducedMotion = () =>
 export function useScrollReveal(routeKey: string) {
   useEffect(() => {
     AOS.init({
-      duration: 600,
+      duration: 850,
       easing: 'ease-out-cubic',
-      offset: 64,
+      offset: 40,
       once: true,
       disable: prefersReducedMotion,
     });

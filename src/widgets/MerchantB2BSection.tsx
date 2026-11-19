@@ -1,27 +1,14 @@
 import React, { useState } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { Icon3D } from '../shared/ui/Icon3D';
+import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
+import partnersPhoto from '../assets/photos/uzcard-partners-meeting.webp';
+import { StoreBrandLogo } from '../shared/ui/StoreBrandLogo';
+import { PARTNERS } from '../shared/config/partners';
 import { Badge } from '../shared/ui/Badge';
 import { Button } from '../shared/ui/Button';
-import {
-  Briefcase,
-  ArrowRight,
-  Store,
-  Globe,
-  Layers,
-  Sparkles,
-  CheckCircle2,
-  Building,
-  Phone,
-  Hash,
-  Calculator,
-  Scale,
-  Clock,
-  FileCheck2,
-  Percent,
-  Banknote,
-  ShieldAlert,
-} from 'lucide-react';
+import { Briefcase, ArrowRight, CheckCircle2, Building, Phone, Hash, Calculator, Scale, Clock, FileCheck2, Percent, Banknote, ShieldAlert } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface MerchantB2BSectionProps {
@@ -81,28 +68,28 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
       title: t.merchant.solRetailTitle,
       desc: t.merchant.solRetailDesc,
       badge: t.merchant.solRetailBadge,
-      icon: <Store className="w-6 h-6 text-brand-ink" />,
+      icon: <Icon3D name="convenience-store" delay={0} size={44} />,
       tags: ['Uzcard POS', 'TezQR Kassa', 'Smartfon ilovasi'],
     },
     {
       title: t.merchant.solEcomTitle,
       desc: t.merchant.solEcomDesc,
       badge: t.merchant.solEcomBadge,
-      icon: <Globe className="w-6 h-6 text-blue-500" />,
+      icon: <Icon3D name="globe-with-meridians" delay={400} size={44} />,
       tags: ['REST API', 'WooCommerce', 'OpenCart', 'Telegram Bot'],
     },
     {
       title: t.merchant.solEnterpriseTitle,
       desc: t.merchant.solEnterpriseDesc,
       badge: t.merchant.solEnterpriseBadge,
-      icon: <Layers className="w-6 h-6 text-purple-500" />,
+      icon: <Icon3D name="package" delay={800} size={44} />,
       tags: ['1C:Korxona', 'IIKO & R-Keeper', 'B2B Menejer', 'Maxsus SLA'],
     },
     {
       title: t.merchant.solServicesTitle,
       desc: t.merchant.solServicesDesc,
       badge: t.merchant.solServicesBadge,
-      icon: <Sparkles className="w-6 h-6 text-emerald-500" />,
+      icon: <Icon3D name="rocket" delay={1200} size={44} />,
       tags: ['To\'lov havolalari', 'Elektron schyot-faktura', 'Klinikalar & Kurslar'],
     },
   ];
@@ -172,12 +159,26 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
           subtitle={t.merchant.subtitle}
         />
 
+        {/* Partners photo (uzcard.uz) */}
+        <figure {...reveal('zoom-in')} className="group relative mb-10 h-64 overflow-hidden rounded-[32px] shadow-lift sm:h-80 lg:h-[380px]">
+          <img src={partnersPhoto} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-105" />
+          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-[#0c111d]/80 via-[#0c111d]/30 to-transparent" />
+          <figcaption className="absolute bottom-6 left-6 right-6 max-w-md space-y-4 sm:bottom-10 sm:left-10">
+            <p className="text-2xl font-extrabold leading-tight tracking-[-0.03em] text-white sm:text-3xl">{t.merchant.subtitle}</p>
+            <span className="flex -space-x-2">
+              {PARTNERS.slice(0, 6).map((p) => (
+                <StoreBrandLogo key={p.id} storeId={p.id} name={p.name} className="h-10 w-10 rounded-full ring-2 ring-white" />
+              ))}
+            </span>
+          </figcaption>
+        </figure>
         {/* 4 Big Business Stat Highlights */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
           {stats.map((s, i) => (
             <div
               key={i}
-              className="bg-surface p-6 sm:p-8 rounded-3xl border border-line shadow-sm text-center hover:border-brand/40 transition-colors"
+              {...reveal('fade-up', i * 80)}
+              className="bg-surface p-6 sm:p-8 rounded-3xl shadow-card text-center transition-shadow hover:shadow-lift"
             >
               <div className={`text-3xl sm:text-4xl lg:text-5xl font-black ${s.color} tracking-tight mb-2`}>
                 {s.value}
@@ -298,11 +299,12 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
             {solutions.map((sol, index) => (
               <div
                 key={index}
-                className="bg-surface p-6 rounded-3xl border border-line shadow-sm flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-all"
+                {...reveal('fade-up', index * 80)}
+                className="group bg-surface p-6 rounded-3xl shadow-card flex flex-col justify-between hover:shadow-lift hover:-translate-y-1 transition-[translate,box-shadow]"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-surface-2 flex items-center justify-center border border-line">
+                    <div className="w-16 h-16 rounded-2xl bg-canvas flex items-center justify-center">
                       {sol.icon}
                     </div>
                     <Badge variant="brand" size="sm">
@@ -394,6 +396,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
             {onboardingSteps.map((step, idx) => (
               <div
                 key={idx}
+                {...reveal('fade-up', idx * 100)}
                 className="bg-surface p-8 rounded-3xl border border-line shadow-sm relative overflow-hidden group hover:border-brand/40 transition-all"
               >
                 <div className="text-5xl font-black text-gray-100 dark:text-[#1D2329] group-hover:text-brand-ink/15 transition-colors absolute top-4 right-6 select-none">

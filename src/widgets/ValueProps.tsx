@@ -1,44 +1,41 @@
 import React from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { Icon3D } from '../shared/ui/Icon3D';
+import { reveal } from '../app/motion/useScrollReveal';
 import { SectionHeader } from '../shared/ui/SectionHeader';
 import { Badge } from '../shared/ui/Badge';
-import { Percent, CreditCard, QrCode, Smartphone, Sparkles, Check } from 'lucide-react';
+import { Sparkles, Check } from 'lucide-react';
+import payInStore from '../assets/photos/uzcard-pay-in-store.webp';
+import payWithPhone from '../assets/photos/uzcard-pay-with-phone.webp';
+import tezqrGirl from '../assets/photos/uzcard-tezqr-girl.png';
 
 export const ValueProps: React.FC = () => {
   const { t } = useI18n();
 
   const cards = [
     {
-      icon: <Percent className="w-6 h-6 text-brand-ink" />,
+      icon: <Icon3D name="money-bag" delay={0} size={44} />,
       badge: t.whyHissa.card1Badge,
       title: t.whyHissa.card1Title,
       desc: t.whyHissa.card1Desc,
-      bg: 'bg-rose-50/50 dark:bg-[#1D2329]',
-      border: 'border-rose-100 dark:border-gray-800',
     },
     {
-      icon: <CreditCard className="w-6 h-6 text-blue-500" />,
+      icon: <Icon3D name="credit-card" delay={400} size={44} />,
       badge: t.whyHissa.card2Badge,
       title: t.whyHissa.card2Title,
       desc: t.whyHissa.card2Desc,
-      bg: 'bg-blue-50/50 dark:bg-[#1D2329]',
-      border: 'border-blue-100 dark:border-gray-800',
     },
     {
-      icon: <QrCode className="w-6 h-6 text-emerald-500" />,
+      icon: <Icon3D name="mobile-phone" delay={800} size={44} />,
       badge: t.whyHissa.card3Badge,
       title: t.whyHissa.card3Title,
       desc: t.whyHissa.card3Desc,
-      bg: 'bg-emerald-50/50 dark:bg-[#1D2329]',
-      border: 'border-emerald-100 dark:border-gray-800',
     },
     {
-      icon: <Smartphone className="w-6 h-6 text-amber-500" />,
+      icon: <Icon3D name="bell" delay={1200} size={44} />,
       badge: t.whyHissa.card4Badge,
       title: t.whyHissa.card4Title,
       desc: t.whyHissa.card4Desc,
-      bg: 'bg-amber-50/50 dark:bg-[#1D2329]',
-      border: 'border-amber-100 dark:border-gray-800',
     },
   ];
 
@@ -52,16 +49,43 @@ export const ValueProps: React.FC = () => {
           subtitle={t.whyHissa.subtitle}
         />
 
+        {/* Photo bento: real Uzcard imagery (uzcard.uz) */}
+        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-rows-2 md:gap-6 lg:h-[560px]">
+          <figure {...reveal('zoom-in')} className="group relative min-h-[300px] overflow-hidden rounded-[32px] md:col-span-2 md:row-span-2">
+            <img src={payInStore} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105" />
+            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0" />
+            <figcaption className="absolute inset-x-5 bottom-5 flex items-center gap-3 rounded-2xl bg-white/90 p-3 pr-5 shadow-lift backdrop-blur-md sm:inset-x-auto sm:left-6 sm:bottom-6">
+              <Icon3D name="credit-card" size={40} />
+              <span className="text-base font-bold text-[#0c111d]">{t.whyHissa.card2Title}</span>
+            </figcaption>
+          </figure>
+          <figure {...reveal('zoom-in', 120)} className="group relative min-h-[260px] overflow-hidden rounded-[32px]">
+            <img src={payWithPhone} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105" />
+            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0" />
+            <figcaption className="absolute inset-x-4 bottom-4 flex items-center gap-3 rounded-2xl bg-white/90 p-3 shadow-lift backdrop-blur-md">
+              <Icon3D name="bell" size={36} delay={600} />
+              <span className="text-sm font-bold text-[#0c111d]">{t.whyHissa.card4Title}</span>
+            </figcaption>
+          </figure>
+          <figure {...reveal('zoom-in', 240)} className="group relative min-h-[260px] overflow-hidden rounded-[32px] bg-gradient-to-br from-[var(--coral-400)] to-[var(--coral-600)]">
+            <div aria-hidden="true" className="absolute -right-10 -top-10 h-48 w-48 rounded-full border-[28px] border-white/15" />
+            <img src={tezqrGirl} alt="" loading="lazy" className="absolute bottom-0 right-0 h-[105%] w-auto max-w-none object-contain transition-transform duration-700 ease-out group-hover:-translate-y-2" />
+            <figcaption className="absolute left-5 top-5 max-w-[55%] text-xl font-extrabold leading-tight tracking-[-0.03em] text-white">
+              {t.whyHissa.card3Title}
+            </figcaption>
+          </figure>
+        </div>
         {/* 4 Benefit Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {cards.map((card, i) => (
             <div
               key={i}
-              className={`p-6 sm:p-7 rounded-3xl ${card.bg} border ${card.border} shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between`}
+              {...reveal('fade-up', i * 80)}
+              className="group p-6 sm:p-7 rounded-3xl bg-surface shadow-card hover:shadow-lift transition-[translate,box-shadow] duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-5">
-                  <div className="w-12 h-12 rounded-2xl bg-surface shadow-sm flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-2xl bg-surface shadow-card flex items-center justify-center">
                     {card.icon}
                   </div>
                   <Badge variant="neutral" size="sm">

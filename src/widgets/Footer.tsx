@@ -1,7 +1,8 @@
 import React from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
 import { HissaLogo } from '../shared/ui/HissaLogo';
-import { Phone, Mail, ShieldCheck, ArrowUp } from 'lucide-react';
+import { TrustBadges } from '../shared/ui/TrustBadges';
+import { Phone, Mail, ArrowUp } from 'lucide-react';
 
 interface FooterProps {
   onOpenMerchantModal: () => void;
@@ -32,15 +33,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenMerchantModal }) => {
             <p className="text-xs sm:text-sm text-ink-3 max-w-sm leading-relaxed">
               {t.footer.tagline}
             </p>
-            <div className="flex items-center gap-2 pt-2">
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold border border-emerald-500/20">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>PCI DSS v4.0.1</span>
-              </div>
-              <div className="text-xs font-semibold text-gray-400 px-2 py-1">
-                UZCARD Protected
-              </div>
-            </div>
+            <TrustBadges className="pt-2" />
           </div>
 
           {/* Shoppers Links */}
