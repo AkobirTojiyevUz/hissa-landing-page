@@ -1,6 +1,13 @@
 @import "tailwindcss";
+/*
+ * Design tokens are shared with the admin panel (admin-bnpl/design/tokens,
+ * generated from the Figma file "Hissa · Branch"). Re-copy
+ * admin-bnpl/src/app/styles/tokens.css after `npm run tokens` there.
+ */
+@import './app/styles/tokens.css';
+@import 'aos/dist/aos.css';
 
-@variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
   font-family: 'Manrope';
@@ -35,41 +42,56 @@
   font-display: swap;
 }
 
-:root {
-  --font-family-primary: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
-  /* Brand Colors from Tokens */
-  --brand-500: #FF655B;
-  --brand-600: #ED4A3F;
-  --brand-soft: #FFF3F2;
-  
-  --bg-base: #F2F4F7;
-  --bg-surface: #FFFFFF;
-  --bg-surface-secondary: #F9FAFB;
-  --border-subtle: #E4E7EC;
-  --text-primary: #0C111D;
-  --text-secondary: #475467;
-  --text-tertiary: #98A2B3;
-}
+/*
+ * Semantic Tailwind utilities backed by the Figma tokens, e.g. `bg-surface`,
+ * `text-ink-2`, `border-line`, `shadow-card`, `tracking-figma`.
+ * They follow light/dark automatically through `data-theme` on <html>.
+ */
+@theme inline {
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-html[data-theme='dark'] {
-  --bg-base: #0A0F14;
-  --bg-surface: #13181E;
-  --bg-surface-secondary: #1D2329;
-  --border-subtle: #262D35;
-  --text-primary: #FFFFFF;
-  --text-secondary: #969BA3;
-  --text-tertiary: #7A828D;
-  --brand-soft: #3D1411;
+  --color-canvas: var(--color-bg-base);
+  --color-surface: var(--color-bg-surface);
+  --color-surface-2: var(--color-bg-surface-secondary);
+  --color-sunken: var(--color-bg-sunken);
+  --color-ink: var(--color-text-primary);
+  --color-ink-2: var(--color-text-secondary);
+  --color-ink-3: var(--color-text-tertiary);
+  --color-line: var(--color-border-default);
+  --color-line-strong: var(--color-border-neutral);
+  --color-brand: var(--color-bg-brand);
+  --color-brand-pressed: var(--color-bg-brand-pressed);
+  --color-brand-soft: var(--color-bg-brand-soft);
+  --color-brand-tint: var(--color-bg-brand-tint);
+  --color-brand-ink: var(--color-text-brand);
+  --color-success: var(--color-text-success);
+  --color-success-soft: var(--color-bg-success-soft);
+
+  --shadow-card: 0 1px 3px var(--color-effect-shadow-md-key), 0 12px 16px var(--color-effect-shadow-md);
+  --shadow-lift: 0 2px 6px var(--color-effect-shadow-lg-key), 0 24px 48px var(--color-effect-shadow-lg);
+  --shadow-brand: 0 12px 32px var(--color-effect-shadow-brand);
+
+  --tracking-figma: -0.02em;
 }
 
 body {
-  font-family: var(--font-family-primary);
-  background-color: var(--bg-base);
-  color: var(--text-primary);
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  overflow-x: clip;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Scroll-reveal (AOS) must never hide content for users who opt out of motion. */
+@media (prefers-reduced-motion: reduce) {
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* Hissa Logo 3 Crescents Wave Animation */

@@ -8,12 +8,14 @@ import { StoresPage } from './pages/StoresPage';
 import { FaqPage } from './pages/FaqPage';
 import { Footer } from './widgets/Footer';
 import { MerchantModal } from './widgets/MerchantModal';
+import { useScrollReveal } from './app/motion/useScrollReveal';
 
 type AppRoute = 'home' | 'stores' | 'business' | 'faq';
 
 const LandingPageContent: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<AppRoute>('home');
   const [isMerchantModalOpen, setIsMerchantModalOpen] = useState(false);
+  useScrollReveal(currentRoute);
 
   useEffect(() => {
     const handleHashRouting = () => {
@@ -39,7 +41,7 @@ const LandingPageContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F2F4F7] dark:bg-[#0A0F14] text-[#0C111D] dark:text-[#FFFFFF] transition-colors duration-200">
+    <div className="min-h-screen bg-canvas text-ink transition-colors duration-200">
       {/* Sticky Glass Navbar */}
       <Navbar
         currentRoute={currentRoute}

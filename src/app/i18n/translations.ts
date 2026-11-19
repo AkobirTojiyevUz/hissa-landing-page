@@ -16,6 +16,11 @@ export interface TranslationDictionary {
     km: string;
     openYandexMaps: string;
     openGoogleMaps: string;
+    backToTop: string;
+    languageSelect: string;
+    toggleTheme: string;
+    openMenu: string;
+    close: string;
   };
   nav: {
     howItWorks: string;
@@ -111,6 +116,8 @@ export interface TranslationDictionary {
     step1Desc: string;
     step2Title: string;
     step2Desc: string;
+    step1Note: string;
+    step2Note: string;
     ctaBtn: string;
   };
   calculator: {
@@ -156,7 +163,6 @@ export interface TranslationDictionary {
     electronics: string;
     fashion: string;
     home: string;
-    beauty: string;
     auto: string;
     shopBtn: string;
     upToMonth: string;
@@ -168,7 +174,6 @@ export interface TranslationDictionary {
       electronics: string;
       fashion: string;
       home: string;
-      beauty: string;
       auto: string;
       supermarket: string;
     };
@@ -176,11 +181,11 @@ export interface TranslationDictionary {
       texnomart: string;
       mediapark: string;
       korzinka: string;
-      bellstore: string;
+      asaxiy: string;
       ishonch: string;
       terrapro: string;
-      arena: string;
-      flo: string;
+      olcha: string;
+      defacto: string;
       makro: string;
     };
   };
@@ -205,7 +210,6 @@ export interface TranslationDictionary {
     categoryElectronics: string;
     categoryFashion: string;
     categorySupermarket: string;
-    categoryBeauty: string;
     userLocationLabel: string;
     branchListTitle: string;
     mapControlsHint: string;
@@ -318,6 +322,14 @@ export interface TranslationDictionary {
     formSubtitle: string;
     formSuccess: string;
     formSuccessDesc: string;
+    settlementLabel: string;
+    settlementValue: string;
+    riskGuarantee: string;
+    compareBadge: string;
+    compareFeature: string;
+    integrationBadge: string;
+    settlementPoint: string;
+    sendAnother: string;
   };
   security: {
     eyebrow: string;
@@ -411,6 +423,11 @@ export const translations: Record<Language, TranslationDictionary> = {
       km: "km",
       openYandexMaps: "Yandex Xaritada oçiş",
       openGoogleMaps: "Google Xaritada oçiş",
+      backToTop: "Yuqoriga qaytiş",
+      languageSelect: "Tilni tanlaş",
+      toggleTheme: "Mavzuni almaştiriş",
+      openMenu: "Menyuni oçiş",
+      close: "Yopiş",
     },
     nav: {
       howItWorks: "Qanday işlaydi?",
@@ -506,6 +523,8 @@ export const translations: Record<Language, TranslationDictionary> = {
       step1Desc: "Hissa ilovasida OneID orqali şaxsingizni tasdiqlang.",
       step2Title: "Xarid limitingizni tekşiring",
       step2Desc: "Arizangiz körib çiqilgaç, natijani ilovada körasiz. Limit tasdiqlansa, xarid uçun qança mablağdan foydalanişingiz mumkinligi ham körsatiladi.",
+      step1Note: "OneID orqali 2 daqiqada",
+      step2Note: "25 000 000 sömgaça xarid limiti",
       ctaBtn: "Ilovada limitni tekşiriş",
     },
     calculator: {
@@ -545,13 +564,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     stores: {
       eyebrow: "Keng tanlov",
       title: "Özbekistonning eng yaxşi dökonlari",
-      subtitle: "Elektronika, kiyim-keçak, mebel va gözallik vositalarini Hissa bilan xarid qiling.",
+      subtitle: "Elektronika, kiyim-keçak, mebel va oziq-ovqat mahsulotlarini Hissa bilan xarid qiling.",
       searchPlaceholder: "Dökon yoki brend qidiriş...",
       all: "Barçasi",
       electronics: "Elektronika & Texnika",
       fashion: "Kiyim & Poyabzal",
       home: "Uy & Mebel",
-      beauty: "Gözallik & Parfyum",
       auto: "Avto & Xizmatlar",
       shopBtn: "Dökonda xarid qiliş",
       upToMonth: "oygaça bölib tölaş",
@@ -563,7 +581,6 @@ export const translations: Record<Language, TranslationDictionary> = {
         electronics: "Elektronika",
         fashion: "Kiyim & Poyabzal",
         home: "Uy & Mebel",
-        beauty: "Gözallik",
         auto: "Avto & Xizmatlar",
         supermarket: "Supermarket",
       },
@@ -571,11 +588,11 @@ export const translations: Record<Language, TranslationDictionary> = {
         texnomart: "Smartfonlar va maişiy texnika",
         mediapark: "Televizorlar, muzlatgiçlar",
         korzinka: "Oziq-ovqat va uy-rözğor",
-        bellstore: "Parfyumeriya va kosmetika",
+        asaxiy: "Smartfonlar, noutbuklar va kitoblar",
         ishonch: "Mebel va elektrotexnika",
         terrapro: "Zamonaviy erkaklar kiyimi",
-        arena: "Noutbuklar va öyin uskunalari",
-        flo: "Krossovkalar va mavsumiy poyabzal",
+        olcha: "Gadjetlar va maişiy texnika",
+        defacto: "Ayollar, erkaklar va bolalar kiyimi",
         makro: "Katta xaridlar va maişiy tovarlar",
       },
     },
@@ -600,7 +617,6 @@ export const translations: Record<Language, TranslationDictionary> = {
       categoryElectronics: "Elektronika",
       categoryFashion: "Kiyim & Moda",
       categorySupermarket: "Supermarket",
-      categoryBeauty: "Gözallik",
       userLocationLabel: "Toşkent, Çilonzor tumani",
       branchListTitle: "Filiallar röyxati",
       mapControlsHint: "Xaritani siljiting va kattalaştiring",
@@ -713,6 +729,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       formSubtitle: "Kompaniya ma'lumotlaringizni qoldiring, B2B mutaxassisimiz 15 daqiqada boğlanadi va ulanişga yordam beradi.",
       formSuccess: "Arizangiz qabul qilindi!",
       formSuccessDesc: "Mutaxassisimiz kiritilgan raqam orqali boğlanadi va dökoningizni tizimga ulab beradi.",
+      settlementLabel: "Tölov kafolati",
+      settlementValue: "T+2 kun",
+      riskGuarantee: "Barça kredit risklari va tölovlarni Uzcard kafolatlaydi",
+      compareBadge: "Taqqoslaş",
+      compareFeature: "Xususiyat",
+      integrationBadge: "B2B integratsiya",
+      settlementPoint: "T+2 kafolatlangan bank hisob-kitobi",
+      sendAnother: "Yana ariza yuboriş",
     },
     security: {
       eyebrow: "Işonç va Xavfsizlik",
@@ -858,6 +882,11 @@ export const translations: Record<Language, TranslationDictionary> = {
       km: "km",
       openYandexMaps: "Yandex Xaritada ochish",
       openGoogleMaps: "Google Xaritada ochish",
+      backToTop: "Yuqoriga qaytish",
+      languageSelect: "Tilni tanlash",
+      toggleTheme: "Mavzuni almashtirish",
+      openMenu: "Menyuni ochish",
+      close: "Yopish",
     },
     nav: {
       howItWorks: "Qanday ishlaydi?",
@@ -953,6 +982,8 @@ export const translations: Record<Language, TranslationDictionary> = {
       step1Desc: "Hissa ilovasida OneID orqali shaxsingizni tasdiqlang.",
       step2Title: "Xarid limitingizni tekshiring",
       step2Desc: "Arizangiz ko‘rib chiqilgach, natijani ilovada ko‘rasiz. Limit tasdiqlansa, xarid uchun qancha mablag‘dan foydalanishingiz mumkinligi ham ko‘rsatiladi.",
+      step1Note: "OneID orqali 2 daqiqada",
+      step2Note: "25 000 000 so‘mgacha xarid limiti",
       ctaBtn: "Ilovada limitni tekshirish",
     },
     calculator: {
@@ -992,13 +1023,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     stores: {
       eyebrow: "Keng tanlov",
       title: "O'zbekistonning eng yaxshi do'konlari",
-      subtitle: "Elektronika, kiyim-kechak, mebel va go'zallik vositalarini Hissa bilan xarid qiling.",
+      subtitle: "Elektronika, kiyim-kechak, mebel va oziq-ovqat mahsulotlarini Hissa bilan xarid qiling.",
       searchPlaceholder: "Do'kon yoki brend qidirish...",
       all: "Barchasi",
       electronics: "Elektronika & Texnika",
       fashion: "Kiyim & Poyabzal",
       home: "Uy & Mebel",
-      beauty: "Go'zallik & Parfyum",
       auto: "Avto & Xizmatlar",
       shopBtn: "Do'konda xarid qilish",
       upToMonth: "oygacha bo'lib to'lash",
@@ -1010,7 +1040,6 @@ export const translations: Record<Language, TranslationDictionary> = {
         electronics: "Elektronika",
         fashion: "Kiyim & Poyabzal",
         home: "Uy & Mebel",
-        beauty: "Go'zallik",
         auto: "Avto & Xizmatlar",
         supermarket: "Supermarket",
       },
@@ -1018,11 +1047,11 @@ export const translations: Record<Language, TranslationDictionary> = {
         texnomart: "Smartfonlar va maishiy texnika",
         mediapark: "Televizorlar, muzlatgichlar",
         korzinka: "Oziq-ovqat va uy-ro'zg'or",
-        bellstore: "Parfyumeriya va kosmetika",
+        asaxiy: "Smartfonlar, noutbuklar va kitoblar",
         ishonch: "Mebel va elektrotexnika",
         terrapro: "Zamonaviy erkaklar kiyimi",
-        arena: "Noutbuklar va o'yin uskunalari",
-        flo: "Krossovkalar va mavsumiy poyabzal",
+        olcha: "Gadjetlar va maishiy texnika",
+        defacto: "Ayollar, erkaklar va bolalar kiyimi",
         makro: "Katta xaridlar va maishiy tovarlar",
       },
     },
@@ -1047,7 +1076,6 @@ export const translations: Record<Language, TranslationDictionary> = {
       categoryElectronics: "Elektronika",
       categoryFashion: "Kiyim & Moda",
       categorySupermarket: "Supermarket",
-      categoryBeauty: "Go'zallik",
       userLocationLabel: "Toshkent, Chilonzor tumani",
       branchListTitle: "Filiallar ro'yxati",
       mapControlsHint: "Xaritani siljiting va kattalashtiring",
@@ -1160,6 +1188,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       formSubtitle: "Kompaniya ma'lumotlaringizni qoldiring, B2B mutaxassisimiz 15 daqiqada bog'lanadi va ulanishga yordam beradi.",
       formSuccess: "Arizangiz qabul qilindi!",
       formSuccessDesc: "Mutaxassisimiz kiritilgan raqam orqali bog'lanadi va do'koningizni tizimga ulab beradi.",
+      settlementLabel: "To‘lov kafolati",
+      settlementValue: "T+2 kun",
+      riskGuarantee: "Barcha kredit risklari va to‘lovlarni Uzcard kafolatlaydi",
+      compareBadge: "Taqqoslash",
+      compareFeature: "Xususiyat",
+      integrationBadge: "B2B integratsiya",
+      settlementPoint: "T+2 kafolatlangan bank hisob-kitobi",
+      sendAnother: "Yana ariza yuborish",
     },
     security: {
       eyebrow: "Ishonch va Xavfsizlik",
@@ -1305,6 +1341,11 @@ export const translations: Record<Language, TranslationDictionary> = {
       km: "км",
       openYandexMaps: "Открыть в Яндекс Картах",
       openGoogleMaps: "Открыть в Google Maps",
+      backToTop: "Наверх",
+      languageSelect: "Выбор языка",
+      toggleTheme: "Сменить тему",
+      openMenu: "Открыть меню",
+      close: "Закрыть",
     },
     nav: {
       howItWorks: "Как это работает?",
@@ -1400,6 +1441,8 @@ export const translations: Record<Language, TranslationDictionary> = {
       step1Desc: "Пройдите быструю идентификацию личности через OneID в приложении Hissa.",
       step2Title: "Проверьте лимит покупок",
       step2Desc: "После рассмотрения заявки результат появится в приложении. При одобрении отобразится доступный лимит на покупки.",
+      step1Note: "Через OneID за 2 минуты",
+      step2Note: "Лимит на покупки до 25 000 000 сум",
       ctaBtn: "Проверить лимит в приложении",
     },
     calculator: {
@@ -1439,13 +1482,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     stores: {
       eyebrow: "Широкий выбор",
       title: "Лучшие магазины Узбекистана",
-      subtitle: "Покупайте технику, одежду, товары для дома и парфюмерию в рассрочку с Hissa.",
+      subtitle: "Покупайте технику, одежду, товары для дома и продукты в рассрочку с Hissa.",
       searchPlaceholder: "Поиск магазина или бренда...",
       all: "Все категории",
       electronics: "Электроника и техника",
       fashion: "Одежда и обувь",
       home: "Дом и мебель",
-      beauty: "Красота и парфюм",
       auto: "Авто и услуги",
       shopBtn: "Купить в магазине",
       upToMonth: "мес. рассрочки",
@@ -1457,7 +1499,6 @@ export const translations: Record<Language, TranslationDictionary> = {
         electronics: "Электроника",
         fashion: "Одежда и обувь",
         home: "Дом и мебель",
-        beauty: "Красота",
         auto: "Авто и услуги",
         supermarket: "Супермаркет",
       },
@@ -1465,11 +1506,11 @@ export const translations: Record<Language, TranslationDictionary> = {
         texnomart: "Смартфоны и бытовая техника",
         mediapark: "Телевизоры, холодильники",
         korzinka: "Продукты и товары для дома",
-        bellstore: "Парфюмерия и косметика",
+        asaxiy: "Смартфоны, ноутбуки и книги",
         ishonch: "Мебель и электротехника",
         terrapro: "Стильная мужская одежда",
-        arena: "Ноутбуки и игровые гаджеты",
-        flo: "Кроссовки и сезонная обувь",
+        olcha: "Гаджеты и бытовая техника",
+        defacto: "Одежда для всей семьи",
         makro: "Крупные покупки и продукты",
       },
     },
@@ -1494,7 +1535,6 @@ export const translations: Record<Language, TranslationDictionary> = {
       categoryElectronics: "Электроника",
       categoryFashion: "Одежда и мода",
       categorySupermarket: "Супермаркет",
-      categoryBeauty: "Красота",
       userLocationLabel: "Ташкент, Чиланзарский район",
       branchListTitle: "Список филиалов",
       mapControlsHint: "Перемещайте и масштабируйте карту",
@@ -1607,6 +1647,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       formSubtitle: "Заполните данные компании, и наш B2B-менеджер свяжется с вами в течение 15 минут для подключения.",
       formSuccess: "Заявка успешно принята!",
       formSuccessDesc: "Наш специалист свяжется с вами по указанному номеру и поможет подключить магазин.",
+      settlementLabel: "Гарантия выплаты",
+      settlementValue: "T+2 дня",
+      riskGuarantee: "Все кредитные риски и выплаты гарантирует Uzcard",
+      compareBadge: "Сравнение",
+      compareFeature: "Параметр",
+      integrationBadge: "B2B-интеграция",
+      settlementPoint: "Гарантированные банковские расчёты T+2",
+      sendAnother: "Отправить ещё одну заявку",
     },
     security: {
       eyebrow: "Надежность и доверие",
@@ -1752,6 +1800,11 @@ export const translations: Record<Language, TranslationDictionary> = {
       km: "km",
       openYandexMaps: "Open in Yandex Maps",
       openGoogleMaps: "Open in Google Maps",
+      backToTop: "Back to top",
+      languageSelect: "Language selection",
+      toggleTheme: "Toggle theme",
+      openMenu: "Open menu",
+      close: "Close",
     },
     nav: {
       howItWorks: "How it works",
@@ -1847,6 +1900,8 @@ export const translations: Record<Language, TranslationDictionary> = {
       step1Desc: "Instantly verify your identity in the Hissa mobile app using OneID.",
       step2Title: "Check Your Shopping Limit",
       step2Desc: "Once reviewed, view your approved credit line in the app and see exactly how much you can spend.",
+      step1Note: "2 minutes via OneID",
+      step2Note: "Purchase limit up to 25,000,000 UZS",
       ctaBtn: "Check My Limit in App",
     },
     calculator: {
@@ -1886,13 +1941,12 @@ export const translations: Record<Language, TranslationDictionary> = {
     stores: {
       eyebrow: "Extensive Network",
       title: "Top stores across Uzbekistan",
-      subtitle: "Shop electronics, apparel, furniture, and beauty products in easy installments with Hissa.",
+      subtitle: "Shop electronics, apparel, furniture, and groceries in easy installments with Hissa.",
       searchPlaceholder: "Search store or brand...",
       all: "All Categories",
       electronics: "Electronics & Tech",
       fashion: "Fashion & Footwear",
       home: "Home & Furniture",
-      beauty: "Beauty & Fragrance",
       auto: "Auto & Services",
       shopBtn: "Shop in Store",
       upToMonth: "months installments",
@@ -1904,7 +1958,6 @@ export const translations: Record<Language, TranslationDictionary> = {
         electronics: "Electronics",
         fashion: "Fashion & Footwear",
         home: "Home & Furniture",
-        beauty: "Beauty",
         auto: "Auto & Services",
         supermarket: "Supermarket",
       },
@@ -1912,11 +1965,11 @@ export const translations: Record<Language, TranslationDictionary> = {
         texnomart: "Smartphones and home appliances",
         mediapark: "TVs, refrigerators, ovens",
         korzinka: "Groceries and household essentials",
-        bellstore: "Perfumes and luxury cosmetics",
+        asaxiy: "Smartphones, laptops and books",
         ishonch: "Furniture and consumer electronics",
         terrapro: "Modern men's fashion",
-        arena: "Laptops and gaming gear",
-        flo: "Sneakers and seasonal shoes",
+        olcha: "Gadgets and home appliances",
+        defacto: "Clothing for the whole family",
         makro: "Bulk purchases and home goods",
       },
     },
@@ -1941,7 +1994,6 @@ export const translations: Record<Language, TranslationDictionary> = {
       categoryElectronics: "Electronics",
       categoryFashion: "Fashion & Apparel",
       categorySupermarket: "Supermarket",
-      categoryBeauty: "Beauty & Fragrance",
       userLocationLabel: "Tashkent, Chilanzar district",
       branchListTitle: "Branch Directory",
       mapControlsHint: "Pan and zoom the map freely",
@@ -2054,6 +2106,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       formSubtitle: "Enter your company details, and our B2B onboarding team will contact you within 15 minutes.",
       formSuccess: "Application Received!",
       formSuccessDesc: "Our onboarding specialist will call your registered number and guide you through immediate setup.",
+      settlementLabel: "Payout guarantee",
+      settlementValue: "T+2 days",
+      riskGuarantee: "Uzcard guarantees all credit risks and payouts",
+      compareBadge: "Comparison",
+      compareFeature: "Feature",
+      integrationBadge: "B2B integration",
+      settlementPoint: "Guaranteed T+2 bank settlement",
+      sendAnother: "Send another application",
     },
     security: {
       eyebrow: "Trust & Compliance",

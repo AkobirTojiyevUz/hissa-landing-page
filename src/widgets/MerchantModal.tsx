@@ -59,10 +59,10 @@ export const MerchantModal: React.FC<MerchantModalProps> = ({ isOpen, onClose })
           <div className="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-500 mx-auto flex items-center justify-center">
             <CheckCircle2 className="w-10 h-10" />
           </div>
-          <h3 className="text-xl font-extrabold text-gray-900 dark:text-white">
+          <h3 className="text-xl font-extrabold text-ink">
             {t.modal.successMessage}
           </h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
+          <p className="text-xs text-ink-3 max-w-sm mx-auto">
             {t.modal.successDesc}
           </p>
           <div className="pt-4">
@@ -73,13 +73,13 @@ export const MerchantModal: React.FC<MerchantModalProps> = ({ isOpen, onClose })
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400 -mt-2 mb-4">
+          <p className="text-xs text-ink-3 -mt-2 mb-4">
             {t.modal.subtitle}
           </p>
 
           {/* Company Name */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-xs font-bold text-ink-2 mb-1">
               {t.modal.companyName}
             </label>
             <div className="relative">
@@ -90,14 +90,14 @@ export const MerchantModal: React.FC<MerchantModalProps> = ({ isOpen, onClose })
                 placeholder={t.modal.companyPlaceholder}
                 value={formData.companyName}
                 onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 dark:bg-[#1D2329] border border-gray-200 dark:border-gray-800 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-surface-2 border border-line rounded-xl text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand"
               />
             </div>
           </div>
 
           {/* INN / STIR */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-xs font-bold text-ink-2 mb-1">
               {t.modal.inn}
             </label>
             <div className="relative">
@@ -109,14 +109,14 @@ export const MerchantModal: React.FC<MerchantModalProps> = ({ isOpen, onClose })
                 placeholder={t.modal.innPlaceholder}
                 value={formData.inn}
                 onChange={(e) => setFormData({ ...formData, inn: e.target.value })}
-                className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 dark:bg-[#1D2329] border border-gray-200 dark:border-gray-800 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-surface-2 border border-line rounded-xl text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand"
               />
             </div>
           </div>
 
           {/* Phone */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-xs font-bold text-ink-2 mb-1">
               {t.modal.phone}
             </label>
             <div className="relative">
@@ -127,20 +127,20 @@ export const MerchantModal: React.FC<MerchantModalProps> = ({ isOpen, onClose })
                 placeholder={t.modal.phonePlaceholder}
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 dark:bg-[#1D2329] border border-gray-200 dark:border-gray-800 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-surface-2 border border-line rounded-xl text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand"
               />
             </div>
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-xs font-bold text-ink-2 mb-1">
               {t.modal.category}
             </label>
             <select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-[#1D2329] border border-gray-200 dark:border-gray-800 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+              className="w-full px-3.5 py-2.5 bg-surface-2 border border-line rounded-xl text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand"
             >
               <option value="retail">{t.modal.categoryRetail}</option>
               <option value="electronics">{t.modal.categoryElectronics}</option>

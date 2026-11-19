@@ -15,19 +15,19 @@ export const Badge: React.FC<BadgeProps> = ({
   children,
   className = '',
 }) => {
-  const baseStyles = 'inline-flex items-center font-medium rounded-full select-none';
+  const baseStyles = 'inline-flex items-center font-semibold tracking-figma rounded-lg select-none';
 
   const sizeStyles = {
-    sm: 'text-xs px-2.5 py-0.5 gap-1',
-    md: 'text-xs px-3.5 py-1 gap-1.5',
+    sm: 'text-xs px-2 py-1 gap-1',
+    md: 'text-xs px-3 py-1.5 gap-1.5',
   };
 
   const variantStyles = {
-    brand: 'bg-[#FF655B]/10 text-[#FF655B] border border-[#FF655B]/20',
-    success: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20',
-    warning: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20',
-    neutral: 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700',
-    glass: 'bg-white/60 dark:bg-gray-800/60 backdrop-blur-md text-gray-800 dark:text-gray-200 border border-white/20 dark:border-white/10 shadow-sm',
+    brand: 'bg-brand-tint text-brand-ink',
+    success: 'bg-success-soft text-success',
+    warning: 'bg-amber-500/10 text-amber-700 dark:text-amber-400',
+    neutral: 'bg-sunken text-ink-2',
+    glass: 'bg-surface/80 backdrop-blur-md text-ink border border-line shadow-card',
   };
 
   return (

@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/80 dark:bg-[#0A0F14]/85 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/80 shadow-sm py-3'
+          ? 'bg-white/80 dark:bg-[#0A0F14]/85 backdrop-blur-xl border-b border-line shadow-sm py-3'
           : 'bg-transparent py-5'
       }`}
     >
@@ -69,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               e.preventDefault();
               handleNavClick('#/', 'home');
             }}
-            className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#FF655B] rounded-xl p-1"
+            className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-brand rounded-xl p-1"
           >
             <HissaLogo height={28} animated={true} />
             <span className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full ml-1">
@@ -78,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 bg-gray-100/70 dark:bg-gray-900/60 p-1.5 rounded-full border border-gray-200/60 dark:border-gray-800/80 backdrop-blur-md">
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 bg-gray-100/70 dark:bg-gray-900/60 p-1.5 rounded-full border border-line backdrop-blur-md">
             {navLinks.map((link) => {
               const isB2B = link.isB2B;
               const isActive = currentRoute === link.route;
@@ -92,15 +92,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                   }}
                   className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
                     isActive
-                      ? 'bg-white dark:bg-gray-800 text-[#FF655B] font-bold shadow-sm'
+                      ? 'bg-white dark:bg-gray-800 text-brand-ink font-bold shadow-sm'
                       : isB2B
-                      ? 'bg-[#FF655B]/10 text-[#FF655B] font-extrabold hover:bg-[#FF655B] hover:text-white'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-[#FF655B] dark:hover:text-[#FF655B] hover:bg-white/60 dark:hover:bg-gray-800/60'
+                      ? 'bg-brand/10 text-brand-ink font-extrabold hover:bg-brand hover:text-white'
+                      : 'text-ink-2 hover:text-brand-ink dark:hover:text-brand-ink hover:bg-white/60 dark:hover:bg-gray-800/60'
                   }`}
                 >
                   <span>{link.label}</span>
                   {isB2B && (
-                    <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-[#FF655B] text-white uppercase font-black tracking-wider leading-none">
+                    <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-brand text-white uppercase font-black tracking-wider leading-none">
                       B2B
                     </span>
                   )}
@@ -116,7 +116,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
-                aria-label="Language selection"
+                aria-label={t.common.languageSelect}
               >
                 <Globe className="w-4 h-4 text-gray-500" />
                 <span className="uppercase text-[11px] font-black tracking-wide">
@@ -130,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className="fixed inset-0 z-10"
                     onClick={() => setIsLangDropdownOpen(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-[#13181E] border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl py-1 z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="absolute right-0 mt-2 w-44 bg-surface border border-line rounded-2xl shadow-xl py-1 z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
                     {languages.map((l) => (
                       <button
                         key={l.code}
@@ -140,8 +140,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                         }}
                         className={`w-full flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-left hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer ${
                           language === l.code
-                            ? 'text-[#FF655B] font-bold bg-[#FF655B]/10'
-                            : 'text-gray-700 dark:text-gray-300'
+                            ? 'text-brand-ink font-bold bg-brand/10'
+                            : 'text-ink-2'
                         }`}
                       >
                         <span>{l.flag}</span>
@@ -157,7 +157,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={toggleTheme}
               className="p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
-              aria-label="Toggle theme"
+              aria-label={t.common.toggleTheme}
             >
               {theme === 'dark' ? (
                 <Sun className="w-4 h-4 text-amber-400" />
@@ -171,8 +171,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               variant="outline"
               size="sm"
               onClick={onOpenMerchantModal}
-              leftIcon={<Briefcase className="w-3.5 h-3.5 text-[#FF655B]" />}
-              className="hidden md:inline-flex border-[#FF655B]/40 hover:border-[#FF655B] font-bold"
+              leftIcon={<Briefcase className="w-3.5 h-3.5 text-brand-ink" />}
+              className="max-md:hidden border-brand/40 hover:border-brand font-bold"
             >
               {t.nav.partnerCta}
             </Button>
@@ -193,7 +193,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }
               }}
               rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}
-              className="hidden sm:inline-flex"
+              className="max-sm:hidden"
             >
               {t.nav.getAppCta}
             </Button>
@@ -202,7 +202,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors cursor-pointer"
-              aria-label="Open menu"
+              aria-label={t.common.openMenu}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -212,7 +212,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer Navigation */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-white/95 dark:bg-[#0A0F14]/95 backdrop-blur-2xl border-b border-gray-200 dark:border-gray-800 px-4 pt-3 pb-6 space-y-3">
+        <div className="lg:hidden bg-white/95 dark:bg-[#0A0F14]/95 backdrop-blur-2xl border-b border-line px-4 pt-3 pb-6 space-y-3">
           <nav className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <a
@@ -224,20 +224,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }}
                 className={`px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors flex items-center justify-between cursor-pointer ${
                   currentRoute === link.route
-                    ? 'text-[#FF655B] font-bold bg-[#FF655B]/10'
-                    : 'text-gray-800 dark:text-gray-200 hover:text-[#FF655B] hover:bg-gray-100 dark:hover:bg-gray-800/60'
+                    ? 'text-brand-ink font-bold bg-brand/10'
+                    : 'text-gray-800 dark:text-gray-200 hover:text-brand-ink hover:bg-gray-100 dark:hover:bg-gray-800/60'
                 }`}
               >
                 <span>{link.label}</span>
                 {link.isB2B && (
-                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#FF655B] text-white uppercase font-black">
+                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-brand text-white uppercase font-black">
                     B2B
                   </span>
                 )}
               </a>
             ))}
           </nav>
-          <div className="pt-3 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-2">
+          <div className="pt-3 border-t border-line flex flex-col gap-2">
             <Button
               variant="outline"
               size="md"
@@ -245,7 +245,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setIsMobileMenuOpen(false);
                 onOpenMerchantModal();
               }}
-              leftIcon={<Briefcase className="w-4 h-4 text-[#FF655B]" />}
+              leftIcon={<Briefcase className="w-4 h-4 text-brand-ink" />}
               className="w-full justify-center"
             >
               {t.nav.partnerCta}

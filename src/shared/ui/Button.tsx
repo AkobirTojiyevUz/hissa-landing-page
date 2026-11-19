@@ -20,25 +20,20 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'relative inline-flex items-center justify-center font-semibold rounded-2xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-[0.98] select-none cursor-pointer disabled:opacity-50 disabled:pointer-events-none';
+    'relative inline-flex items-center justify-center font-bold tracking-figma rounded-full transition-[background-color,border-color,color,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas active:scale-[0.98] select-none cursor-pointer disabled:opacity-50 disabled:pointer-events-none';
 
   const sizeStyles = {
-    sm: 'text-xs px-3.5 py-1.5 gap-1.5',
-    md: 'text-sm px-5 py-2.5 gap-2',
-    lg: 'text-base px-7 py-3.5 gap-2.5',
+    sm: 'text-xs px-4 py-2 gap-1.5',
+    md: 'text-sm px-5 py-3 gap-2',
+    lg: 'text-base px-7 py-4 gap-2',
   };
 
   const variantStyles = {
-    primary:
-      'bg-[#FF655B] hover:bg-[#ED4A3F] text-white shadow-lg shadow-[#FF655B]/25 focus:ring-[#FF655B]',
-    secondary:
-      'bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white focus:ring-gray-400',
-    outline:
-      'border-2 border-gray-200 dark:border-gray-700 hover:border-[#FF655B] text-gray-800 dark:text-gray-200 hover:text-[#FF655B] dark:hover:text-[#FF655B] bg-transparent focus:ring-[#FF655B]',
-    ghost:
-      'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 focus:ring-gray-300',
-    glass:
-      'bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-white/30 dark:border-white/10 hover:bg-white/90 dark:hover:bg-gray-900/90 text-gray-900 dark:text-white shadow-md focus:ring-[#FF655B]',
+    primary: 'bg-brand hover:bg-brand-pressed text-white shadow-brand',
+    secondary: 'bg-sunken hover:bg-line-strong text-ink',
+    outline: 'border border-line-strong hover:border-brand text-ink hover:text-brand-ink bg-transparent',
+    ghost: 'bg-transparent hover:bg-sunken text-ink-2',
+    glass: 'bg-surface hover:bg-surface-2 border border-line text-ink shadow-card',
   };
 
   return (

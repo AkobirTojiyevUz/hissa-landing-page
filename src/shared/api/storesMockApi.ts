@@ -1,8 +1,10 @@
+import type { PartnerCategory, PartnerId } from '../config/partners';
+
 export interface StoreBranch {
   id: string;
-  brandId: 'texnomart' | 'mediapark' | 'korzinka' | 'bellstore' | 'ishonch' | 'terrapro' | 'arena' | 'flo' | 'makro' | 'idea';
+  brandId: PartnerId;
   name: string;
-  category: 'electronics' | 'fashion' | 'supermarket' | 'beauty' | 'home';
+  category: PartnerCategory;
   lat: number;
   lng: number;
   address: string;
@@ -86,10 +88,10 @@ export const MOCK_STORE_BRANCHES: StoreBranch[] = [
     popularItem: "Katta oylik ro'zg'or va oziq-ovqat mahsulotlari",
   },
   {
-    id: 'bellstore-qatortol',
-    brandId: 'bellstore',
-    name: 'Bellstore Qatortol',
-    category: 'beauty',
+    id: 'asaxiy-qatortol',
+    brandId: 'asaxiy',
+    name: 'Asaxiy Qatortol',
+    category: 'electronics',
     lat: 41.2798,
     lng: 69.2140,
     address: "Qatortol ko'chasi, 28A (Parus Mall ro'parasida)",
@@ -97,16 +99,16 @@ export const MOCK_STORE_BRANCHES: StoreBranch[] = [
     city: 'Toshkent',
     phone: '+998 71 200 80 80',
     workingHours: '10:00 — 21:00',
-    terms: '0-0-3',
-    rating: 4.9,
+    terms: '0-0-3 / 0-0-6',
+    rating: 4.8,
     reviewsCount: 290,
     tezQrAvailable: true,
-    popularItem: 'Dior Sauvage, Chanel, Tom Ford, premium parfyumeriya',
+    popularItem: 'Smartfonlar, noutbuklar, kitoblar',
   },
   {
-    id: 'arena-markaz-qoratosh',
-    brandId: 'arena',
-    name: 'Arena Markaz Qoratosh',
+    id: 'olcha-qoratosh',
+    brandId: 'olcha',
+    name: 'Olcha Qoratosh',
     category: 'electronics',
     lat: 41.3125,
     lng: 69.2385,
@@ -119,7 +121,7 @@ export const MOCK_STORE_BRANCHES: StoreBranch[] = [
     rating: 4.8,
     reviewsCount: 410,
     tezQrAvailable: true,
-    popularItem: 'PlayStation 5, ASUS ROG Noutbuklar, Apple Watch',
+    popularItem: 'Gadjetlar, aqlli soatlar, maishiy texnika',
   },
   {
     id: 'terrapro-samarkand-darvoza',
@@ -140,9 +142,9 @@ export const MOCK_STORE_BRANCHES: StoreBranch[] = [
     popularItem: 'Kostyum-shimlar, charm kurtkalar, zamonaviy koftalar',
   },
   {
-    id: 'flo-shoes-darvoza',
-    brandId: 'flo',
-    name: 'FLO Shoes Samarqand Darvoza',
+    id: 'defacto-darvoza',
+    brandId: 'defacto',
+    name: 'DeFacto Samarqand Darvoza',
     category: 'fashion',
     lat: 41.3155,
     lng: 69.2405,
@@ -155,7 +157,7 @@ export const MOCK_STORE_BRANCHES: StoreBranch[] = [
     rating: 4.7,
     reviewsCount: 340,
     tezQrAvailable: true,
-    popularItem: 'Lumberjack krossovkalar, Kinetix poyabzallar',
+    popularItem: 'Ayollar, erkaklar va bolalar kiyimi',
   },
   {
     id: 'ishonch-beruniy',
@@ -174,24 +176,6 @@ export const MOCK_STORE_BRANCHES: StoreBranch[] = [
     reviewsCount: 780,
     tezQrAvailable: true,
     popularItem: 'Yumshoq mebel to\'plamlari, gaz plitalari, gilamlar',
-  },
-  {
-    id: 'idea-yunusobod',
-    brandId: 'idea',
-    name: 'Idea Electronics Mega Planet',
-    category: 'electronics',
-    lat: 41.3665,
-    lng: 69.2895,
-    address: "Ahmad Donish ko'chasi, 2B (Mega Planet Mall)",
-    district: 'Yunusobod',
-    city: 'Toshkent',
-    phone: '+998 71 230 77 99',
-    workingHours: '10:00 — 22:00',
-    terms: '0-0-3 / 0-0-6',
-    rating: 4.8,
-    reviewsCount: 420,
-    tezQrAvailable: true,
-    popularItem: 'Oshxona kombaynlari, changyutgichlar, smartfonlar',
   },
   {
     id: 'makro-express-chilonzor',

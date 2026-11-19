@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { SectionHeader } from '../shared/ui/SectionHeader';
 import { Badge } from '../shared/ui/Badge';
 import { Button } from '../shared/ui/Button';
 import {
@@ -69,7 +70,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
   };
 
   const stats = [
-    { value: t.merchant.stat1Value, label: t.merchant.stat1Label, color: 'text-[#FF655B]' },
+    { value: t.merchant.stat1Value, label: t.merchant.stat1Label, color: 'text-brand-ink' },
     { value: t.merchant.stat2Value, label: t.merchant.stat2Label, color: 'text-emerald-500' },
     { value: t.merchant.stat3Value, label: t.merchant.stat3Label, color: 'text-blue-500' },
     { value: t.merchant.stat4Value, label: t.merchant.stat4Label, color: 'text-amber-500' },
@@ -80,7 +81,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
       title: t.merchant.solRetailTitle,
       desc: t.merchant.solRetailDesc,
       badge: t.merchant.solRetailBadge,
-      icon: <Store className="w-6 h-6 text-[#FF655B]" />,
+      icon: <Store className="w-6 h-6 text-brand-ink" />,
       tags: ['Uzcard POS', 'TezQR Kassa', 'Smartfon ilovasi'],
     },
     {
@@ -111,7 +112,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
       label: t.merchant.compRow1,
       hissa: t.merchant.compRow1Hissa,
       bank: t.merchant.compRow1Bank,
-      icon: <Clock className="w-4 h-4 text-[#FF655B]" />,
+      icon: <Clock className="w-4 h-4 text-brand-ink" />,
     },
     {
       label: t.merchant.compRow2,
@@ -164,31 +165,24 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
     <section id="for-business" className="py-20 md:py-28 bg-gray-50/70 dark:bg-[#0B1015] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <Badge variant="brand" className="mb-2">
-            <Briefcase className="w-3.5 h-3.5 mr-1 text-[#FF655B]" />
-            {t.merchant.eyebrow}
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-            {t.merchant.title}
-          </h2>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
-            {t.merchant.subtitle}
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow={t.merchant.eyebrow}
+          icon={<Briefcase />}
+          title={t.merchant.title}
+          subtitle={t.merchant.subtitle}
+        />
 
         {/* 4 Big Business Stat Highlights */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
           {stats.map((s, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-[#13181E] p-6 sm:p-8 rounded-3xl border border-gray-200/80 dark:border-gray-800 shadow-sm text-center hover:border-[#FF655B]/40 transition-colors"
+              className="bg-surface p-6 sm:p-8 rounded-3xl border border-line shadow-sm text-center hover:border-brand/40 transition-colors"
             >
               <div className={`text-3xl sm:text-4xl lg:text-5xl font-black ${s.color} tracking-tight mb-2`}>
                 {s.value}
               </div>
-              <div className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <div className="text-xs sm:text-sm font-semibold text-ink-2">
                 {s.label}
               </div>
             </div>
@@ -196,8 +190,8 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
         </div>
 
         {/* Interactive B2B Merchant Revenue Growth Calculator */}
-        <div className="mb-20 bg-white dark:bg-[#13181E] rounded-3xl border border-gray-200/80 dark:border-gray-800 shadow-xl p-6 sm:p-10 lg:p-12 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF655B]/5 dark:bg-[#FF655B]/10 rounded-full blur-3xl pointer-events-none -z-0" />
+        <div className="mb-20 bg-surface rounded-3xl border border-line shadow-xl p-6 sm:p-10 lg:p-12 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand/5 dark:bg-brand/10 rounded-full blur-3xl pointer-events-none -z-0" />
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Slider & Inputs */}
@@ -207,10 +201,10 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                   <Calculator className="w-3 h-3 mr-1" />
                   {t.merchant.calcTitle}
                 </Badge>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-ink">
                   {t.merchant.calcTitle}
                 </h3>
-                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-ink-3">
                   {t.merchant.calcSubtitle}
                 </p>
               </div>
@@ -218,8 +212,8 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
               {/* Slider */}
               <div className="space-y-3 pt-4">
                 <div className="flex items-center justify-between text-xs sm:text-sm font-bold">
-                  <span className="text-gray-600 dark:text-gray-300">{t.merchant.turnoverLabel}</span>
-                  <span className="text-lg sm:text-xl font-black text-[#FF655B]">
+                  <span className="text-ink-2">{t.merchant.turnoverLabel}</span>
+                  <span className="text-lg sm:text-xl font-black text-brand-ink">
                     {formatUzs(turnover)}
                   </span>
                 </div>
@@ -230,7 +224,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                   step={25000000}
                   value={turnover}
                   onChange={(e) => setTurnover(Number(e.target.value))}
-                  className="w-full h-2.5 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FF655B]"
+                  className="w-full h-2.5 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-brand"
                 />
                 <div className="flex justify-between text-[11px] text-gray-400 font-semibold">
                   <span>50 mln UZS</span>
@@ -241,23 +235,23 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
 
               {/* 3 Metric Pills */}
               <div className="grid grid-cols-3 gap-3 pt-2">
-                <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-[#181F26] border border-gray-100 dark:border-gray-800 text-center">
+                <div className="p-3.5 rounded-2xl bg-surface-2 border border-line text-center">
                   <div className="text-[11px] text-gray-400 mb-1">{t.merchant.avgCheckLabel}</div>
-                  <div className="text-base sm:text-lg font-black text-[#FF655B]">+74%</div>
+                  <div className="text-base sm:text-lg font-black text-brand-ink">+74%</div>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-[#181F26] border border-gray-100 dark:border-gray-800 text-center">
+                <div className="p-3.5 rounded-2xl bg-surface-2 border border-line text-center">
                   <div className="text-[11px] text-gray-400 mb-1">{t.merchant.newShoppersLabel}</div>
                   <div className="text-base sm:text-lg font-black text-emerald-500">~{newShoppersMonthly}+ / oy</div>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-[#181F26] border border-gray-100 dark:border-gray-800 text-center">
-                  <div className="text-[11px] text-gray-400 mb-1">To'lov kafolati:</div>
-                  <div className="text-base sm:text-lg font-black text-blue-500">T+2 kun</div>
+                <div className="p-3.5 rounded-2xl bg-surface-2 border border-line text-center">
+                  <div className="text-[11px] text-gray-400 mb-1">{t.merchant.settlementLabel}:</div>
+                  <div className="text-base sm:text-lg font-black text-blue-500">{t.merchant.settlementValue}</div>
                 </div>
               </div>
             </div>
 
             {/* Right Result Card */}
-            <div className="lg:col-span-5 bg-gradient-to-br from-[#FF655B] to-[#ED4A3F] text-white p-7 sm:p-8 rounded-3xl shadow-xl space-y-5 text-center flex flex-col justify-between">
+            <div className="lg:col-span-5 bg-gradient-to-br from-brand to-brand-pressed text-white p-7 sm:p-8 rounded-3xl shadow-xl space-y-5 text-center flex flex-col justify-between">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider bg-white/20 text-white px-3 py-1 rounded-full inline-block mb-3">
                   {t.merchant.projectedGrowthLabel}
@@ -277,12 +271,12 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                   size="lg"
                   onClick={onOpenMerchantModal}
                   rightIcon={<ArrowRight className="w-4 h-4" />}
-                  className="w-full justify-center bg-white text-[#FF655B] hover:bg-white/90 font-bold py-3 shadow-lg"
+                  className="w-full justify-center bg-white text-brand-ink hover:bg-white/90 font-bold py-3 shadow-lg"
                 >
                   {t.merchant.calcApplyBtn}
                 </Button>
                 <div className="text-[10px] text-white/70">
-                  ✓ Barcha kredit risklari va to'lovlarni Uzcard kafolatlaydi
+                  ✓ {t.merchant.riskGuarantee}
                 </div>
               </div>
             </div>
@@ -292,10 +286,10 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
         {/* 4 Solutions for Every Business Model */}
         <div className="mb-20 space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-ink">
               {t.merchant.solutionsTitle}
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-ink-2">
               {t.merchant.solutionsSubtitle}
             </p>
           </div>
@@ -304,30 +298,30 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
             {solutions.map((sol, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-[#13181E] p-6 rounded-3xl border border-gray-200/80 dark:border-gray-800 shadow-sm flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-all"
+                className="bg-surface p-6 rounded-3xl border border-line shadow-sm flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-all"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-[#1D2329] flex items-center justify-center border border-gray-100 dark:border-gray-800">
+                    <div className="w-12 h-12 rounded-2xl bg-surface-2 flex items-center justify-center border border-line">
                       {sol.icon}
                     </div>
                     <Badge variant="brand" size="sm">
                       {sol.badge}
                     </Badge>
                   </div>
-                  <h4 className="text-base font-bold text-gray-900 dark:text-white mb-2">
+                  <h4 className="text-base font-bold text-ink mb-2">
                     {sol.title}
                   </h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                  <p className="text-xs text-ink-2 leading-relaxed mb-4">
                     {sol.desc}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-gray-100 dark:border-gray-800/80 flex flex-wrap gap-1.5">
+                <div className="pt-3 border-t border-line flex flex-wrap gap-1.5">
                   {sol.tags.map((tag, tIdx) => (
                     <span
                       key={tIdx}
-                      className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-gray-100 dark:bg-[#181F26] text-gray-600 dark:text-gray-300"
+                      className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-gray-100 dark:bg-[#181F26] text-ink-2"
                     >
                       {tag}
                     </span>
@@ -339,16 +333,16 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
         </div>
 
         {/* Why Hissa BNPL vs Traditional Credit Comparison Matrix */}
-        <div className="mb-20 bg-white dark:bg-[#13181E] rounded-3xl border border-gray-200/80 dark:border-gray-800 shadow-xl p-6 sm:p-10 space-y-6">
+        <div className="mb-20 bg-surface rounded-3xl border border-line shadow-xl p-6 sm:p-10 space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <Badge variant="brand" size="sm">
               <Scale className="w-3 h-3 mr-1" />
-              Taqqoslash
+              {t.merchant.compareBadge}
             </Badge>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-ink">
               {t.merchant.compareTitle}
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-ink-2">
               {t.merchant.compareSubtitle}
             </p>
           </div>
@@ -356,14 +350,14 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-800 text-xs sm:text-sm">
+                <tr className="border-b border-line text-xs sm:text-sm">
                   <th className="py-4 px-4 font-bold text-gray-400 uppercase tracking-wider">
-                    Xususiyat
+                    {t.merchant.compareFeature}
                   </th>
-                  <th className="py-4 px-4 font-extrabold text-[#FF655B] bg-[#FF655B]/5 dark:bg-[#FF655B]/10 rounded-t-xl">
+                  <th className="py-4 px-4 font-extrabold text-brand-ink bg-brand/5 dark:bg-brand/10 rounded-t-xl">
                     ✓ {t.merchant.compareHissa}
                   </th>
-                  <th className="py-4 px-4 font-bold text-gray-500 dark:text-gray-400">
+                  <th className="py-4 px-4 font-bold text-ink-3">
                     ✕ {t.merchant.compareBank}
                   </th>
                 </tr>
@@ -375,10 +369,10 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                       {row.icon}
                       <span>{row.label}</span>
                     </td>
-                    <td className="py-4 px-4 font-extrabold text-emerald-600 dark:text-emerald-400 bg-[#FF655B]/5 dark:bg-[#FF655B]/10">
+                    <td className="py-4 px-4 font-extrabold text-emerald-600 dark:text-emerald-400 bg-brand/5 dark:bg-brand/10">
                       {row.hissa}
                     </td>
-                    <td className="py-4 px-4 text-gray-500 dark:text-gray-400">
+                    <td className="py-4 px-4 text-ink-3">
                       {row.bank}
                     </td>
                   </tr>
@@ -391,7 +385,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
         {/* 3-Step Digital Onboarding Timeline */}
         <div className="mb-20 space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-ink">
               {t.merchant.stepsTitle}
             </h3>
           </div>
@@ -400,19 +394,19 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
             {onboardingSteps.map((step, idx) => (
               <div
                 key={idx}
-                className="bg-white dark:bg-[#13181E] p-8 rounded-3xl border border-gray-200/80 dark:border-gray-800 shadow-sm relative overflow-hidden group hover:border-[#FF655B]/40 transition-all"
+                className="bg-surface p-8 rounded-3xl border border-line shadow-sm relative overflow-hidden group hover:border-brand/40 transition-all"
               >
-                <div className="text-5xl font-black text-gray-100 dark:text-[#1D2329] group-hover:text-[#FF655B]/15 transition-colors absolute top-4 right-6 select-none">
+                <div className="text-5xl font-black text-gray-100 dark:text-[#1D2329] group-hover:text-brand-ink/15 transition-colors absolute top-4 right-6 select-none">
                   {step.num}
                 </div>
                 <div className="relative z-10 space-y-3">
                   <Badge variant="brand" size="sm">
                     {step.badge}
                   </Badge>
-                  <h4 className="text-lg font-bold text-gray-900 dark:text-white">
+                  <h4 className="text-lg font-bold text-ink">
                     {step.title}
                   </h4>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-ink-2 leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
@@ -422,31 +416,31 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
         </div>
 
         {/* Direct Inline B2B Merchant Application Form */}
-        <div className="rounded-3xl bg-white dark:bg-[#13181E] border border-gray-200/80 dark:border-gray-800 shadow-2xl p-6 sm:p-10 lg:p-12 relative overflow-hidden">
+        <div className="rounded-3xl bg-surface border border-line shadow-2xl p-6 sm:p-10 lg:p-12 relative overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Form Pitch */}
             <div className="lg:col-span-5 space-y-4">
               <Badge variant="brand" size="sm">
                 <Briefcase className="w-3 h-3 mr-1" />
-                B2B Integratsiya
+                {t.merchant.integrationBadge}
               </Badge>
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-ink leading-tight">
                 {t.merchant.formTitle}
               </h3>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p className="text-xs sm:text-sm text-ink-2 leading-relaxed">
                 {t.merchant.formSubtitle}
               </p>
 
-              <div className="space-y-3 pt-4 border-t border-gray-100 dark:border-gray-800">
-                <div className="flex items-center gap-2 text-xs font-bold text-gray-700 dark:text-gray-300">
+              <div className="space-y-3 pt-4 border-t border-line">
+                <div className="flex items-center gap-2 text-xs font-bold text-ink-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   <span>1-2 ish kunida to'liq ishga tushirish</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-bold text-gray-700 dark:text-gray-300">
+                <div className="flex items-center gap-2 text-xs font-bold text-ink-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                  <span>T+2 kafolatlangan bank hisob-kitobi</span>
+                  <span>{t.merchant.settlementPoint}</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-bold text-gray-700 dark:text-gray-300">
+                <div className="flex items-center gap-2 text-xs font-bold text-ink-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   <span>0% kredit xatari va bepul marketing</span>
                 </div>
@@ -454,16 +448,16 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
             </div>
 
             {/* Actual Interactive Form */}
-            <div className="lg:col-span-7 bg-gray-50 dark:bg-[#181F26] p-6 sm:p-8 rounded-2xl border border-gray-200 dark:border-gray-800">
+            <div className="lg:col-span-7 bg-surface-2 p-6 sm:p-8 rounded-2xl border border-line">
               {isSubmitted ? (
                 <div className="text-center py-8 space-y-4 animate-in fade-in">
                   <div className="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-500 mx-auto flex items-center justify-center">
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
-                  <h4 className="text-xl font-extrabold text-gray-900 dark:text-white">
+                  <h4 className="text-xl font-extrabold text-ink">
                     {t.merchant.formSuccess}
                   </h4>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
+                  <p className="text-xs text-ink-3 max-w-sm mx-auto">
                     {t.merchant.formSuccessDesc}
                   </p>
                   <Button
@@ -472,7 +466,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                     onClick={() => setIsSubmitted(false)}
                     className="mt-4"
                   >
-                    Yana ariza yuborish
+                    {t.merchant.sendAnother}
                   </Button>
                 </div>
               ) : (
@@ -480,7 +474,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Company Name */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+                      <label className="block text-xs font-bold text-ink-2 mb-1">
                         {t.modal.companyName}
                       </label>
                       <div className="relative">
@@ -491,14 +485,14 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                           placeholder={t.modal.companyPlaceholder}
                           value={formData.companyName}
                           onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-white dark:bg-[#13181E] border border-gray-200 dark:border-gray-700 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-surface border border-line rounded-xl text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand"
                         />
                       </div>
                     </div>
 
                     {/* INN */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+                      <label className="block text-xs font-bold text-ink-2 mb-1">
                         {t.modal.inn}
                       </label>
                       <div className="relative">
@@ -510,7 +504,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                           placeholder={t.modal.innPlaceholder}
                           value={formData.inn}
                           onChange={(e) => setFormData({ ...formData, inn: e.target.value })}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-white dark:bg-[#13181E] border border-gray-200 dark:border-gray-700 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-surface border border-line rounded-xl text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand"
                         />
                       </div>
                     </div>
@@ -519,7 +513,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Phone */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+                      <label className="block text-xs font-bold text-ink-2 mb-1">
                         {t.modal.phone}
                       </label>
                       <div className="relative">
@@ -530,20 +524,20 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                           placeholder={t.modal.phonePlaceholder}
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-white dark:bg-[#13181E] border border-gray-200 dark:border-gray-700 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-surface border border-line rounded-xl text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand"
                         />
                       </div>
                     </div>
 
                     {/* Category */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+                      <label className="block text-xs font-bold text-ink-2 mb-1">
                         {t.modal.category}
                       </label>
                       <select
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        className="w-full px-3.5 py-2.5 bg-white dark:bg-[#13181E] border border-gray-200 dark:border-gray-700 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+                        className="w-full px-3.5 py-2.5 bg-surface border border-line rounded-xl text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand"
                       >
                         <option value="retail">{t.modal.categoryRetail}</option>
                         <option value="electronics">{t.modal.categoryElectronics}</option>
@@ -559,7 +553,7 @@ export const MerchantB2BSection: React.FC<MerchantB2BSectionProps> = ({ onOpenMe
                       variant="primary"
                       size="lg"
                       isLoading={isSubmitting}
-                      className="w-full justify-center text-sm py-3 font-bold shadow-lg shadow-[#FF655B]/25"
+                      className="w-full justify-center text-sm py-3 font-bold shadow-lg shadow-brand/25"
                     >
                       {t.merchant.ctaBtn}
                     </Button>

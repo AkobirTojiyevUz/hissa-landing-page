@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useI18n } from '../app/i18n/I18nContext';
+import { SectionHeader } from '../shared/ui/SectionHeader';
 import { Badge } from '../shared/ui/Badge';
 import { HissaMark } from '../shared/ui/HissaMark';
 import { StoreBrandLogo } from '../shared/ui/StoreBrandLogo';
@@ -163,9 +164,9 @@ export const NearbyStoresMap: React.FC = () => {
     const userPlacemark = new window.ymaps.Placemark(
       [userCoords.lat, userCoords.lng],
       {
-        hintContent: `${t.map.yourLocation} (${userCoords.label})`,
+        hintContent: `${t.map.yourLocation} (${t.map.userLocationLabel})`,
         balloonContentHeader: `<div style="font-weight: 800; font-size: 13px; color: #10B981;">📍 ${t.map.yourLocation}</div>`,
-        balloonContentBody: `<div style="font-size: 12px; color: #475467; margin-top: 4px;">${userCoords.label}</div>`,
+        balloonContentBody: `<div style="font-size: 12px; color: #475467; margin-top: 4px;">${t.map.userLocationLabel}</div>`,
         iconCaption: t.map.yourLocation,
       },
       {
@@ -265,7 +266,6 @@ export const NearbyStoresMap: React.FC = () => {
     { id: 'electronics', label: t.map.categoryElectronics },
     { id: 'fashion', label: t.map.categoryFashion },
     { id: 'supermarket', label: t.map.categorySupermarket },
-    { id: 'beauty', label: t.map.categoryBeauty },
   ];
 
   const handleRecenter = () => {
@@ -276,28 +276,21 @@ export const NearbyStoresMap: React.FC = () => {
   return (
     <section id="map" className="py-20 md:py-28 relative overflow-hidden">
       {/* Background radial glow */}
-      <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[600px] h-[500px] bg-[#FF655B]/5 dark:bg-[#FF655B]/10 blur-[140px] rounded-full pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[min(600px,100%)] h-[500px] bg-brand/5 dark:bg-brand/10 blur-[140px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <Badge variant="brand" className="mb-2">
-            <Compass className="w-3.5 h-3.5 mr-1 text-[#FF655B]" />
-            {t.map.eyebrow}
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-            {t.map.title}
-          </h2>
-          <p className="text-base text-gray-600 dark:text-gray-400 font-medium">
-            {t.map.subtitle}
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow={t.map.eyebrow}
+          icon={<Compass />}
+          title={t.map.title}
+          subtitle={t.map.subtitle}
+        />
 
         {/* Interactive Map Card */}
-        <div className="bg-white dark:bg-[#13181E] rounded-[2.5rem] border border-gray-200/80 dark:border-gray-800 shadow-2xl overflow-hidden">
+        <div className="bg-surface rounded-[2.5rem] border border-line shadow-2xl overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
             {/* Left Controls & Stores List */}
-            <div className="lg:col-span-5 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-gray-200/80 dark:border-gray-800 flex flex-col justify-between space-y-4">
+            <div className="lg:col-span-5 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-line flex flex-col justify-between space-y-4">
               <div className="space-y-4">
                 {/* Search Bar */}
                 <div className="flex items-center gap-2">
@@ -308,13 +301,13 @@ export const NearbyStoresMap: React.FC = () => {
                       placeholder={t.map.searchPlaceholder}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 dark:bg-[#181F26] border border-gray-200 dark:border-gray-800 rounded-2xl text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF655B]"
+                      className="w-full pl-10 pr-3.5 py-2.5 bg-surface-2 border border-line rounded-2xl text-xs text-ink placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand"
                     />
                   </div>
                   <button
                     onClick={handleRecenter}
                     title={t.map.yourLocation}
-                    className="p-2.5 rounded-2xl bg-[#FF655B]/10 hover:bg-[#FF655B]/20 text-[#FF655B] border border-[#FF655B]/20 transition-colors cursor-pointer"
+                    className="p-2.5 rounded-2xl bg-brand/10 hover:bg-brand/20 text-brand-ink border border-brand/20 transition-colors cursor-pointer"
                   >
                     <Navigation className="w-4 h-4" />
                   </button>
@@ -322,12 +315,12 @@ export const NearbyStoresMap: React.FC = () => {
 
                 {/* Tabs & Category Filter Chips */}
                 <div className="space-y-2">
-                  <div className="grid grid-cols-2 gap-1.5 p-1 bg-gray-100 dark:bg-[#181F26] rounded-2xl border border-gray-200 dark:border-gray-800">
+                  <div className="grid grid-cols-2 gap-1.5 p-1 bg-gray-100 dark:bg-[#181F26] rounded-2xl border border-line">
                     <button
                       onClick={() => setActiveTab('nearby')}
                       className={`text-xs font-bold py-2 rounded-xl transition-all cursor-pointer ${
                         activeTab === 'nearby'
-                          ? 'bg-white dark:bg-[#262D35] text-gray-900 dark:text-white shadow-sm'
+                          ? 'bg-white dark:bg-[#262D35] text-ink shadow-sm'
                           : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
                       }`}
                     >
@@ -337,7 +330,7 @@ export const NearbyStoresMap: React.FC = () => {
                       onClick={() => setActiveTab('all')}
                       className={`text-xs font-bold py-2 rounded-xl transition-all cursor-pointer ${
                         activeTab === 'all'
-                          ? 'bg-white dark:bg-[#262D35] text-gray-900 dark:text-white shadow-sm'
+                          ? 'bg-white dark:bg-[#262D35] text-ink shadow-sm'
                           : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
                       }`}
                     >
@@ -353,8 +346,8 @@ export const NearbyStoresMap: React.FC = () => {
                         onClick={() => setCategoryFilter(c.id)}
                         className={`text-[11px] font-semibold px-3 py-1.5 rounded-xl whitespace-nowrap transition-all cursor-pointer ${
                           categoryFilter === c.id
-                            ? 'bg-[#FF655B] text-white shadow-sm'
-                            : 'bg-gray-100 dark:bg-[#181F26] text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                            ? 'bg-brand text-white shadow-sm'
+                            : 'bg-gray-100 dark:bg-[#181F26] text-ink-2 hover:bg-gray-200 dark:hover:bg-gray-700'
                         }`}
                       >
                         {c.label}
@@ -364,10 +357,10 @@ export const NearbyStoresMap: React.FC = () => {
                 </div>
 
                 {/* User Location Bar */}
-                <div className="flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400 px-1 pt-1">
+                <div className="flex items-center justify-between text-[11px] text-ink-3 px-1 pt-1">
                   <span className="flex items-center gap-1 font-semibold text-gray-800 dark:text-gray-200">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
-                    {userCoords.label}
+                    {t.map.userLocationLabel}
                   </span>
                   <span>
                     {filteredStores.length} {t.map.storesFound}
@@ -385,31 +378,30 @@ export const NearbyStoresMap: React.FC = () => {
                       onClick={() => setSelectedStoreId(store.id)}
                       className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-start justify-between gap-3 ${
                         isSelected
-                          ? 'border-[#FF655B] bg-[#FF655B]/10 dark:bg-[#FF655B]/15 shadow-sm'
-                          : 'border-gray-200 dark:border-gray-800/80 bg-gray-50/50 dark:bg-[#181F26]/60 hover:border-gray-300 dark:hover:border-gray-700'
+                          ? 'border-brand bg-brand/10 dark:bg-brand/15 shadow-sm'
+                          : 'border-line bg-gray-50/50 dark:bg-[#181F26]/60 hover:border-gray-300 dark:hover:border-gray-700'
                       }`}
                     >
                       <div className="flex items-start gap-2.5">
                         <StoreBrandLogo
                           storeId={store.brandId}
                           name={store.name}
-                          variant="icon"
                           className="w-10 h-10 rounded-xl shrink-0 mt-0.5"
                         />
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <h4 className="text-xs font-black text-gray-900 dark:text-white">
+                            <h4 className="text-xs font-black text-ink">
                               {store.name}
                             </h4>
                             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                               {store.terms}
                             </span>
                           </div>
-                          <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+                          <p className="text-[11px] text-ink-3 leading-tight">
                             {store.address}
                           </p>
                           <div className="flex items-center gap-3 text-[10px] text-gray-400 pt-1">
-                            <span className="flex items-center gap-1 font-bold text-[#FF655B]">
+                            <span className="flex items-center gap-1 font-bold text-brand-ink">
                               <Navigation className="w-3 h-3" />
                               {formatDistance(store.distanceMeters)} ({store.walkMinutes} {t.common.walkMinutes})
                             </span>
@@ -423,7 +415,7 @@ export const NearbyStoresMap: React.FC = () => {
 
                       <ChevronRight
                         className={`w-4 h-4 shrink-0 mt-1 transition-transform ${
-                          isSelected ? 'text-[#FF655B] translate-x-1' : 'text-gray-400'
+                          isSelected ? 'text-brand-ink translate-x-1' : 'text-gray-400'
                         }`}
                       />
                     </div>
@@ -433,20 +425,19 @@ export const NearbyStoresMap: React.FC = () => {
 
               {/* Selected Store Bottom Action Panel */}
               {selectedStore && (
-                <div className="pt-3 border-t border-gray-100 dark:border-gray-800 space-y-3">
+                <div className="pt-3 border-t border-line space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
                       <StoreBrandLogo
                         storeId={selectedStore.brandId}
                         name={selectedStore.name}
-                        variant="icon"
                         className="w-10 h-10 rounded-xl"
                       />
                       <div>
-                        <div className="text-[10px] font-bold text-[#FF655B] uppercase tracking-wider">
+                        <div className="text-[10px] font-bold text-brand-ink uppercase tracking-wider">
                           {t.map.selectedStoreBadge}
                         </div>
-                        <div className="text-xs font-extrabold text-gray-900 dark:text-white">
+                        <div className="text-xs font-extrabold text-ink">
                           {selectedStore.name}
                         </div>
                       </div>
@@ -457,7 +448,7 @@ export const NearbyStoresMap: React.FC = () => {
                     </Badge>
                   </div>
 
-                  <div className="text-[11px] text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                  <div className="text-[11px] text-ink-3 flex items-center gap-2">
                     <MapPin className="w-3 h-3 text-gray-400 shrink-0" />
                     <span className="truncate">{selectedStore.address}</span>
                   </div>
@@ -467,7 +458,7 @@ export const NearbyStoresMap: React.FC = () => {
                       href={getYandexMapsUrl(selectedStore.lat, selectedStore.lng)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#FF655B] hover:bg-[#ED4A3F] text-white text-xs font-bold transition-all shadow-md shadow-[#FF655B]/20"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-brand hover:bg-brand-pressed text-white text-xs font-bold transition-all shadow-md shadow-brand/20"
                     >
                       <Route className="w-3.5 h-3.5" />
                       {t.map.openInYandex}
@@ -476,7 +467,7 @@ export const NearbyStoresMap: React.FC = () => {
                       href={getGoogleMapsUrl(selectedStore.lat, selectedStore.lng)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-[#1D2329] dark:hover:bg-[#262D35] text-gray-800 dark:text-gray-200 text-xs font-bold transition-all border border-gray-200 dark:border-gray-700"
+                      className="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-[#1D2329] dark:hover:bg-[#262D35] text-gray-800 dark:text-gray-200 text-xs font-bold transition-all border border-line"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       Google Maps
@@ -496,12 +487,12 @@ export const NearbyStoresMap: React.FC = () => {
 
               {/* Top Floating Badge & Active Route Indicator */}
               {selectedStore && (
-                <div className="absolute top-4 left-4 z-20 bg-white/95 dark:bg-[#13181E]/95 backdrop-blur-md px-3.5 py-2.5 rounded-2xl shadow-xl border border-gray-200/80 dark:border-gray-800 flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-[#FF655B]/15 text-[#FF655B] flex items-center justify-center shrink-0">
+                <div className="absolute top-4 left-4 z-20 bg-white/95 dark:bg-[#13181E]/95 backdrop-blur-md px-3.5 py-2.5 rounded-2xl shadow-xl border border-line flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-brand/15 text-brand-ink flex items-center justify-center shrink-0">
                     <HissaMark size={14} animated={false} color="#FF655B" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-black text-gray-900 dark:text-white">
+                    <div className="text-[11px] font-black text-ink">
                       {selectedStore.name}
                     </div>
                     <div className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
@@ -512,8 +503,8 @@ export const NearbyStoresMap: React.FC = () => {
               )}
 
               {/* Yandex Maps Badge on Top-Right */}
-              <div className="absolute top-4 right-4 z-20 hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-[#13181E]/90 backdrop-blur-md border border-gray-200/80 dark:border-gray-800 text-[11px] font-bold text-gray-700 dark:text-gray-300 shadow-md">
-                <span className="w-2 h-2 rounded-full bg-[#FF655B]" />
+              <div className="absolute top-4 right-4 z-20 hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-[#13181E]/90 backdrop-blur-md border border-line text-[11px] font-bold text-ink-2 shadow-md">
+                <span className="w-2 h-2 rounded-full bg-brand" />
                 <span>{t.map.yandexMapBadge}</span>
               </div>
 
@@ -521,7 +512,7 @@ export const NearbyStoresMap: React.FC = () => {
               <button
                 onClick={handleRecenter}
                 title={t.map.yourLocation}
-                className="absolute bottom-16 right-4 z-20 w-9 h-9 rounded-xl bg-white dark:bg-[#181F26] border border-gray-200 dark:border-gray-800 shadow-xl text-emerald-500 hover:bg-emerald-500 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                className="absolute bottom-16 right-4 z-20 w-9 h-9 rounded-xl bg-surface border border-line shadow-xl text-emerald-500 hover:bg-emerald-500 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
               >
                 <Compass className="w-5 h-5" />
               </button>
