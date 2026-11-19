@@ -7,6 +7,7 @@ import { HissaCard3D } from '../shared/ui/HissaCard3D';
 import { Button } from '../shared/ui/Button';
 import { StoreBrandLogo } from '../shared/ui/StoreBrandLogo';
 import qrPhone from '../assets/illustrations/qr-phone.png';
+import heroBackdrop from '../assets/photos/uzcard-pay-in-store.webp';
 
 interface HeroSectionProps {
   onOpenMerchantModal?: () => void;
@@ -33,19 +34,26 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
-      {/* Soft coral wash, same as the app's home header */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[720px] bg-[radial-gradient(90%_70%_at_70%_0%,var(--coral-100)_0%,transparent_70%)] opacity-80 dark:opacity-20"
-      />
-
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-4 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8">
+    <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-12 pt-28 md:pb-16 md:pt-28">
+      {/* Background: real Uzcard photo (uzcard.uz), blurred with a slow drift,
+          under a canvas-coloured veil so the copy stays readable. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <img
+          src={heroBackdrop}
+          alt=""
+          fetchPriority="high"
+          className="hero-backdrop absolute inset-0 h-full w-full object-cover blur-[3px] saturate-[1.1]"
+        />
+        <div className="absolute inset-0 bg-[color-mix(in_srgb,var(--color-bg-base)_74%,transparent)] lg:bg-transparent lg:bg-gradient-to-r lg:from-[color-mix(in_srgb,var(--color-bg-base)_94%,transparent)] lg:via-[color-mix(in_srgb,var(--color-bg-base)_62%,transparent)] lg:to-[color-mix(in_srgb,var(--color-bg-base)_6%,transparent)]" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[var(--color-bg-base)] to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_80%_0%,color-mix(in_srgb,var(--coral-200)_35%,transparent)_0%,transparent_70%)] dark:opacity-30" />
+      </div>
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-14 px-4 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8">
         {/* Copy */}
-        <div className="space-y-7 text-center lg:col-span-6 lg:text-left">
+        <div className="glass-panel space-y-6 rounded-[32px] p-6 text-center sm:p-8 lg:col-span-6 lg:text-left">
           <div
             {...reveal('fade-up')}
-            className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2 shadow-card"
+            className="glass-panel glass-panel--strong inline-flex items-center gap-2 rounded-full px-3.5 py-2"
           >
             <HissaMark size={12} animated />
             <span className="text-xs font-semibold text-ink-2">{t.hero.badge}</span>
@@ -53,7 +61,7 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
 
           <h1
             {...reveal('fade-up', 80)}
-            className="text-[40px] font-extrabold leading-[1.08] tracking-[-0.035em] text-ink sm:text-5xl xl:text-[64px]"
+            className="text-[38px] font-extrabold leading-[1.08] tracking-[-0.035em] text-ink sm:text-5xl xl:text-[54px]"
           >
             {t.hero.titlePart1} <span className="text-brand-ink">{t.hero.titleHighlight}</span>{' '}
             <span className="block sm:inline">{t.hero.titlePart2}</span>
@@ -101,15 +109,15 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
 
-          <dl className="grid grid-cols-2 gap-3 pt-2 sm:grid-cols-4">
+          <dl className="grid grid-cols-2 gap-2.5 pt-1 sm:grid-cols-4">
             {stats.map((stat, i) => (
               <div
                 key={stat.label}
                 {...reveal('fade-up', 360 + i * 60)}
-                className="rounded-3xl bg-surface p-4 text-left shadow-card"
+                className="glass-panel glass-panel--strong min-w-0 rounded-3xl p-3.5 text-left"
               >
                 <dt className="sr-only">{stat.label}</dt>
-                <dd className={`whitespace-nowrap text-xl font-extrabold ${stat.accent ? 'text-brand-ink' : 'text-ink'}`}>
+                <dd className={`text-lg font-extrabold leading-tight ${stat.accent ? 'text-brand-ink' : 'text-ink'}`}>
                   {stat.value}
                 </dd>
                 <dd className="mt-1 text-xs font-semibold leading-4 text-ink-3">{stat.label}</dd>
@@ -120,7 +128,7 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
 
         {/* Product visual built from the app's Figma components */}
         <div className="relative mx-auto w-full max-w-[480px] lg:col-span-6 lg:max-w-[520px]" {...reveal('fade-up', 120)}>
-          <div className="relative rounded-[40px] bg-gradient-to-b from-[var(--coral-100)] via-[var(--coral-50)] to-surface p-6 pb-8 shadow-lift sm:p-8 dark:from-[var(--coral-950)] dark:via-surface dark:to-surface">
+          <div className="glass-panel relative rounded-[40px] bg-gradient-to-b from-[color-mix(in_srgb,var(--coral-100)_70%,transparent)] to-transparent p-6 pb-8 sm:p-8 dark:from-[color-mix(in_srgb,var(--coral-950)_70%,transparent)]">
             <HissaCard3D className="mx-auto w-[88%] animate-float-slow" />
 
             <div className="mt-10 rounded-3xl bg-surface p-4 shadow-card">

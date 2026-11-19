@@ -204,6 +204,49 @@ html[data-theme='dark'] .yandex-map-container [class*="ymaps-2-1-"][class*="-gro
   filter: brightness(0.7) invert(1) contrast(1.1) hue-rotate(195deg) saturate(0.35);
 }
 
+/*
+ * Frosted glass for content placed over the hero photo: translucent surface,
+ * strong backdrop blur, light inner edge and a soft shadow. Falls back to an
+ * almost opaque surface where backdrop-filter is unsupported.
+ */
+.glass-panel {
+  background: color-mix(in srgb, var(--color-bg-surface) 92%, transparent);
+  border: 1px solid color-mix(in srgb, #fff 70%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 80%, transparent),
+    0 1px 3px var(--color-effect-shadow-md-key),
+    0 24px 48px -12px rgba(12, 17, 29, 0.18);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-panel {
+    background: color-mix(in srgb, var(--color-bg-surface) 62%, transparent);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    backdrop-filter: blur(24px) saturate(1.6);
+  }
+  .glass-panel--strong {
+    background: color-mix(in srgb, var(--color-bg-surface) 78%, transparent);
+  }
+}
+:root[data-theme='dark'] .glass-panel {
+  border-color: color-mix(in srgb, #fff 12%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 10%, transparent),
+    0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Hero backdrop: slow Ken Burns drift behind the blur. */
+.hero-backdrop {
+  animation: hero-drift 24s ease-in-out infinite alternate;
+  transform-origin: 70% 40%;
+}
+@keyframes hero-drift {
+  from { transform: scale(1.1) translate3d(0, 0, 0); }
+  to { transform: scale(1.22) translate3d(-2%, -1.5%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-backdrop { animation: none; }
+}
+
 /* 3D icons: idle float, perspective tilt when the parent `.group` is hovered. */
 .icon-3d {
   filter: drop-shadow(0 8px 10px rgba(12, 17, 29, 0.14));

@@ -68,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onRouteChange, onO
       className={`fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,padding] duration-300 ${
         isScrolled || isMobileMenuOpen
           ? 'border-b border-line bg-surface/85 py-3 shadow-card backdrop-blur-xl'
-          : 'bg-transparent py-5'
+          : 'bg-[color-mix(in_srgb,var(--color-bg-base)_40%,transparent)] py-5 backdrop-blur-md'
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
